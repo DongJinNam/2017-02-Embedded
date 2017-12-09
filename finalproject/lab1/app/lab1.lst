@@ -1,0 +1,1405 @@
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 1
+
+
+   1               		.file	"lab1.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	__vector_10
+  10               		.type	__vector_10, @function
+  11               	__vector_10:
+  12 0000 1F92      		push __zero_reg__
+  13 0002 0F92      		push r0
+  14 0004 0FB6      		in r0,__SREG__
+  15 0006 0F92      		push r0
+  16 0008 1124      		clr __zero_reg__
+  17 000a 8F93      		push r24
+  18 000c 9F93      		push r25
+  19               	/* prologue: Signal */
+  20               	/* frame size = 0 */
+  21 000e 8091 0000 		lds r24,state
+  22 0012 9091 0000 		lds r25,(state)+1
+  23 0016 1816      		cp __zero_reg__,r24
+  24 0018 1906      		cpc __zero_reg__,r25
+  25 001a 04F4      		brge .L2
+  26 001c 18BA      		out 56-32,__zero_reg__
+  27 001e 1092 0000 		sts (state)+1,__zero_reg__
+  28 0022 1092 0000 		sts state,__zero_reg__
+  29               	.L3:
+  30 0026 81E1      		ldi r24,lo8(17)
+  31 0028 84BD      		out 68-32,r24
+  32               	/* epilogue start */
+  33 002a 9F91      		pop r25
+  34 002c 8F91      		pop r24
+  35 002e 0F90      		pop r0
+  36 0030 0FBE      		out __SREG__,r0
+  37 0032 0F90      		pop r0
+  38 0034 1F90      		pop __zero_reg__
+  39 0036 1895      		reti
+  40               	.L2:
+  41 0038 80E1      		ldi r24,lo8(16)
+  42 003a 88BB      		out 56-32,r24
+  43 003c 81E0      		ldi r24,lo8(1)
+  44 003e 90E0      		ldi r25,hi8(1)
+  45 0040 9093 0000 		sts (state)+1,r25
+  46 0044 8093 0000 		sts state,r24
+  47 0048 00C0      		rjmp .L3
+  48               		.size	__vector_10, .-__vector_10
+  49               	.global	__vector_5
+  50               		.type	__vector_5, @function
+  51               	__vector_5:
+  52 004a 1F92      		push __zero_reg__
+  53 004c 0F92      		push r0
+  54 004e 0FB6      		in r0,__SREG__
+  55 0050 0F92      		push r0
+  56 0052 1124      		clr __zero_reg__
+  57 0054 2F93      		push r18
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 2
+
+
+  58 0056 3F93      		push r19
+  59 0058 4F93      		push r20
+  60 005a 5F93      		push r21
+  61 005c 8F93      		push r24
+  62 005e 9F93      		push r25
+  63               	/* prologue: Signal */
+  64               	/* frame size = 0 */
+  65 0060 8091 0000 		lds r24,state4
+  66 0064 9091 0000 		lds r25,(state4)+1
+  67 0068 20E0      		ldi r18,lo8(0)
+  68 006a 30E0      		ldi r19,hi8(0)
+  69 006c 1816      		cp __zero_reg__,r24
+  70 006e 1906      		cpc __zero_reg__,r25
+  71 0070 04F4      		brge .L11
+  72               	.L7:
+  73 0072 3093 0000 		sts (state4)+1,r19
+  74 0076 2093 0000 		sts state4,r18
+  75 007a 28EE      		ldi r18,lo8(1000)
+  76 007c 33E0      		ldi r19,hi8(1000)
+  77 007e 40E9      		ldi r20,lo8(400)
+  78 0080 51E0      		ldi r21,hi8(400)
+  79               	.L8:
+  80 0082 CA01      		movw r24,r20
+  81               	/* #APP */
+  82               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  83 0084 0197      		1: sbiw r24,1
+  84 0086 01F4      		brne 1b
+  85               	 ;  0 "" 2
+  86               	/* #NOAPP */
+  87 0088 2150      		subi r18,lo8(-(-1))
+  88 008a 3040      		sbci r19,hi8(-(-1))
+  89 008c 01F4      		brne .L8
+  90               	/* epilogue start */
+  91 008e 9F91      		pop r25
+  92 0090 8F91      		pop r24
+  93 0092 5F91      		pop r21
+  94 0094 4F91      		pop r20
+  95 0096 3F91      		pop r19
+  96 0098 2F91      		pop r18
+  97 009a 0F90      		pop r0
+  98 009c 0FBE      		out __SREG__,r0
+  99 009e 0F90      		pop r0
+ 100 00a0 1F90      		pop __zero_reg__
+ 101 00a2 1895      		reti
+ 102               	.L11:
+ 103 00a4 21E0      		ldi r18,lo8(1)
+ 104 00a6 30E0      		ldi r19,hi8(1)
+ 105 00a8 00C0      		rjmp .L7
+ 106               		.size	__vector_5, .-__vector_5
+ 107               	.global	__vector_6
+ 108               		.type	__vector_6, @function
+ 109               	__vector_6:
+ 110 00aa 1F92      		push __zero_reg__
+ 111 00ac 0F92      		push r0
+ 112 00ae 0FB6      		in r0,__SREG__
+ 113 00b0 0F92      		push r0
+ 114 00b2 1124      		clr __zero_reg__
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 3
+
+
+ 115 00b4 2F93      		push r18
+ 116 00b6 3F93      		push r19
+ 117 00b8 4F93      		push r20
+ 118 00ba 5F93      		push r21
+ 119 00bc 8F93      		push r24
+ 120 00be 9F93      		push r25
+ 121               	/* prologue: Signal */
+ 122               	/* frame size = 0 */
+ 123 00c0 8091 0000 		lds r24,state3
+ 124 00c4 9091 0000 		lds r25,(state3)+1
+ 125 00c8 20E0      		ldi r18,lo8(0)
+ 126 00ca 30E0      		ldi r19,hi8(0)
+ 127 00cc 1816      		cp __zero_reg__,r24
+ 128 00ce 1906      		cpc __zero_reg__,r25
+ 129 00d0 04F4      		brge .L17
+ 130               	.L13:
+ 131 00d2 3093 0000 		sts (state3)+1,r19
+ 132 00d6 2093 0000 		sts state3,r18
+ 133 00da 28EE      		ldi r18,lo8(1000)
+ 134 00dc 33E0      		ldi r19,hi8(1000)
+ 135 00de 40E9      		ldi r20,lo8(400)
+ 136 00e0 51E0      		ldi r21,hi8(400)
+ 137               	.L14:
+ 138 00e2 CA01      		movw r24,r20
+ 139               	/* #APP */
+ 140               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 141 00e4 0197      		1: sbiw r24,1
+ 142 00e6 01F4      		brne 1b
+ 143               	 ;  0 "" 2
+ 144               	/* #NOAPP */
+ 145 00e8 2150      		subi r18,lo8(-(-1))
+ 146 00ea 3040      		sbci r19,hi8(-(-1))
+ 147 00ec 01F4      		brne .L14
+ 148               	/* epilogue start */
+ 149 00ee 9F91      		pop r25
+ 150 00f0 8F91      		pop r24
+ 151 00f2 5F91      		pop r21
+ 152 00f4 4F91      		pop r20
+ 153 00f6 3F91      		pop r19
+ 154 00f8 2F91      		pop r18
+ 155 00fa 0F90      		pop r0
+ 156 00fc 0FBE      		out __SREG__,r0
+ 157 00fe 0F90      		pop r0
+ 158 0100 1F90      		pop __zero_reg__
+ 159 0102 1895      		reti
+ 160               	.L17:
+ 161 0104 21E0      		ldi r18,lo8(1)
+ 162 0106 30E0      		ldi r19,hi8(1)
+ 163 0108 00C0      		rjmp .L13
+ 164               		.size	__vector_6, .-__vector_6
+ 165               	.global	init_twi_port
+ 166               		.type	init_twi_port, @function
+ 167               	init_twi_port:
+ 168               	/* prologue: function */
+ 169               	/* frame size = 0 */
+ 170 010a 8FEF      		ldi r24,lo8(-1)
+ 171 010c 84BB      		out 52-32,r24
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 4
+
+
+ 172 010e 8093 6400 		sts 100,r24
+ 173 0112 83E0      		ldi r24,lo8(3)
+ 174 0114 82BB      		out 50-32,r24
+ 175 0116 80B5      		in r24,64-32
+ 176 0118 8B7F      		andi r24,lo8(-5)
+ 177 011a 80BD      		out 64-32,r24
+ 178 011c 80EC      		ldi r24,lo8(-64)
+ 179 011e 8093 7000 		sts 112,r24
+ 180 0122 E1E7      		ldi r30,lo8(113)
+ 181 0124 F0E0      		ldi r31,hi8(113)
+ 182 0126 8081      		ld r24,Z
+ 183 0128 8C7F      		andi r24,lo8(-4)
+ 184 012a 8083      		st Z,r24
+ 185               	/* epilogue start */
+ 186 012c 0895      		ret
+ 187               		.size	init_twi_port, .-init_twi_port
+ 188               	.global	write_twi_1byte_nopreset
+ 189               		.type	write_twi_1byte_nopreset, @function
+ 190               	write_twi_1byte_nopreset:
+ 191               	/* prologue: function */
+ 192               	/* frame size = 0 */
+ 193 012e 982F      		mov r25,r24
+ 194 0130 84EA      		ldi r24,lo8(-92)
+ 195 0132 8093 7400 		sts 116,r24
+ 196               	.L34:
+ 197 0136 8091 7400 		lds r24,116
+ 198 013a 87FF      		sbrs r24,7
+ 199 013c 00C0      		rjmp .L34
+ 200 013e 8091 7100 		lds r24,113
+ 201 0142 887F      		andi r24,lo8(-8)
+ 202 0144 8830      		cpi r24,lo8(8)
+ 203 0146 01F4      		brne .L34
+ 204 0148 88E9      		ldi r24,lo8(-104)
+ 205 014a 8093 7300 		sts 115,r24
+ 206 014e 84E8      		ldi r24,lo8(-124)
+ 207 0150 8093 7400 		sts 116,r24
+ 208               	.L35:
+ 209 0154 8091 7400 		lds r24,116
+ 210 0158 87FF      		sbrs r24,7
+ 211 015a 00C0      		rjmp .L35
+ 212 015c 8091 7100 		lds r24,113
+ 213 0160 887F      		andi r24,lo8(-8)
+ 214 0162 8831      		cpi r24,lo8(24)
+ 215 0164 01F4      		brne .L35
+ 216 0166 9093 7300 		sts 115,r25
+ 217 016a 84E8      		ldi r24,lo8(-124)
+ 218 016c 8093 7400 		sts 116,r24
+ 219               	.L36:
+ 220 0170 8091 7400 		lds r24,116
+ 221 0174 87FF      		sbrs r24,7
+ 222 0176 00C0      		rjmp .L36
+ 223 0178 8091 7100 		lds r24,113
+ 224 017c 887F      		andi r24,lo8(-8)
+ 225 017e 8832      		cpi r24,lo8(40)
+ 226 0180 01F4      		brne .L36
+ 227 0182 6093 7300 		sts 115,r22
+ 228 0186 84E8      		ldi r24,lo8(-124)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 5
+
+
+ 229 0188 8093 7400 		sts 116,r24
+ 230               	.L37:
+ 231 018c 8091 7400 		lds r24,116
+ 232 0190 87FF      		sbrs r24,7
+ 233 0192 00C0      		rjmp .L37
+ 234 0194 8091 7100 		lds r24,113
+ 235 0198 887F      		andi r24,lo8(-8)
+ 236 019a 8832      		cpi r24,lo8(40)
+ 237 019c 01F4      		brne .L37
+ 238 019e 84E9      		ldi r24,lo8(-108)
+ 239 01a0 8093 7400 		sts 116,r24
+ 240               	/* epilogue start */
+ 241 01a4 0895      		ret
+ 242               		.size	write_twi_1byte_nopreset, .-write_twi_1byte_nopreset
+ 243               	.global	read_twi_2byte_nopreset
+ 244               		.type	read_twi_2byte_nopreset, @function
+ 245               	read_twi_2byte_nopreset:
+ 246               	/* prologue: function */
+ 247               	/* frame size = 0 */
+ 248 01a6 982F      		mov r25,r24
+ 249 01a8 84EA      		ldi r24,lo8(-92)
+ 250 01aa 8093 7400 		sts 116,r24
+ 251               	.L61:
+ 252 01ae 8091 7400 		lds r24,116
+ 253 01b2 87FF      		sbrs r24,7
+ 254 01b4 00C0      		rjmp .L61
+ 255 01b6 8091 7100 		lds r24,113
+ 256 01ba 887F      		andi r24,lo8(-8)
+ 257 01bc 8830      		cpi r24,lo8(8)
+ 258 01be 01F4      		brne .L61
+ 259 01c0 88E9      		ldi r24,lo8(-104)
+ 260 01c2 8093 7300 		sts 115,r24
+ 261 01c6 84E8      		ldi r24,lo8(-124)
+ 262 01c8 8093 7400 		sts 116,r24
+ 263               	.L62:
+ 264 01cc 8091 7400 		lds r24,116
+ 265 01d0 87FF      		sbrs r24,7
+ 266 01d2 00C0      		rjmp .L62
+ 267 01d4 8091 7100 		lds r24,113
+ 268 01d8 887F      		andi r24,lo8(-8)
+ 269 01da 8831      		cpi r24,lo8(24)
+ 270 01dc 01F4      		brne .L62
+ 271 01de 9093 7300 		sts 115,r25
+ 272 01e2 84E8      		ldi r24,lo8(-124)
+ 273 01e4 8093 7400 		sts 116,r24
+ 274               	.L63:
+ 275 01e8 8091 7400 		lds r24,116
+ 276 01ec 87FF      		sbrs r24,7
+ 277 01ee 00C0      		rjmp .L63
+ 278 01f0 8091 7100 		lds r24,113
+ 279 01f4 887F      		andi r24,lo8(-8)
+ 280 01f6 8832      		cpi r24,lo8(40)
+ 281 01f8 01F4      		brne .L63
+ 282 01fa 84EA      		ldi r24,lo8(-92)
+ 283 01fc 8093 7400 		sts 116,r24
+ 284               	.L64:
+ 285 0200 8091 7400 		lds r24,116
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 6
+
+
+ 286 0204 87FF      		sbrs r24,7
+ 287 0206 00C0      		rjmp .L64
+ 288 0208 8091 7100 		lds r24,113
+ 289 020c 887F      		andi r24,lo8(-8)
+ 290 020e 8031      		cpi r24,lo8(16)
+ 291 0210 01F4      		brne .L64
+ 292 0212 89E9      		ldi r24,lo8(-103)
+ 293 0214 8093 7300 		sts 115,r24
+ 294 0218 84E8      		ldi r24,lo8(-124)
+ 295 021a 8093 7400 		sts 116,r24
+ 296               	.L65:
+ 297 021e 8091 7400 		lds r24,116
+ 298 0222 87FF      		sbrs r24,7
+ 299 0224 00C0      		rjmp .L65
+ 300 0226 8091 7100 		lds r24,113
+ 301 022a 887F      		andi r24,lo8(-8)
+ 302 022c 8034      		cpi r24,lo8(64)
+ 303 022e 01F4      		brne .L65
+ 304 0230 84EC      		ldi r24,lo8(-60)
+ 305 0232 8093 7400 		sts 116,r24
+ 306               	.L66:
+ 307 0236 8091 7400 		lds r24,116
+ 308 023a 87FF      		sbrs r24,7
+ 309 023c 00C0      		rjmp .L66
+ 310 023e 8091 7100 		lds r24,113
+ 311 0242 887F      		andi r24,lo8(-8)
+ 312 0244 8035      		cpi r24,lo8(80)
+ 313 0246 01F4      		brne .L66
+ 314 0248 3091 7300 		lds r19,115
+ 315 024c 84E8      		ldi r24,lo8(-124)
+ 316 024e 8093 7400 		sts 116,r24
+ 317               	.L67:
+ 318 0252 8091 7400 		lds r24,116
+ 319 0256 87FF      		sbrs r24,7
+ 320 0258 00C0      		rjmp .L67
+ 321 025a 8091 7100 		lds r24,113
+ 322 025e 887F      		andi r24,lo8(-8)
+ 323 0260 8835      		cpi r24,lo8(88)
+ 324 0262 01F4      		brne .L67
+ 325 0264 2091 7300 		lds r18,115
+ 326 0268 84E9      		ldi r24,lo8(-108)
+ 327 026a 8093 7400 		sts 116,r24
+ 328 026e 932F      		mov r25,r19
+ 329 0270 80E0      		ldi r24,lo8(0)
+ 330 0272 30E0      		ldi r19,lo8(0)
+ 331 0274 282B      		or r18,r24
+ 332 0276 392B      		or r19,r25
+ 333 0278 C901      		movw r24,r18
+ 334               	/* epilogue start */
+ 335 027a 0895      		ret
+ 336               		.size	read_twi_2byte_nopreset, .-read_twi_2byte_nopreset
+ 337               	.global	LedTask
+ 338               		.type	LedTask, @function
+ 339               	LedTask:
+ 340 027c 5F92      		push r5
+ 341 027e 6F92      		push r6
+ 342 0280 7F92      		push r7
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 7
+
+
+ 343 0282 8F92      		push r8
+ 344 0284 9F92      		push r9
+ 345 0286 AF92      		push r10
+ 346 0288 BF92      		push r11
+ 347 028a CF92      		push r12
+ 348 028c DF92      		push r13
+ 349 028e EF92      		push r14
+ 350 0290 FF92      		push r15
+ 351 0292 0F93      		push r16
+ 352 0294 1F93      		push r17
+ 353 0296 DF93      		push r29
+ 354 0298 CF93      		push r28
+ 355 029a 00D0      		rcall .
+ 356 029c CDB7      		in r28,__SP_L__
+ 357 029e DEB7      		in r29,__SP_H__
+ 358               	/* prologue: function */
+ 359               	/* frame size = 2 */
+ 360 02a0 89E7      		ldi r24,lo8(121)
+ 361 02a2 8983      		std Y+1,r24
+ 362 02a4 8FEF      		ldi r24,lo8(-1)
+ 363 02a6 8ABB      		out 58-32,r24
+ 364 02a8 92E0      		ldi r25,lo8(2)
+ 365 02aa A92E      		mov r10,r25
+ 366 02ac B12C      		mov r11,__zero_reg__
+ 367 02ae AC0E      		add r10,r28
+ 368 02b0 BD1E      		adc r11,r29
+ 369 02b2 6E01      		movw r12,r28
+ 370 02b4 0894      		sec
+ 371 02b6 C11C      		adc r12,__zero_reg__
+ 372 02b8 D11C      		adc r13,__zero_reg__
+ 373 02ba 84E6      		ldi r24,lo8(100)
+ 374 02bc 882E      		mov r8,r24
+ 375 02be 912C      		mov r9,__zero_reg__
+ 376 02c0 5524      		clr r5
+ 377 02c2 5A94      		dec r5
+ 378 02c4 07E0      		ldi r16,lo8(7)
+ 379 02c6 602E      		mov r6,r16
+ 380 02c8 712C      		mov r7,__zero_reg__
+ 381 02ca 11E0      		ldi r17,lo8(1)
+ 382 02cc E12E      		mov r14,r17
+ 383 02ce F12C      		mov r15,__zero_reg__
+ 384               	.L78:
+ 385 02d0 8091 0000 		lds r24,mb_tmp_led
+ 386 02d4 9091 0000 		lds r25,(mb_tmp_led)+1
+ 387 02d8 60E0      		ldi r22,lo8(0)
+ 388 02da 70E0      		ldi r23,hi8(0)
+ 389 02dc A501      		movw r20,r10
+ 390 02de 0E94 0000 		call OSMboxPend
+ 391 02e2 FC01      		movw r30,r24
+ 392 02e4 8081      		ld r24,Z
+ 393 02e6 9181      		ldd r25,Z+1
+ 394 02e8 6AE0      		ldi r22,lo8(10)
+ 395 02ea 70E0      		ldi r23,hi8(10)
+ 396 02ec 0E94 0000 		call __udivmodhi4
+ 397 02f0 CB01      		movw r24,r22
+ 398 02f2 6AE0      		ldi r22,lo8(10)
+ 399 02f4 70E0      		ldi r23,hi8(10)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 8
+
+
+ 400 02f6 0E94 0000 		call __udivmodhi4
+ 401 02fa 9B01      		movw r18,r22
+ 402 02fc CB01      		movw r24,r22
+ 403 02fe 6AE0      		ldi r22,lo8(10)
+ 404 0300 70E0      		ldi r23,hi8(10)
+ 405 0302 0E94 0000 		call __udivmodhi4
+ 406 0306 FC01      		movw r30,r24
+ 407 0308 C901      		movw r24,r18
+ 408 030a 6AE0      		ldi r22,lo8(10)
+ 409 030c 70E0      		ldi r23,hi8(10)
+ 410 030e 0E94 0000 		call __udivmodhi4
+ 411 0312 9B01      		movw r18,r22
+ 412 0314 CB01      		movw r24,r22
+ 413 0316 6AE0      		ldi r22,lo8(10)
+ 414 0318 70E0      		ldi r23,hi8(10)
+ 415 031a 0E94 0000 		call __udivmodhi4
+ 416 031e 182F      		mov r17,r24
+ 417 0320 092F      		mov r16,r25
+ 418 0322 C901      		movw r24,r18
+ 419 0324 6AE0      		ldi r22,lo8(10)
+ 420 0326 70E0      		ldi r23,hi8(10)
+ 421 0328 0E94 0000 		call __udivmodhi4
+ 422 032c CB01      		movw r24,r22
+ 423 032e 6115      		cp r22,__zero_reg__
+ 424 0330 7105      		cpc r23,__zero_reg__
+ 425 0332 01F4      		brne .+2
+ 426 0334 00C0      		rjmp .L69
+ 427 0336 6AE0      		ldi r22,lo8(10)
+ 428 0338 70E0      		ldi r23,hi8(10)
+ 429 033a 0E94 0000 		call __udivmodhi4
+ 430 033e AC01      		movw r20,r24
+ 431 0340 812F      		mov r24,r17
+ 432 0342 902F      		mov r25,r16
+ 433 0344 BC01      		movw r22,r24
+ 434 0346 660F      		lsl r22
+ 435 0348 771F      		rol r23
+ 436 034a 660F      		lsl r22
+ 437 034c 771F      		rol r23
+ 438 034e 660F      		lsl r22
+ 439 0350 771F      		rol r23
+ 440 0352 880F      		lsl r24
+ 441 0354 991F      		rol r25
+ 442 0356 680F      		add r22,r24
+ 443 0358 791F      		adc r23,r25
+ 444 035a 6E0F      		add r22,r30
+ 445 035c 7F1F      		adc r23,r31
+ 446 035e 4A30      		cpi r20,10
+ 447 0360 5105      		cpc r21,__zero_reg__
+ 448 0362 00F0      		brlo .+2
+ 449 0364 00C0      		rjmp .L81
+ 450 0366 489D      		mul r20,r8
+ 451 0368 9001      		movw r18,r0
+ 452 036a 499D      		mul r20,r9
+ 453 036c 300D      		add r19,r0
+ 454 036e 589D      		mul r21,r8
+ 455 0370 300D      		add r19,r0
+ 456 0372 1124      		clr r1
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 9
+
+
+ 457 0374 260F      		add r18,r22
+ 458 0376 371F      		adc r19,r23
+ 459               	.L71:
+ 460 0378 2235      		cpi r18,82
+ 461 037a 3105      		cpc r19,__zero_reg__
+ 462 037c 04F0      		brlt .L72
+ 463 037e 8091 0000 		lds r24,state3
+ 464 0382 9091 0000 		lds r25,(state3)+1
+ 465 0386 892B      		or r24,r25
+ 466 0388 01F0      		breq .L73
+ 467               	.L72:
+ 468 038a 2C31      		cpi r18,28
+ 469 038c 3105      		cpc r19,__zero_reg__
+ 470 038e 04F0      		brlt .L74
+ 471 0390 8091 0000 		lds r24,state3
+ 472 0394 9091 0000 		lds r25,(state3)+1
+ 473 0398 0197      		sbiw r24,1
+ 474 039a 01F0      		breq .L73
+ 475               	.L74:
+ 476 039c 1BBA      		out 59-32,__zero_reg__
+ 477 039e 8091 0000 		lds r24,state4
+ 478 03a2 9091 0000 		lds r25,(state4)+1
+ 479 03a6 1816      		cp __zero_reg__,r24
+ 480 03a8 1906      		cpc __zero_reg__,r25
+ 481 03aa 04F4      		brge .L75
+ 482 03ac C901      		movw r24,r18
+ 483 03ae 37FD      		sbrc r19,7
+ 484 03b0 00C0      		rjmp .L82
+ 485               	.L76:
+ 486 03b2 9595      		asr r25
+ 487 03b4 8795      		ror r24
+ 488 03b6 9595      		asr r25
+ 489 03b8 8795      		ror r24
+ 490 03ba 1816      		cp __zero_reg__,r24
+ 491 03bc 1906      		cpc __zero_reg__,r25
+ 492 03be 04F4      		brge .L75
+ 493 03c0 47E0      		ldi r20,lo8(7)
+ 494 03c2 50E0      		ldi r21,hi8(7)
+ 495 03c4 B301      		movw r22,r6
+ 496 03c6 681B      		sub r22,r24
+ 497 03c8 790B      		sbc r23,r25
+ 498               	.L77:
+ 499 03ca 2BB3      		in r18,59-32
+ 500 03cc C701      		movw r24,r14
+ 501 03ce 042E      		mov r0,r20
+ 502 03d0 00C0      		rjmp 2f
+ 503 03d2 880F      	1:	lsl r24
+ 504 03d4 991F      		rol r25
+ 505 03d6 0A94      	2:	dec r0
+ 506 03d8 02F4      		brpl 1b
+ 507 03da 282B      		or r18,r24
+ 508 03dc 2BBB      		out 59-32,r18
+ 509 03de 4150      		subi r20,lo8(-(-1))
+ 510 03e0 5040      		sbci r21,hi8(-(-1))
+ 511 03e2 4617      		cp r20,r22
+ 512 03e4 5707      		cpc r21,r23
+ 513 03e6 01F4      		brne .L77
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 10
+
+
+ 514               	.L75:
+ 515 03e8 8091 0000 		lds r24,mb_led_tmp
+ 516 03ec 9091 0000 		lds r25,(mb_led_tmp)+1
+ 517 03f0 B601      		movw r22,r12
+ 518 03f2 0E94 0000 		call OSMboxPost
+ 519 03f6 00C0      		rjmp .L78
+ 520               	.L73:
+ 521 03f8 5BBA      		out 59-32,r5
+ 522 03fa 8091 0000 		lds r24,mb_led_tmp
+ 523 03fe 9091 0000 		lds r25,(mb_led_tmp)+1
+ 524 0402 B601      		movw r22,r12
+ 525 0404 0E94 0000 		call OSMboxPost
+ 526 0408 00C0      		rjmp .L78
+ 527               	.L69:
+ 528 040a 812F      		mov r24,r17
+ 529 040c 902F      		mov r25,r16
+ 530 040e 9C01      		movw r18,r24
+ 531 0410 220F      		lsl r18
+ 532 0412 331F      		rol r19
+ 533 0414 220F      		lsl r18
+ 534 0416 331F      		rol r19
+ 535 0418 220F      		lsl r18
+ 536 041a 331F      		rol r19
+ 537 041c 880F      		lsl r24
+ 538 041e 991F      		rol r25
+ 539 0420 280F      		add r18,r24
+ 540 0422 391F      		adc r19,r25
+ 541 0424 2E0F      		add r18,r30
+ 542 0426 3F1F      		adc r19,r31
+ 543 0428 00C0      		rjmp .L71
+ 544               	.L82:
+ 545 042a 0396      		adiw r24,3
+ 546 042c 00C0      		rjmp .L76
+ 547               	.L81:
+ 548 042e 9B01      		movw r18,r22
+ 549 0430 00C0      		rjmp .L71
+ 550               		.size	LedTask, .-LedTask
+ 551               	.global	TmpTask
+ 552               		.type	TmpTask, @function
+ 553               	TmpTask:
+ 554 0432 2F92      		push r2
+ 555 0434 3F92      		push r3
+ 556 0436 4F92      		push r4
+ 557 0438 5F92      		push r5
+ 558 043a 6F92      		push r6
+ 559 043c 7F92      		push r7
+ 560 043e 8F92      		push r8
+ 561 0440 9F92      		push r9
+ 562 0442 AF92      		push r10
+ 563 0444 BF92      		push r11
+ 564 0446 CF92      		push r12
+ 565 0448 DF92      		push r13
+ 566 044a EF92      		push r14
+ 567 044c FF92      		push r15
+ 568 044e 0F93      		push r16
+ 569 0450 1F93      		push r17
+ 570 0452 DF93      		push r29
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 11
+
+
+ 571 0454 CF93      		push r28
+ 572 0456 00D0      		rcall .
+ 573 0458 0F92      		push __tmp_reg__
+ 574 045a CDB7      		in r28,__SP_L__
+ 575 045c DEB7      		in r29,__SP_H__
+ 576               	/* prologue: function */
+ 577               	/* frame size = 3 */
+ 578 045e 1B82      		std Y+3,__zero_reg__
+ 579 0460 1A82      		std Y+2,__zero_reg__
+ 580 0462 82E0      		ldi r24,lo8(2)
+ 581 0464 482E      		mov r4,r24
+ 582 0466 512C      		mov r5,__zero_reg__
+ 583 0468 4C0E      		add r4,r28
+ 584 046a 5D1E      		adc r5,r29
+ 585 046c 3E01      		movw r6,r28
+ 586 046e 0894      		sec
+ 587 0470 611C      		adc r6,__zero_reg__
+ 588 0472 711C      		adc r7,__zero_reg__
+ 589 0474 04E6      		ldi r16,lo8(100)
+ 590 0476 202E      		mov r2,r16
+ 591 0478 312C      		mov r3,__zero_reg__
+ 592 047a 00C0      		rjmp .L94
+ 593               	.L96:
+ 594 047c 17FD      		sbrc r17,7
+ 595 047e 00C0      		rjmp .L85
+ 596 0480 B801      		movw r22,r16
+ 597 0482 6070      		andi r22,lo8(32512)
+ 598 0484 7F77      		andi r23,hi8(32512)
+ 599 0486 672F      		mov r22,r23
+ 600 0488 770F      		lsl r23
+ 601 048a 770B      		sbc r23,r23
+ 602 048c 8827      		clr r24
+ 603 048e 77FD      		sbrc r23,7
+ 604 0490 8095      		com r24
+ 605 0492 982F      		mov r25,r24
+ 606 0494 0E94 0000 		call __floatsisf
+ 607 0498 07FF      		sbrs r16,7
+ 608 049a 00C0      		rjmp .L86
+ 609 049c 20E0      		ldi r18,lo8(0x3f000000)
+ 610 049e 30E0      		ldi r19,hi8(0x3f000000)
+ 611 04a0 40E0      		ldi r20,hlo8(0x3f000000)
+ 612 04a2 5FE3      		ldi r21,hhi8(0x3f000000)
+ 613 04a4 0E94 0000 		call __addsf3
+ 614               	.L86:
+ 615 04a8 20E0      		ldi r18,lo8(0x41100000)
+ 616 04aa 30E0      		ldi r19,hi8(0x41100000)
+ 617 04ac 40E1      		ldi r20,hlo8(0x41100000)
+ 618 04ae 51E4      		ldi r21,hhi8(0x41100000)
+ 619 04b0 0E94 0000 		call __mulsf3
+ 620 04b4 20E0      		ldi r18,lo8(0x40a00000)
+ 621 04b6 30E0      		ldi r19,hi8(0x40a00000)
+ 622 04b8 40EA      		ldi r20,hlo8(0x40a00000)
+ 623 04ba 50E4      		ldi r21,hhi8(0x40a00000)
+ 624 04bc 0E94 0000 		call __divsf3
+ 625 04c0 20E0      		ldi r18,lo8(0x42000000)
+ 626 04c2 30E0      		ldi r19,hi8(0x42000000)
+ 627 04c4 40E0      		ldi r20,hlo8(0x42000000)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 12
+
+
+ 628 04c6 52E4      		ldi r21,hhi8(0x42000000)
+ 629 04c8 0E94 0000 		call __addsf3
+ 630 04cc 7B01      		movw r14,r22
+ 631 04ce 8C01      		movw r16,r24
+ 632 04d0 BBE0      		ldi r27,lo8(11)
+ 633 04d2 AB2E      		mov r10,r27
+ 634 04d4 B12C      		mov r11,__zero_reg__
+ 635               	.L87:
+ 636 04d6 C801      		movw r24,r16
+ 637 04d8 B701      		movw r22,r14
+ 638 04da 20E0      		ldi r18,lo8(0x41200000)
+ 639 04dc 30E0      		ldi r19,hi8(0x41200000)
+ 640 04de 40E2      		ldi r20,hlo8(0x41200000)
+ 641 04e0 51E4      		ldi r21,hhi8(0x41200000)
+ 642 04e2 0E94 0000 		call __divsf3
+ 643 04e6 0E94 0000 		call __fixunssfsi
+ 644 04ea 4B01      		movw r8,r22
+ 645 04ec C801      		movw r24,r16
+ 646 04ee B701      		movw r22,r14
+ 647 04f0 0E94 0000 		call __fixunssfsi
+ 648 04f4 DC01      		movw r26,r24
+ 649 04f6 CB01      		movw r24,r22
+ 650 04f8 6AE0      		ldi r22,lo8(10)
+ 651 04fa 70E0      		ldi r23,hi8(10)
+ 652 04fc 0E94 0000 		call __udivmodhi4
+ 653 0500 6C01      		movw r12,r24
+ 654 0502 C801      		movw r24,r16
+ 655 0504 B701      		movw r22,r14
+ 656 0506 20E0      		ldi r18,lo8(0x41200000)
+ 657 0508 30E0      		ldi r19,hi8(0x41200000)
+ 658 050a 40E2      		ldi r20,hlo8(0x41200000)
+ 659 050c 51E4      		ldi r21,hhi8(0x41200000)
+ 660 050e 0E94 0000 		call __mulsf3
+ 661 0512 0E94 0000 		call __fixunssfsi
+ 662 0516 DC01      		movw r26,r24
+ 663 0518 CB01      		movw r24,r22
+ 664 051a 6AE0      		ldi r22,lo8(10)
+ 665 051c 70E0      		ldi r23,hi8(10)
+ 666 051e 0E94 0000 		call __udivmodhi4
+ 667 0522 9C01      		movw r18,r24
+ 668 0524 AC01      		movw r20,r24
+ 669 0526 440F      		lsl r20
+ 670 0528 551F      		rol r21
+ 671 052a 440F      		lsl r20
+ 672 052c 551F      		rol r21
+ 673 052e 440F      		lsl r20
+ 674 0530 551F      		rol r21
+ 675 0532 220F      		lsl r18
+ 676 0534 331F      		rol r19
+ 677 0536 420F      		add r20,r18
+ 678 0538 531F      		adc r21,r19
+ 679               	.L89:
+ 680 053a 88EE      		ldi r24,lo8(1000)
+ 681 053c 93E0      		ldi r25,hi8(1000)
+ 682 053e 889E      		mul r8,r24
+ 683 0540 9001      		movw r18,r0
+ 684 0542 899E      		mul r8,r25
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 13
+
+
+ 685 0544 300D      		add r19,r0
+ 686 0546 989E      		mul r9,r24
+ 687 0548 300D      		add r19,r0
+ 688 054a 1124      		clr r1
+ 689 054c C29C      		mul r12,r2
+ 690 054e C001      		movw r24,r0
+ 691 0550 C39C      		mul r12,r3
+ 692 0552 900D      		add r25,r0
+ 693 0554 D29C      		mul r13,r2
+ 694 0556 900D      		add r25,r0
+ 695 0558 1124      		clr r1
+ 696 055a 280F      		add r18,r24
+ 697 055c 391F      		adc r19,r25
+ 698 055e 240F      		add r18,r20
+ 699 0560 351F      		adc r19,r21
+ 700 0562 3B83      		std Y+3,r19
+ 701 0564 2A83      		std Y+2,r18
+ 702 0566 9BE0      		ldi r25,lo8(11)
+ 703 0568 A916      		cp r10,r25
+ 704 056a B104      		cpc r11,__zero_reg__
+ 705 056c 01F4      		brne .L93
+ 706 056e 2F5F      		subi r18,lo8(-(1))
+ 707 0570 3F4F      		sbci r19,hi8(-(1))
+ 708 0572 3B83      		std Y+3,r19
+ 709 0574 2A83      		std Y+2,r18
+ 710               	.L93:
+ 711 0576 8091 0000 		lds r24,mb_tmp_fnd
+ 712 057a 9091 0000 		lds r25,(mb_tmp_fnd)+1
+ 713 057e B201      		movw r22,r4
+ 714 0580 0E94 0000 		call OSMboxPost
+ 715 0584 8091 0000 		lds r24,mb_fnd_tmp
+ 716 0588 9091 0000 		lds r25,(mb_fnd_tmp)+1
+ 717 058c 60E0      		ldi r22,lo8(0)
+ 718 058e 70E0      		ldi r23,hi8(0)
+ 719 0590 A301      		movw r20,r6
+ 720 0592 0E94 0000 		call OSMboxPend
+ 721 0596 8091 0000 		lds r24,mb_tmp_led
+ 722 059a 9091 0000 		lds r25,(mb_tmp_led)+1
+ 723 059e B201      		movw r22,r4
+ 724 05a0 0E94 0000 		call OSMboxPost
+ 725 05a4 8091 0000 		lds r24,mb_led_tmp
+ 726 05a8 9091 0000 		lds r25,(mb_led_tmp)+1
+ 727 05ac 60E0      		ldi r22,lo8(0)
+ 728 05ae 70E0      		ldi r23,hi8(0)
+ 729 05b0 A301      		movw r20,r6
+ 730 05b2 0E94 0000 		call OSMboxPend
+ 731               	.L94:
+ 732 05b6 80E0      		ldi r24,lo8(0)
+ 733 05b8 0E94 0000 		call read_twi_2byte_nopreset
+ 734 05bc 8C01      		movw r16,r24
+ 735 05be 8091 0000 		lds r24,state3
+ 736 05c2 9091 0000 		lds r25,(state3)+1
+ 737 05c6 892B      		or r24,r25
+ 738 05c8 01F4      		brne .+2
+ 739 05ca 00C0      		rjmp .L96
+ 740 05cc 17FD      		sbrc r17,7
+ 741 05ce 00C0      		rjmp .L90
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 14
+
+
+ 742 05d0 6BE0      		ldi r22,lo8(11)
+ 743 05d2 A62E      		mov r10,r22
+ 744 05d4 B12C      		mov r11,__zero_reg__
+ 745               	.L91:
+ 746 05d6 9801      		movw r18,r16
+ 747 05d8 2070      		andi r18,lo8(32512)
+ 748 05da 3F77      		andi r19,hi8(32512)
+ 749 05dc 232F      		mov r18,r19
+ 750 05de 330F      		lsl r19
+ 751 05e0 330B      		sbc r19,r19
+ 752 05e2 C901      		movw r24,r18
+ 753 05e4 6AE0      		ldi r22,lo8(10)
+ 754 05e6 70E0      		ldi r23,hi8(10)
+ 755 05e8 0E94 0000 		call __divmodhi4
+ 756 05ec 4B01      		movw r8,r22
+ 757 05ee C901      		movw r24,r18
+ 758 05f0 6AE0      		ldi r22,lo8(10)
+ 759 05f2 70E0      		ldi r23,hi8(10)
+ 760 05f4 0E94 0000 		call __divmodhi4
+ 761 05f8 6C01      		movw r12,r24
+ 762 05fa 07FD      		sbrc r16,7
+ 763 05fc 00C0      		rjmp .L92
+ 764 05fe 40E0      		ldi r20,lo8(0)
+ 765 0600 50E0      		ldi r21,hi8(0)
+ 766 0602 00C0      		rjmp .L89
+ 767               	.L92:
+ 768 0604 42E3      		ldi r20,lo8(50)
+ 769 0606 50E0      		ldi r21,hi8(50)
+ 770 0608 00C0      		rjmp .L89
+ 771               	.L90:
+ 772 060a 0095      		com r16
+ 773 060c 1095      		com r17
+ 774 060e 0150      		subi r16,lo8(-(-1))
+ 775 0610 1040      		sbci r17,hi8(-(-1))
+ 776 0612 5AE0      		ldi r21,lo8(10)
+ 777 0614 A52E      		mov r10,r21
+ 778 0616 B12C      		mov r11,__zero_reg__
+ 779 0618 00C0      		rjmp .L91
+ 780               	.L85:
+ 781 061a 0095      		com r16
+ 782 061c 1095      		com r17
+ 783 061e 0150      		subi r16,lo8(-(-1))
+ 784 0620 1040      		sbci r17,hi8(-(-1))
+ 785 0622 B801      		movw r22,r16
+ 786 0624 6070      		andi r22,lo8(32512)
+ 787 0626 7F77      		andi r23,hi8(32512)
+ 788 0628 672F      		mov r22,r23
+ 789 062a 770F      		lsl r23
+ 790 062c 770B      		sbc r23,r23
+ 791 062e 8827      		clr r24
+ 792 0630 77FD      		sbrc r23,7
+ 793 0632 8095      		com r24
+ 794 0634 982F      		mov r25,r24
+ 795 0636 0E94 0000 		call __floatsisf
+ 796 063a 07FF      		sbrs r16,7
+ 797 063c 00C0      		rjmp .L88
+ 798 063e 20E0      		ldi r18,lo8(0x3f000000)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 15
+
+
+ 799 0640 30E0      		ldi r19,hi8(0x3f000000)
+ 800 0642 40E0      		ldi r20,hlo8(0x3f000000)
+ 801 0644 5FE3      		ldi r21,hhi8(0x3f000000)
+ 802 0646 0E94 0000 		call __addsf3
+ 803               	.L88:
+ 804 064a 20E0      		ldi r18,lo8(0x41100000)
+ 805 064c 30E0      		ldi r19,hi8(0x41100000)
+ 806 064e 40E1      		ldi r20,hlo8(0x41100000)
+ 807 0650 51E4      		ldi r21,hhi8(0x41100000)
+ 808 0652 0E94 0000 		call __mulsf3
+ 809 0656 20E0      		ldi r18,lo8(0x40a00000)
+ 810 0658 30E0      		ldi r19,hi8(0x40a00000)
+ 811 065a 40EA      		ldi r20,hlo8(0x40a00000)
+ 812 065c 50E4      		ldi r21,hhi8(0x40a00000)
+ 813 065e 0E94 0000 		call __divsf3
+ 814 0662 9B01      		movw r18,r22
+ 815 0664 AC01      		movw r20,r24
+ 816 0666 60E0      		ldi r22,lo8(0x42000000)
+ 817 0668 70E0      		ldi r23,hi8(0x42000000)
+ 818 066a 80E0      		ldi r24,hlo8(0x42000000)
+ 819 066c 92E4      		ldi r25,hhi8(0x42000000)
+ 820 066e 0E94 0000 		call __subsf3
+ 821 0672 7B01      		movw r14,r22
+ 822 0674 8C01      		movw r16,r24
+ 823 0676 FAE0      		ldi r31,lo8(10)
+ 824 0678 AF2E      		mov r10,r31
+ 825 067a B12C      		mov r11,__zero_reg__
+ 826 067c 00C0      		rjmp .L87
+ 827               		.size	TmpTask, .-TmpTask
+ 828               	.global	BuzTask
+ 829               		.type	BuzTask, @function
+ 830               	BuzTask:
+ 831 067e 0F93      		push r16
+ 832 0680 1F93      		push r17
+ 833 0682 DF93      		push r29
+ 834 0684 CF93      		push r28
+ 835 0686 0F92      		push __tmp_reg__
+ 836 0688 CDB7      		in r28,__SP_L__
+ 837 068a DEB7      		in r29,__SP_H__
+ 838               	/* prologue: function */
+ 839               	/* frame size = 1 */
+ 840 068c 8E01      		movw r16,r28
+ 841 068e 0F5F      		subi r16,lo8(-(1))
+ 842 0690 1F4F      		sbci r17,hi8(-(1))
+ 843               	.L98:
+ 844 0692 8091 0000 		lds r24,sem_fnd_buz
+ 845 0696 9091 0000 		lds r25,(sem_fnd_buz)+1
+ 846 069a 60E0      		ldi r22,lo8(0)
+ 847 069c 70E0      		ldi r23,hi8(0)
+ 848 069e A801      		movw r20,r16
+ 849 06a0 0E94 0000 		call OSSemPend
+ 850 06a4 87B7      		in r24,87-32
+ 851 06a6 8064      		ori r24,lo8(64)
+ 852 06a8 87BF      		out 87-32,r24
+ 853 06aa 8091 0000 		lds r24,sem_buz_fnd
+ 854 06ae 9091 0000 		lds r25,(sem_buz_fnd)+1
+ 855 06b2 0E94 0000 		call OSSemPost
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 16
+
+
+ 856 06b6 00C0      		rjmp .L98
+ 857               		.size	BuzTask, .-BuzTask
+ 858               	.global	FndTask
+ 859               		.type	FndTask, @function
+ 860               	FndTask:
+ 861 06b8 8F92      		push r8
+ 862 06ba 9F92      		push r9
+ 863 06bc AF92      		push r10
+ 864 06be BF92      		push r11
+ 865 06c0 CF92      		push r12
+ 866 06c2 DF92      		push r13
+ 867 06c4 EF92      		push r14
+ 868 06c6 FF92      		push r15
+ 869 06c8 0F93      		push r16
+ 870 06ca 1F93      		push r17
+ 871 06cc DF93      		push r29
+ 872 06ce CF93      		push r28
+ 873 06d0 CDB7      		in r28,__SP_L__
+ 874 06d2 DEB7      		in r29,__SP_H__
+ 875 06d4 2A97      		sbiw r28,10
+ 876 06d6 0FB6      		in __tmp_reg__,__SREG__
+ 877 06d8 F894      		cli
+ 878 06da DEBF      		out __SP_H__,r29
+ 879 06dc 0FBE      		out __SREG__,__tmp_reg__
+ 880 06de CDBF      		out __SP_L__,r28
+ 881               	/* prologue: function */
+ 882               	/* frame size = 10 */
+ 883 06e0 89E7      		ldi r24,lo8(121)
+ 884 06e2 8983      		std Y+1,r24
+ 885 06e4 8FEF      		ldi r24,lo8(-1)
+ 886 06e6 84BB      		out 52-32,r24
+ 887 06e8 8FE0      		ldi r24,lo8(15)
+ 888 06ea 8093 6400 		sts 100,r24
+ 889 06ee 72E0      		ldi r23,lo8(2)
+ 890 06f0 A72E      		mov r10,r23
+ 891 06f2 B12C      		mov r11,__zero_reg__
+ 892 06f4 AC0E      		add r10,r28
+ 893 06f6 BD1E      		adc r11,r29
+ 894 06f8 6E01      		movw r12,r28
+ 895 06fa 0894      		sec
+ 896 06fc C11C      		adc r12,__zero_reg__
+ 897 06fe D11C      		adc r13,__zero_reg__
+ 898 0700 64E6      		ldi r22,lo8(100)
+ 899 0702 862E      		mov r8,r22
+ 900 0704 912C      		mov r9,__zero_reg__
+ 901               	.L110:
+ 902 0706 8091 0000 		lds r24,mb_tmp_fnd
+ 903 070a 9091 0000 		lds r25,(mb_tmp_fnd)+1
+ 904 070e 60E0      		ldi r22,lo8(0)
+ 905 0710 70E0      		ldi r23,hi8(0)
+ 906 0712 A501      		movw r20,r10
+ 907 0714 0E94 0000 		call OSMboxPend
+ 908 0718 FC01      		movw r30,r24
+ 909 071a 8081      		ld r24,Z
+ 910 071c 9181      		ldd r25,Z+1
+ 911 071e 9C01      		movw r18,r24
+ 912 0720 2170      		andi r18,lo8(1)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 17
+
+
+ 913 0722 3070      		andi r19,hi8(1)
+ 914 0724 265F      		subi r18,lo8(-(10))
+ 915 0726 3F4F      		sbci r19,hi8(-(10))
+ 916 0728 3A87      		std Y+10,r19
+ 917 072a 2987      		std Y+9,r18
+ 918 072c 6AE0      		ldi r22,lo8(10)
+ 919 072e 70E0      		ldi r23,hi8(10)
+ 920 0730 0E94 0000 		call __udivmodhi4
+ 921 0734 9B01      		movw r18,r22
+ 922 0736 CB01      		movw r24,r22
+ 923 0738 6AE0      		ldi r22,lo8(10)
+ 924 073a 70E0      		ldi r23,hi8(10)
+ 925 073c 0E94 0000 		call __udivmodhi4
+ 926 0740 9C83      		std Y+4,r25
+ 927 0742 8B83      		std Y+3,r24
+ 928 0744 C901      		movw r24,r18
+ 929 0746 6AE0      		ldi r22,lo8(10)
+ 930 0748 70E0      		ldi r23,hi8(10)
+ 931 074a 0E94 0000 		call __udivmodhi4
+ 932 074e 9B01      		movw r18,r22
+ 933 0750 CB01      		movw r24,r22
+ 934 0752 6AE0      		ldi r22,lo8(10)
+ 935 0754 70E0      		ldi r23,hi8(10)
+ 936 0756 0E94 0000 		call __udivmodhi4
+ 937 075a FC01      		movw r30,r24
+ 938 075c 9E83      		std Y+6,r25
+ 939 075e 8D83      		std Y+5,r24
+ 940 0760 C901      		movw r24,r18
+ 941 0762 6AE0      		ldi r22,lo8(10)
+ 942 0764 70E0      		ldi r23,hi8(10)
+ 943 0766 0E94 0000 		call __udivmodhi4
+ 944 076a 9B01      		movw r18,r22
+ 945 076c CB01      		movw r24,r22
+ 946 076e 6AE0      		ldi r22,lo8(10)
+ 947 0770 70E0      		ldi r23,hi8(10)
+ 948 0772 0E94 0000 		call __udivmodhi4
+ 949 0776 482F      		mov r20,r24
+ 950 0778 192F      		mov r17,r25
+ 951 077a 8F83      		std Y+7,r24
+ 952 077c 9887      		std Y+8,r25
+ 953 077e C901      		movw r24,r18
+ 954 0780 6AE0      		ldi r22,lo8(10)
+ 955 0782 70E0      		ldi r23,hi8(10)
+ 956 0784 0E94 0000 		call __udivmodhi4
+ 957 0788 CB01      		movw r24,r22
+ 958 078a 6115      		cp r22,__zero_reg__
+ 959 078c 7105      		cpc r23,__zero_reg__
+ 960 078e 01F0      		breq .L101
+ 961 0790 6AE0      		ldi r22,lo8(10)
+ 962 0792 70E0      		ldi r23,hi8(10)
+ 963 0794 0E94 0000 		call __udivmodhi4
+ 964 0798 9A87      		std Y+10,r25
+ 965 079a 8987      		std Y+9,r24
+ 966               	.L101:
+ 967 079c 842F      		mov r24,r20
+ 968 079e 912F      		mov r25,r17
+ 969 07a0 9C01      		movw r18,r24
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 18
+
+
+ 970 07a2 220F      		lsl r18
+ 971 07a4 331F      		rol r19
+ 972 07a6 220F      		lsl r18
+ 973 07a8 331F      		rol r19
+ 974 07aa 220F      		lsl r18
+ 975 07ac 331F      		rol r19
+ 976 07ae 880F      		lsl r24
+ 977 07b0 991F      		rol r25
+ 978 07b2 280F      		add r18,r24
+ 979 07b4 391F      		adc r19,r25
+ 980 07b6 2E0F      		add r18,r30
+ 981 07b8 3F1F      		adc r19,r31
+ 982 07ba 8985      		ldd r24,Y+9
+ 983 07bc 9A85      		ldd r25,Y+10
+ 984 07be 8A30      		cpi r24,10
+ 985 07c0 9105      		cpc r25,__zero_reg__
+ 986 07c2 00F4      		brsh .+2
+ 987 07c4 00C0      		rjmp .L102
+ 988 07c6 7901      		movw r14,r18
+ 989               	.L103:
+ 990 07c8 00E0      		ldi r16,lo8(0)
+ 991 07ca 10E0      		ldi r17,hi8(0)
+ 992               	.L114:
+ 993 07cc F801      		movw r30,r16
+ 994 07ce EE0F      		lsl r30
+ 995 07d0 FF1F      		rol r31
+ 996 07d2 EC0D      		add r30,r12
+ 997 07d4 FD1D      		adc r31,r13
+ 998 07d6 0280      		ldd __tmp_reg__,Z+2
+ 999 07d8 F381      		ldd r31,Z+3
+ 1000 07da E02D      		mov r30,__tmp_reg__
+ 1001 07dc E050      		subi r30,lo8(-(FND_DATA))
+ 1002 07de F040      		sbci r31,hi8(-(FND_DATA))
+ 1003 07e0 8081      		ld r24,Z
+ 1004 07e2 85BB      		out 53-32,r24
+ 1005 07e4 F801      		movw r30,r16
+ 1006 07e6 E050      		subi r30,lo8(-(fnd_sel))
+ 1007 07e8 F040      		sbci r31,hi8(-(fnd_sel))
+ 1008 07ea 8081      		ld r24,Z
+ 1009 07ec 8093 6500 		sts 101,r24
+ 1010 07f0 0130      		cpi r16,1
+ 1011 07f2 1105      		cpc r17,__zero_reg__
+ 1012 07f4 01F0      		breq .L115
+ 1013 07f6 80E0      		ldi r24,lo8(0)
+ 1014 07f8 60E0      		ldi r22,lo8(0)
+ 1015 07fa 40E0      		ldi r20,lo8(0)
+ 1016 07fc 24E0      		ldi r18,lo8(4)
+ 1017 07fe 30E0      		ldi r19,hi8(4)
+ 1018 0800 0E94 0000 		call OSTimeDlyHMSM
+ 1019 0804 0F5F      		subi r16,lo8(-(1))
+ 1020 0806 1F4F      		sbci r17,hi8(-(1))
+ 1021 0808 0430      		cpi r16,4
+ 1022 080a 1105      		cpc r17,__zero_reg__
+ 1023 080c 04F0      		brlt .L114
+ 1024 080e 82E5      		ldi r24,lo8(82)
+ 1025 0810 E816      		cp r14,r24
+ 1026 0812 F104      		cpc r15,__zero_reg__
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 19
+
+
+ 1027 0814 04F0      		brlt .L106
+ 1028 0816 8091 0000 		lds r24,state3
+ 1029 081a 9091 0000 		lds r25,(state3)+1
+ 1030 081e 892B      		or r24,r25
+ 1031 0820 01F4      		brne .L106
+ 1032               	.L107:
+ 1033 0822 8091 0000 		lds r24,sem_fnd_buz
+ 1034 0826 9091 0000 		lds r25,(sem_fnd_buz)+1
+ 1035 082a 0E94 0000 		call OSSemPost
+ 1036 082e 8091 0000 		lds r24,sem_buz_fnd
+ 1037 0832 9091 0000 		lds r25,(sem_buz_fnd)+1
+ 1038 0836 60E0      		ldi r22,lo8(0)
+ 1039 0838 70E0      		ldi r23,hi8(0)
+ 1040 083a A501      		movw r20,r10
+ 1041 083c 0E94 0000 		call OSSemPend
+ 1042               	.L109:
+ 1043 0840 8091 0000 		lds r24,mb_fnd_tmp
+ 1044 0844 9091 0000 		lds r25,(mb_fnd_tmp)+1
+ 1045 0848 B601      		movw r22,r12
+ 1046 084a 0E94 0000 		call OSMboxPost
+ 1047 084e 00C0      		rjmp .L110
+ 1048               	.L115:
+ 1049 0850 AF9A      		sbi 53-32,7
+ 1050 0852 80E0      		ldi r24,lo8(0)
+ 1051 0854 60E0      		ldi r22,lo8(0)
+ 1052 0856 40E0      		ldi r20,lo8(0)
+ 1053 0858 24E0      		ldi r18,lo8(4)
+ 1054 085a 30E0      		ldi r19,hi8(4)
+ 1055 085c 0E94 0000 		call OSTimeDlyHMSM
+ 1056 0860 02E0      		ldi r16,lo8(2)
+ 1057 0862 10E0      		ldi r17,hi8(2)
+ 1058 0864 00C0      		rjmp .L114
+ 1059               	.L106:
+ 1060 0866 8CE1      		ldi r24,lo8(28)
+ 1061 0868 E816      		cp r14,r24
+ 1062 086a F104      		cpc r15,__zero_reg__
+ 1063 086c 04F0      		brlt .L108
+ 1064 086e 8091 0000 		lds r24,state3
+ 1065 0872 9091 0000 		lds r25,(state3)+1
+ 1066 0876 0197      		sbiw r24,1
+ 1067 0878 01F0      		breq .L107
+ 1068               	.L108:
+ 1069 087a 87B7      		in r24,87-32
+ 1070 087c 8F7B      		andi r24,lo8(-65)
+ 1071 087e 87BF      		out 87-32,r24
+ 1072 0880 00C0      		rjmp .L109
+ 1073               	.L102:
+ 1074 0882 889D      		mul r24,r8
+ 1075 0884 7001      		movw r14,r0
+ 1076 0886 899D      		mul r24,r9
+ 1077 0888 F00C      		add r15,r0
+ 1078 088a 989D      		mul r25,r8
+ 1079 088c F00C      		add r15,r0
+ 1080 088e 1124      		clr r1
+ 1081 0890 E20E      		add r14,r18
+ 1082 0892 F31E      		adc r15,r19
+ 1083 0894 00C0      		rjmp .L103
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 20
+
+
+ 1084               		.size	FndTask, .-FndTask
+ 1085               	.global	main
+ 1086               		.type	main, @function
+ 1087               	main:
+ 1088               	/* prologue: function */
+ 1089               	/* frame size = 0 */
+ 1090 0896 0E94 0000 		call OSInit
+ 1091               	/* #APP */
+ 1092               	 ;  76 "lab1.c" 1
+ 1093 089a F894      		cli
+ 1094               	 ;  0 "" 2
+ 1095               	/* #NOAPP */
+ 1096 089c 87E0      		ldi r24,lo8(7)
+ 1097 089e 83BF      		out 83-32,r24
+ 1098 08a0 81E0      		ldi r24,lo8(1)
+ 1099 08a2 87BF      		out 87-32,r24
+ 1100 08a4 84E6      		ldi r24,lo8(100)
+ 1101 08a6 82BF      		out 82-32,r24
+ 1102               	/* #APP */
+ 1103               	 ;  80 "lab1.c" 1
+ 1104 08a8 7894      		sei
+ 1105               	 ;  0 "" 2
+ 1106               	/* #NOAPP */
+ 1107 08aa 0E94 0000 		call init_twi_port
+ 1108 08ae 81E0      		ldi r24,lo8(1)
+ 1109 08b0 60E0      		ldi r22,lo8(0)
+ 1110 08b2 0E94 0000 		call write_twi_1byte_nopreset
+ 1111 08b6 80E0      		ldi r24,lo8(gs(TmpTask))
+ 1112 08b8 90E0      		ldi r25,hi8(gs(TmpTask))
+ 1113 08ba 60E0      		ldi r22,lo8(0)
+ 1114 08bc 70E0      		ldi r23,hi8(0)
+ 1115 08be 40E0      		ldi r20,lo8(TmpTaskStk+127)
+ 1116 08c0 50E0      		ldi r21,hi8(TmpTaskStk+127)
+ 1117 08c2 20E0      		ldi r18,lo8(0)
+ 1118 08c4 0E94 0000 		call OSTaskCreate
+ 1119 08c8 80E0      		ldi r24,lo8(gs(FndTask))
+ 1120 08ca 90E0      		ldi r25,hi8(gs(FndTask))
+ 1121 08cc 60E0      		ldi r22,lo8(0)
+ 1122 08ce 70E0      		ldi r23,hi8(0)
+ 1123 08d0 40E0      		ldi r20,lo8(FndTaskStk+127)
+ 1124 08d2 50E0      		ldi r21,hi8(FndTaskStk+127)
+ 1125 08d4 21E0      		ldi r18,lo8(1)
+ 1126 08d6 0E94 0000 		call OSTaskCreate
+ 1127 08da 80E0      		ldi r24,lo8(gs(BuzTask))
+ 1128 08dc 90E0      		ldi r25,hi8(gs(BuzTask))
+ 1129 08de 60E0      		ldi r22,lo8(0)
+ 1130 08e0 70E0      		ldi r23,hi8(0)
+ 1131 08e2 40E0      		ldi r20,lo8(BuzTaskStk+127)
+ 1132 08e4 50E0      		ldi r21,hi8(BuzTaskStk+127)
+ 1133 08e6 22E0      		ldi r18,lo8(2)
+ 1134 08e8 0E94 0000 		call OSTaskCreate
+ 1135 08ec 80E0      		ldi r24,lo8(gs(LedTask))
+ 1136 08ee 90E0      		ldi r25,hi8(gs(LedTask))
+ 1137 08f0 60E0      		ldi r22,lo8(0)
+ 1138 08f2 70E0      		ldi r23,hi8(0)
+ 1139 08f4 40E0      		ldi r20,lo8(LedTaskStk+127)
+ 1140 08f6 50E0      		ldi r21,hi8(LedTaskStk+127)
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 21
+
+
+ 1141 08f8 23E0      		ldi r18,lo8(3)
+ 1142 08fa 0E94 0000 		call OSTaskCreate
+ 1143 08fe 80E0      		ldi r24,lo8(0)
+ 1144 0900 90E0      		ldi r25,hi8(0)
+ 1145 0902 0E94 0000 		call OSMboxCreate
+ 1146 0906 9093 0000 		sts (mb_tmp_fnd)+1,r25
+ 1147 090a 8093 0000 		sts mb_tmp_fnd,r24
+ 1148 090e 80E0      		ldi r24,lo8(0)
+ 1149 0910 90E0      		ldi r25,hi8(0)
+ 1150 0912 0E94 0000 		call OSMboxCreate
+ 1151 0916 9093 0000 		sts (mb_fnd_tmp)+1,r25
+ 1152 091a 8093 0000 		sts mb_fnd_tmp,r24
+ 1153 091e 80E0      		ldi r24,lo8(0)
+ 1154 0920 90E0      		ldi r25,hi8(0)
+ 1155 0922 0E94 0000 		call OSSemCreate
+ 1156 0926 9093 0000 		sts (sem_buz_fnd)+1,r25
+ 1157 092a 8093 0000 		sts sem_buz_fnd,r24
+ 1158 092e 80E0      		ldi r24,lo8(0)
+ 1159 0930 90E0      		ldi r25,hi8(0)
+ 1160 0932 0E94 0000 		call OSSemCreate
+ 1161 0936 9093 0000 		sts (sem_fnd_buz)+1,r25
+ 1162 093a 8093 0000 		sts sem_fnd_buz,r24
+ 1163 093e 80E0      		ldi r24,lo8(0)
+ 1164 0940 90E0      		ldi r25,hi8(0)
+ 1165 0942 0E94 0000 		call OSMboxCreate
+ 1166 0946 9093 0000 		sts (mb_tmp_led)+1,r25
+ 1167 094a 8093 0000 		sts mb_tmp_led,r24
+ 1168 094e 80E0      		ldi r24,lo8(0)
+ 1169 0950 90E0      		ldi r25,hi8(0)
+ 1170 0952 0E94 0000 		call OSMboxCreate
+ 1171 0956 9093 0000 		sts (mb_led_tmp)+1,r25
+ 1172 095a 8093 0000 		sts mb_led_tmp,r24
+ 1173 095e 80E1      		ldi r24,lo8(16)
+ 1174 0960 87BB      		out 55-32,r24
+ 1175 0962 88BB      		out 56-32,r24
+ 1176 0964 8FEC      		ldi r24,lo8(-49)
+ 1177 0966 82B9      		out 34-32,r24
+ 1178 0968 8AB7      		in r24,90-32
+ 1179 096a 8A60      		ori r24,lo8(10)
+ 1180 096c 8ABF      		out 90-32,r24
+ 1181 096e 80E3      		ldi r24,lo8(48)
+ 1182 0970 89BF      		out 89-32,r24
+ 1183 0972 8FB7      		in r24,__SREG__
+ 1184 0974 8068      		ori r24,lo8(-128)
+ 1185 0976 8FBF      		out __SREG__,r24
+ 1186 0978 83E0      		ldi r24,lo8(3)
+ 1187 097a 85BD      		out 69-32,r24
+ 1188 097c 87B7      		in r24,87-32
+ 1189 097e 8F7B      		andi r24,lo8(-65)
+ 1190 0980 87BF      		out 87-32,r24
+ 1191 0982 81E1      		ldi r24,lo8(17)
+ 1192 0984 84BD      		out 68-32,r24
+ 1193 0986 81E0      		ldi r24,lo8(1)
+ 1194 0988 90E0      		ldi r25,hi8(1)
+ 1195 098a 9093 0000 		sts (state3)+1,r25
+ 1196 098e 8093 0000 		sts state3,r24
+ 1197 0992 9093 0000 		sts (state4)+1,r25
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 22
+
+
+ 1198 0996 8093 0000 		sts state4,r24
+ 1199 099a 0E94 0000 		call OSStart
+ 1200 099e 80E0      		ldi r24,lo8(0)
+ 1201 09a0 90E0      		ldi r25,hi8(0)
+ 1202               	/* epilogue start */
+ 1203 09a2 0895      		ret
+ 1204               		.size	main, .-main
+ 1205               	.global	FND_DATA
+ 1206               		.data
+ 1207               		.type	FND_DATA, @object
+ 1208               		.size	FND_DATA, 12
+ 1209               	FND_DATA:
+ 1210 0000 3F        		.byte	63
+ 1211 0001 06        		.byte	6
+ 1212 0002 5B        		.byte	91
+ 1213 0003 4F        		.byte	79
+ 1214 0004 66        		.byte	102
+ 1215 0005 6D        		.byte	109
+ 1216 0006 7C        		.byte	124
+ 1217 0007 07        		.byte	7
+ 1218 0008 7F        		.byte	127
+ 1219 0009 67        		.byte	103
+ 1220 000a 40        		.byte	64
+ 1221 000b 00        		.byte	0
+ 1222               	.global	fnd_sel
+ 1223               		.type	fnd_sel, @object
+ 1224               		.size	fnd_sel, 4
+ 1225               	fnd_sel:
+ 1226 000c 01        		.byte	1
+ 1227 000d 02        		.byte	2
+ 1228 000e 04        		.byte	4
+ 1229 000f 08        		.byte	8
+ 1230               	.global	hz_arr
+ 1231               		.type	hz_arr, @object
+ 1232               		.size	hz_arr, 16
+ 1233               	hz_arr:
+ 1234 0010 1100      		.word	17
+ 1235 0012 2B00      		.word	43
+ 1236 0014 4200      		.word	66
+ 1237 0016 4D00      		.word	77
+ 1238 0018 6100      		.word	97
+ 1239 001a 7200      		.word	114
+ 1240 001c 8100      		.word	129
+ 1241 001e 8900      		.word	137
+ 1242               	.global	state
+ 1243               	.global	state
+ 1244               		.section .bss
+ 1245               		.type	state, @object
+ 1246               		.size	state, 2
+ 1247               	state:
+ 1248 0000 0000      		.skip 2,0
+ 1249               	.global	state3
+ 1250               		.data
+ 1251               		.type	state3, @object
+ 1252               		.size	state3, 2
+ 1253               	state3:
+ 1254 0020 0100      		.word	1
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 23
+
+
+ 1255               	.global	state4
+ 1256               	.global	state4
+ 1257               		.section .bss
+ 1258               		.type	state4, @object
+ 1259               		.size	state4, 2
+ 1260               	state4:
+ 1261 0002 0000      		.skip 2,0
+ 1262               		.comm TmpTaskStk,128,1
+ 1263               		.comm FndTaskStk,128,1
+ 1264               		.comm BuzTaskStk,128,1
+ 1265               		.comm LedTaskStk,128,1
+ 1266               		.comm mb_tmp_fnd,2,1
+ 1267               		.comm mb_fnd_tmp,2,1
+ 1268               		.comm sem_buz_fnd,2,1
+ 1269               		.comm sem_fnd_buz,2,1
+ 1270               		.comm mb_tmp_led,2,1
+ 1271               		.comm mb_led_tmp,2,1
+ 1272               	.global __do_copy_data
+ 1273               	.global __do_clear_bss
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 24
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lab1.c
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:2      *ABS*:0000003f __SREG__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:3      *ABS*:0000003e __SP_H__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:4      *ABS*:0000003d __SP_L__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:5      *ABS*:00000034 __CCP__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:11     .text:00000000 __vector_10
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1247   .bss:00000000 state
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:51     .text:0000004a __vector_5
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1260   .bss:00000002 state4
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:109    .text:000000aa __vector_6
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1253   .data:00000020 state3
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:167    .text:0000010a init_twi_port
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:190    .text:0000012e write_twi_1byte_nopreset
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:245    .text:000001a6 read_twi_2byte_nopreset
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:339    .text:0000027c LedTask
+                            *COM*:00000002 mb_tmp_led
+                            *COM*:00000002 mb_led_tmp
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:553    .text:00000432 TmpTask
+                            *COM*:00000002 mb_tmp_fnd
+                            *COM*:00000002 mb_fnd_tmp
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:830    .text:0000067e BuzTask
+                            *COM*:00000002 sem_fnd_buz
+                            *COM*:00000002 sem_buz_fnd
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:860    .text:000006b8 FndTask
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1209   .data:00000000 FND_DATA
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1225   .data:0000000c fnd_sel
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1087   .text:00000896 main
+                            *COM*:00000080 TmpTaskStk
+                            *COM*:00000080 FndTaskStk
+                            *COM*:00000080 BuzTaskStk
+                            *COM*:00000080 LedTaskStk
+C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s:1233   .data:00000010 hz_arr
+
+UNDEFINED SYMBOLS
+OSMboxPend
+__udivmodhi4
+OSMboxPost
+__floatsisf
+__addsf3
+__mulsf3
+__divsf3
+__fixunssfsi
+__divmodhi4
+__subsf3
+OSSemPend
+OSSemPost
+OSTimeDlyHMSM
+OSInit
+OSTaskCreate
+OSMboxCreate
+OSSemCreate
+OSStart
+__do_copy_data
+__do_clear_bss
+GAS LISTING C:\Users\NDJ\AppData\Local\Temp/ccfaqHwo.s 			page 25
+
+

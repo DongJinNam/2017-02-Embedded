@@ -1,0 +1,4497 @@
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 1
+
+
+   1               		.file	"ucos_ii.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	OSIntEnter
+  10               		.type	OSIntEnter, @function
+  11               	OSIntEnter:
+  12               	/* prologue: function */
+  13               	/* frame size = 0 */
+  14 0000 8091 0000 		lds r24,OSRunning
+  15 0004 8130      		cpi r24,lo8(1)
+  16 0006 01F0      		breq .L5
+  17               	.L3:
+  18 0008 0895      		ret
+  19               	.L5:
+  20 000a 8091 0000 		lds r24,OSIntNesting
+  21 000e 8F3F      		cpi r24,lo8(-1)
+  22 0010 01F0      		breq .L3
+  23 0012 8F5F      		subi r24,lo8(-(1))
+  24 0014 8093 0000 		sts OSIntNesting,r24
+  25 0018 0895      		ret
+  26               		.size	OSIntEnter, .-OSIntEnter
+  27               	.global	OSSchedLock
+  28               		.type	OSSchedLock, @function
+  29               	OSSchedLock:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 001a 8091 0000 		lds r24,OSRunning
+  33 001e 8130      		cpi r24,lo8(1)
+  34 0020 01F0      		breq .L10
+  35 0022 0895      		ret
+  36               	.L10:
+  37               	/* #APP */
+  38               	 ;  222 "C:/WinAVR-work/lab1/source/os_core.c" 1
+  39 0024 F894      		cli
+  40               	 ;  0 "" 2
+  41               	/* #NOAPP */
+  42 0026 8091 0000 		lds r24,OSLockNesting
+  43 002a 8F3F      		cpi r24,lo8(-1)
+  44 002c 01F0      		breq .L8
+  45 002e 8F5F      		subi r24,lo8(-(1))
+  46 0030 8093 0000 		sts OSLockNesting,r24
+  47               	.L8:
+  48               	/* #APP */
+  49               	 ;  226 "C:/WinAVR-work/lab1/source/os_core.c" 1
+  50 0034 7894      		sei
+  51               	 ;  0 "" 2
+  52               	/* #NOAPP */
+  53 0036 0895      		ret
+  54               		.size	OSSchedLock, .-OSSchedLock
+  55               	.global	OSVersion
+  56               		.type	OSVersion, @function
+  57               	OSVersion:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 2
+
+
+  58               	/* prologue: function */
+  59               	/* frame size = 0 */
+  60 0038 8CEF      		ldi r24,lo8(252)
+  61 003a 90E0      		ldi r25,hi8(252)
+  62               	/* epilogue start */
+  63 003c 0895      		ret
+  64               		.size	OSVersion, .-OSVersion
+  65               	.global	OS_EventTaskRdy
+  66               		.type	OS_EventTaskRdy, @function
+  67               	OS_EventTaskRdy:
+  68 003e FF92      		push r15
+  69 0040 0F93      		push r16
+  70 0042 1F93      		push r17
+  71 0044 CF93      		push r28
+  72 0046 DF93      		push r29
+  73               	/* prologue: function */
+  74               	/* frame size = 0 */
+  75 0048 EC01      		movw r28,r24
+  76 004a 8B01      		movw r16,r22
+  77 004c F42E      		mov r15,r20
+  78 004e 3981      		ldd r19,Y+1
+  79 0050 E32F      		mov r30,r19
+  80 0052 F0E0      		ldi r31,lo8(0)
+  81 0054 E050      		subi r30,lo8(-(OSUnMapTbl))
+  82 0056 F040      		sbci r31,hi8(-(OSUnMapTbl))
+  83 0058 2081      		ld r18,Z
+  84 005a 422F      		mov r20,r18
+  85 005c 50E0      		ldi r21,lo8(0)
+  86 005e FA01      		movw r30,r20
+  87 0060 E050      		subi r30,lo8(-(OSMapTbl))
+  88 0062 F040      		sbci r31,hi8(-(OSMapTbl))
+  89 0064 7081      		ld r23,Z
+  90 0066 DC01      		movw r26,r24
+  91 0068 A40F      		add r26,r20
+  92 006a B51F      		adc r27,r21
+  93 006c 1696      		adiw r26,6
+  94 006e 9C91      		ld r25,X
+  95 0070 1697      		sbiw r26,6
+  96 0072 E92F      		mov r30,r25
+  97 0074 F0E0      		ldi r31,lo8(0)
+  98 0076 E050      		subi r30,lo8(-(OSUnMapTbl))
+  99 0078 F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 100 007a 8081      		ld r24,Z
+ 101 007c E82F      		mov r30,r24
+ 102 007e F0E0      		ldi r31,lo8(0)
+ 103 0080 E050      		subi r30,lo8(-(OSMapTbl))
+ 104 0082 F040      		sbci r31,hi8(-(OSMapTbl))
+ 105 0084 6081      		ld r22,Z
+ 106 0086 220F      		lsl r18
+ 107 0088 220F      		lsl r18
+ 108 008a 220F      		lsl r18
+ 109 008c 280F      		add r18,r24
+ 110 008e 862F      		mov r24,r22
+ 111 0090 8095      		com r24
+ 112 0092 8923      		and r24,r25
+ 113 0094 1696      		adiw r26,6
+ 114 0096 8C93      		st X,r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 3
+
+
+ 115 0098 8823      		tst r24
+ 116 009a 01F4      		brne .L14
+ 117 009c 872F      		mov r24,r23
+ 118 009e 8095      		com r24
+ 119 00a0 3823      		and r19,r24
+ 120 00a2 3983      		std Y+1,r19
+ 121               	.L14:
+ 122 00a4 E22F      		mov r30,r18
+ 123 00a6 F0E0      		ldi r31,lo8(0)
+ 124 00a8 EE0F      		lsl r30
+ 125 00aa FF1F      		rol r31
+ 126 00ac E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 127 00ae F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 128 00b0 0190      		ld __tmp_reg__,Z+
+ 129 00b2 F081      		ld r31,Z
+ 130 00b4 E02D      		mov r30,__tmp_reg__
+ 131 00b6 1486      		std Z+12,__zero_reg__
+ 132 00b8 1386      		std Z+11,__zero_reg__
+ 133 00ba 1782      		std Z+7,__zero_reg__
+ 134 00bc 1682      		std Z+6,__zero_reg__
+ 135 00be 1187      		std Z+9,r17
+ 136 00c0 0087      		std Z+8,r16
+ 137 00c2 8F2D      		mov r24,r15
+ 138 00c4 8095      		com r24
+ 139 00c6 9585      		ldd r25,Z+13
+ 140 00c8 8923      		and r24,r25
+ 141 00ca 8587      		std Z+13,r24
+ 142 00cc 8823      		tst r24
+ 143 00ce 01F4      		brne .L15
+ 144 00d0 8091 0000 		lds r24,OSRdyGrp
+ 145 00d4 872B      		or r24,r23
+ 146 00d6 8093 0000 		sts OSRdyGrp,r24
+ 147 00da FA01      		movw r30,r20
+ 148 00dc E050      		subi r30,lo8(-(OSRdyTbl))
+ 149 00de F040      		sbci r31,hi8(-(OSRdyTbl))
+ 150 00e0 8081      		ld r24,Z
+ 151 00e2 682B      		or r22,r24
+ 152 00e4 6083      		st Z,r22
+ 153               	.L15:
+ 154 00e6 822F      		mov r24,r18
+ 155               	/* epilogue start */
+ 156 00e8 DF91      		pop r29
+ 157 00ea CF91      		pop r28
+ 158 00ec 1F91      		pop r17
+ 159 00ee 0F91      		pop r16
+ 160 00f0 FF90      		pop r15
+ 161 00f2 0895      		ret
+ 162               		.size	OS_EventTaskRdy, .-OS_EventTaskRdy
+ 163               	.global	OS_EventTaskWait
+ 164               		.type	OS_EventTaskWait, @function
+ 165               	OS_EventTaskWait:
+ 166 00f4 CF93      		push r28
+ 167 00f6 DF93      		push r29
+ 168               	/* prologue: function */
+ 169               	/* frame size = 0 */
+ 170 00f8 EC01      		movw r28,r24
+ 171 00fa A091 0000 		lds r26,OSTCBCur
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 4
+
+
+ 172 00fe B091 0000 		lds r27,(OSTCBCur)+1
+ 173 0102 1796      		adiw r26,6+1
+ 174 0104 9C93      		st X,r25
+ 175 0106 8E93      		st -X,r24
+ 176 0108 1697      		sbiw r26,6
+ 177 010a 5096      		adiw r26,16
+ 178 010c 8C91      		ld r24,X
+ 179 010e 5097      		sbiw r26,16
+ 180 0110 482F      		mov r20,r24
+ 181 0112 50E0      		ldi r21,lo8(0)
+ 182 0114 5196      		adiw r26,17
+ 183 0116 3C91      		ld r19,X
+ 184 0118 5197      		sbiw r26,17
+ 185 011a FA01      		movw r30,r20
+ 186 011c E050      		subi r30,lo8(-(OSRdyTbl))
+ 187 011e F040      		sbci r31,hi8(-(OSRdyTbl))
+ 188 0120 832F      		mov r24,r19
+ 189 0122 8095      		com r24
+ 190 0124 9081      		ld r25,Z
+ 191 0126 8923      		and r24,r25
+ 192 0128 8083      		st Z,r24
+ 193 012a 8823      		tst r24
+ 194 012c 01F4      		brne .L21
+ 195 012e 5296      		adiw r26,18
+ 196 0130 2C91      		ld r18,X
+ 197 0132 922F      		mov r25,r18
+ 198 0134 9095      		com r25
+ 199 0136 8091 0000 		lds r24,OSRdyGrp
+ 200 013a 8923      		and r24,r25
+ 201 013c 8093 0000 		sts OSRdyGrp,r24
+ 202               	.L19:
+ 203 0140 FE01      		movw r30,r28
+ 204 0142 E40F      		add r30,r20
+ 205 0144 F51F      		adc r31,r21
+ 206 0146 8681      		ldd r24,Z+6
+ 207 0148 832B      		or r24,r19
+ 208 014a 8683      		std Z+6,r24
+ 209 014c 8981      		ldd r24,Y+1
+ 210 014e 822B      		or r24,r18
+ 211 0150 8983      		std Y+1,r24
+ 212               	/* epilogue start */
+ 213 0152 DF91      		pop r29
+ 214 0154 CF91      		pop r28
+ 215 0156 0895      		ret
+ 216               	.L21:
+ 217 0158 5296      		adiw r26,18
+ 218 015a 2C91      		ld r18,X
+ 219 015c 00C0      		rjmp .L19
+ 220               		.size	OS_EventTaskWait, .-OS_EventTaskWait
+ 221               	.global	OS_EventTO
+ 222               		.type	OS_EventTO, @function
+ 223               	OS_EventTO:
+ 224 015e CF93      		push r28
+ 225 0160 DF93      		push r29
+ 226               	/* prologue: function */
+ 227               	/* frame size = 0 */
+ 228 0162 EC01      		movw r28,r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 5
+
+
+ 229 0164 A091 0000 		lds r26,OSTCBCur
+ 230 0168 B091 0000 		lds r27,(OSTCBCur)+1
+ 231 016c 5096      		adiw r26,16
+ 232 016e 8C91      		ld r24,X
+ 233 0170 5097      		sbiw r26,16
+ 234 0172 FE01      		movw r30,r28
+ 235 0174 E80F      		add r30,r24
+ 236 0176 F11D      		adc r31,__zero_reg__
+ 237 0178 5196      		adiw r26,17
+ 238 017a 8C91      		ld r24,X
+ 239 017c 5197      		sbiw r26,17
+ 240 017e 8095      		com r24
+ 241 0180 9681      		ldd r25,Z+6
+ 242 0182 8923      		and r24,r25
+ 243 0184 8683      		std Z+6,r24
+ 244 0186 8823      		tst r24
+ 245 0188 01F4      		brne .L23
+ 246 018a 5296      		adiw r26,18
+ 247 018c 9C91      		ld r25,X
+ 248 018e 5297      		sbiw r26,18
+ 249 0190 9095      		com r25
+ 250 0192 8981      		ldd r24,Y+1
+ 251 0194 8923      		and r24,r25
+ 252 0196 8983      		std Y+1,r24
+ 253               	.L23:
+ 254 0198 1D96      		adiw r26,13
+ 255 019a 1C92      		st X,__zero_reg__
+ 256 019c 1D97      		sbiw r26,13
+ 257 019e 1796      		adiw r26,6+1
+ 258 01a0 1C92      		st X,__zero_reg__
+ 259 01a2 1E92      		st -X,__zero_reg__
+ 260 01a4 1697      		sbiw r26,6
+ 261               	/* epilogue start */
+ 262 01a6 DF91      		pop r29
+ 263 01a8 CF91      		pop r28
+ 264 01aa 0895      		ret
+ 265               		.size	OS_EventTO, .-OS_EventTO
+ 266               	.global	OS_EventWaitListInit
+ 267               		.type	OS_EventWaitListInit, @function
+ 268               	OS_EventWaitListInit:
+ 269               	/* prologue: function */
+ 270               	/* frame size = 0 */
+ 271 01ac FC01      		movw r30,r24
+ 272 01ae 1182      		std Z+1,__zero_reg__
+ 273 01b0 1682      		std Z+6,__zero_reg__
+ 274 01b2 1782      		std Z+7,__zero_reg__
+ 275               	/* epilogue start */
+ 276 01b4 0895      		ret
+ 277               		.size	OS_EventWaitListInit, .-OS_EventWaitListInit
+ 278               	.global	OSFlagCreate
+ 279               		.type	OSFlagCreate, @function
+ 280               	OSFlagCreate:
+ 281               	/* prologue: function */
+ 282               	/* frame size = 0 */
+ 283 01b6 282F      		mov r18,r24
+ 284 01b8 DB01      		movw r26,r22
+ 285 01ba 8091 0000 		lds r24,OSIntNesting
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 6
+
+
+ 286 01be 8823      		tst r24
+ 287 01c0 01F4      		brne .L32
+ 288               	/* #APP */
+ 289               	 ;  205 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 290 01c2 F894      		cli
+ 291               	 ;  0 "" 2
+ 292               	/* #NOAPP */
+ 293 01c4 E091 0000 		lds r30,OSFlagFreeList
+ 294 01c8 F091 0000 		lds r31,(OSFlagFreeList)+1
+ 295 01cc 3097      		sbiw r30,0
+ 296 01ce 01F0      		breq .L30
+ 297 01d0 8181      		ldd r24,Z+1
+ 298 01d2 9281      		ldd r25,Z+2
+ 299 01d4 9093 0000 		sts (OSFlagFreeList)+1,r25
+ 300 01d8 8093 0000 		sts OSFlagFreeList,r24
+ 301 01dc 85E0      		ldi r24,lo8(5)
+ 302 01de 8083      		st Z,r24
+ 303 01e0 2383      		std Z+3,r18
+ 304 01e2 1282      		std Z+2,__zero_reg__
+ 305 01e4 1182      		std Z+1,__zero_reg__
+ 306               	/* #APP */
+ 307               	 ;  213 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 308 01e6 7894      		sei
+ 309               	 ;  0 "" 2
+ 310               	/* #NOAPP */
+ 311 01e8 1C92      		st X,__zero_reg__
+ 312               	.L29:
+ 313 01ea CF01      		movw r24,r30
+ 314               	/* epilogue start */
+ 315 01ec 0895      		ret
+ 316               	.L30:
+ 317               	/* #APP */
+ 318               	 ;  216 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 319 01ee 7894      		sei
+ 320               	 ;  0 "" 2
+ 321               	/* #NOAPP */
+ 322 01f0 8AE9      		ldi r24,lo8(-102)
+ 323 01f2 8C93      		st X,r24
+ 324 01f4 CF01      		movw r24,r30
+ 325 01f6 0895      		ret
+ 326               	.L32:
+ 327 01f8 8DE8      		ldi r24,lo8(-115)
+ 328 01fa 8C93      		st X,r24
+ 329 01fc E0E0      		ldi r30,lo8(0)
+ 330 01fe F0E0      		ldi r31,hi8(0)
+ 331 0200 00C0      		rjmp .L29
+ 332               		.size	OSFlagCreate, .-OSFlagCreate
+ 333               		.type	OS_FlagBlock, @function
+ 334               	OS_FlagBlock:
+ 335 0202 EF92      		push r14
+ 336 0204 FF92      		push r15
+ 337 0206 0F93      		push r16
+ 338 0208 1F93      		push r17
+ 339 020a CF93      		push r28
+ 340 020c DF93      		push r29
+ 341               	/* prologue: function */
+ 342               	/* frame size = 0 */
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 7
+
+
+ 343 020e 7C01      		movw r14,r24
+ 344 0210 FB01      		movw r30,r22
+ 345 0212 A091 0000 		lds r26,OSTCBCur
+ 346 0216 B091 0000 		lds r27,(OSTCBCur)+1
+ 347 021a 1D96      		adiw r26,13
+ 348 021c 8C91      		ld r24,X
+ 349 021e 1D97      		sbiw r26,13
+ 350 0220 8062      		ori r24,lo8(32)
+ 351 0222 1D96      		adiw r26,13
+ 352 0224 8C93      		st X,r24
+ 353 0226 1D97      		sbiw r26,13
+ 354 0228 1C96      		adiw r26,11+1
+ 355 022a 1C93      		st X,r17
+ 356 022c 0E93      		st -X,r16
+ 357 022e 1B97      		sbiw r26,11
+ 358 0230 4087      		std Z+8,r20
+ 359 0232 2187      		std Z+9,r18
+ 360 0234 B583      		std Z+5,r27
+ 361 0236 A483      		std Z+4,r26
+ 362 0238 E701      		movw r28,r14
+ 363 023a 8981      		ldd r24,Y+1
+ 364 023c 9A81      		ldd r25,Y+2
+ 365 023e 9183      		std Z+1,r25
+ 366 0240 8083      		st Z,r24
+ 367 0242 1382      		std Z+3,__zero_reg__
+ 368 0244 1282      		std Z+2,__zero_reg__
+ 369 0246 F782      		std Z+7,r15
+ 370 0248 E682      		std Z+6,r14
+ 371 024a 8981      		ldd r24,Y+1
+ 372 024c 9A81      		ldd r25,Y+2
+ 373 024e 0097      		sbiw r24,0
+ 374 0250 01F0      		breq .L34
+ 375 0252 EC01      		movw r28,r24
+ 376 0254 7B83      		std Y+3,r23
+ 377 0256 6A83      		std Y+2,r22
+ 378               	.L34:
+ 379 0258 E701      		movw r28,r14
+ 380 025a FA83      		std Y+2,r31
+ 381 025c E983      		std Y+1,r30
+ 382 025e 5096      		adiw r26,16
+ 383 0260 EC91      		ld r30,X
+ 384 0262 5097      		sbiw r26,16
+ 385 0264 F0E0      		ldi r31,lo8(0)
+ 386 0266 E050      		subi r30,lo8(-(OSRdyTbl))
+ 387 0268 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 388 026a 5196      		adiw r26,17
+ 389 026c 8C91      		ld r24,X
+ 390 026e 5197      		sbiw r26,17
+ 391 0270 8095      		com r24
+ 392 0272 9081      		ld r25,Z
+ 393 0274 8923      		and r24,r25
+ 394 0276 8083      		st Z,r24
+ 395 0278 8823      		tst r24
+ 396 027a 01F4      		brne .L36
+ 397 027c 5296      		adiw r26,18
+ 398 027e 9C91      		ld r25,X
+ 399 0280 9095      		com r25
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 8
+
+
+ 400 0282 8091 0000 		lds r24,OSRdyGrp
+ 401 0286 8923      		and r24,r25
+ 402 0288 8093 0000 		sts OSRdyGrp,r24
+ 403               	.L36:
+ 404               	/* epilogue start */
+ 405 028c DF91      		pop r29
+ 406 028e CF91      		pop r28
+ 407 0290 1F91      		pop r17
+ 408 0292 0F91      		pop r16
+ 409 0294 FF90      		pop r15
+ 410 0296 EF90      		pop r14
+ 411 0298 0895      		ret
+ 412               		.size	OS_FlagBlock, .-OS_FlagBlock
+ 413               	.global	OS_FlagInit
+ 414               		.type	OS_FlagInit, @function
+ 415               	OS_FlagInit:
+ 416               	/* prologue: function */
+ 417               	/* frame size = 0 */
+ 418 029a 80E0      		ldi r24,lo8(OSFlagTbl)
+ 419 029c 90E0      		ldi r25,hi8(OSFlagTbl)
+ 420 029e 9093 0000 		sts (OSFlagFreeList)+1,r25
+ 421 02a2 8093 0000 		sts OSFlagFreeList,r24
+ 422 02a6 1092 0000 		sts OSFlagTbl,__zero_reg__
+ 423 02aa 1092 0000 		sts (OSFlagTbl+1)+1,__zero_reg__
+ 424 02ae 1092 0000 		sts OSFlagTbl+1,__zero_reg__
+ 425               	/* epilogue start */
+ 426 02b2 0895      		ret
+ 427               		.size	OS_FlagInit, .-OS_FlagInit
+ 428               	.global	OS_FlagUnlink
+ 429               		.type	OS_FlagUnlink, @function
+ 430               	OS_FlagUnlink:
+ 431 02b4 CF93      		push r28
+ 432 02b6 DF93      		push r29
+ 433               	/* prologue: function */
+ 434               	/* frame size = 0 */
+ 435 02b8 FC01      		movw r30,r24
+ 436 02ba A281      		ldd r26,Z+2
+ 437 02bc B381      		ldd r27,Z+3
+ 438 02be C081      		ld r28,Z
+ 439 02c0 D181      		ldd r29,Z+1
+ 440 02c2 1097      		sbiw r26,0
+ 441 02c4 01F0      		breq .L43
+ 442 02c6 1196      		adiw r26,1
+ 443 02c8 DC93      		st X,r29
+ 444 02ca CE93      		st -X,r28
+ 445 02cc 2097      		sbiw r28,0
+ 446 02ce 01F0      		breq .L42
+ 447 02d0 BB83      		std Y+3,r27
+ 448 02d2 AA83      		std Y+2,r26
+ 449               	.L42:
+ 450               	/* epilogue start */
+ 451 02d4 DF91      		pop r29
+ 452 02d6 CF91      		pop r28
+ 453 02d8 0895      		ret
+ 454               	.L43:
+ 455 02da 0680      		ldd __tmp_reg__,Z+6
+ 456 02dc F781      		ldd r31,Z+7
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 9
+
+
+ 457 02de E02D      		mov r30,__tmp_reg__
+ 458 02e0 D283      		std Z+2,r29
+ 459 02e2 C183      		std Z+1,r28
+ 460 02e4 2097      		sbiw r28,0
+ 461 02e6 01F0      		breq .L42
+ 462 02e8 1B82      		std Y+3,__zero_reg__
+ 463 02ea 1A82      		std Y+2,__zero_reg__
+ 464 02ec DF91      		pop r29
+ 465 02ee CF91      		pop r28
+ 466 02f0 0895      		ret
+ 467               		.size	OS_FlagUnlink, .-OS_FlagUnlink
+ 468               		.type	OS_FlagTaskRdy, @function
+ 469               	OS_FlagTaskRdy:
+ 470 02f2 1F93      		push r17
+ 471 02f4 CF93      		push r28
+ 472 02f6 DF93      		push r29
+ 473               	/* prologue: function */
+ 474               	/* frame size = 0 */
+ 475 02f8 EC01      		movw r28,r24
+ 476 02fa AC81      		ldd r26,Y+4
+ 477 02fc BD81      		ldd r27,Y+5
+ 478 02fe 1C96      		adiw r26,11+1
+ 479 0300 1C92      		st X,__zero_reg__
+ 480 0302 1E92      		st -X,__zero_reg__
+ 481 0304 1B97      		sbiw r26,11
+ 482 0306 1A96      		adiw r26,10
+ 483 0308 6C93      		st X,r22
+ 484 030a 1A97      		sbiw r26,10
+ 485 030c 1D96      		adiw r26,13
+ 486 030e 8C91      		ld r24,X
+ 487 0310 1D97      		sbiw r26,13
+ 488 0312 8F7D      		andi r24,lo8(-33)
+ 489 0314 1D96      		adiw r26,13
+ 490 0316 8C93      		st X,r24
+ 491 0318 1D97      		sbiw r26,13
+ 492 031a 8823      		tst r24
+ 493 031c 01F4      		brne .L48
+ 494 031e 8091 0000 		lds r24,OSRdyGrp
+ 495 0322 5296      		adiw r26,18
+ 496 0324 9C91      		ld r25,X
+ 497 0326 5297      		sbiw r26,18
+ 498 0328 892B      		or r24,r25
+ 499 032a 8093 0000 		sts OSRdyGrp,r24
+ 500 032e 5096      		adiw r26,16
+ 501 0330 EC91      		ld r30,X
+ 502 0332 5097      		sbiw r26,16
+ 503 0334 F0E0      		ldi r31,lo8(0)
+ 504 0336 E050      		subi r30,lo8(-(OSRdyTbl))
+ 505 0338 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 506 033a 8081      		ld r24,Z
+ 507 033c 5196      		adiw r26,17
+ 508 033e 9C91      		ld r25,X
+ 509 0340 892B      		or r24,r25
+ 510 0342 8083      		st Z,r24
+ 511 0344 11E0      		ldi r17,lo8(1)
+ 512 0346 CE01      		movw r24,r28
+ 513 0348 0E94 0000 		call OS_FlagUnlink
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 10
+
+
+ 514 034c 812F      		mov r24,r17
+ 515               	/* epilogue start */
+ 516 034e DF91      		pop r29
+ 517 0350 CF91      		pop r28
+ 518 0352 1F91      		pop r17
+ 519 0354 0895      		ret
+ 520               	.L48:
+ 521 0356 10E0      		ldi r17,lo8(0)
+ 522 0358 CE01      		movw r24,r28
+ 523 035a 0E94 0000 		call OS_FlagUnlink
+ 524 035e 812F      		mov r24,r17
+ 525 0360 DF91      		pop r29
+ 526 0362 CF91      		pop r28
+ 527 0364 1F91      		pop r17
+ 528 0366 0895      		ret
+ 529               		.size	OS_FlagTaskRdy, .-OS_FlagTaskRdy
+ 530               	.global	OSMboxAccept
+ 531               		.type	OSMboxAccept, @function
+ 532               	OSMboxAccept:
+ 533               	/* prologue: function */
+ 534               	/* frame size = 0 */
+ 535 0368 FC01      		movw r30,r24
+ 536               	/* #APP */
+ 537               	 ;  54 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 538 036a F894      		cli
+ 539               	 ;  0 "" 2
+ 540               	/* #NOAPP */
+ 541 036c 8481      		ldd r24,Z+4
+ 542 036e 9581      		ldd r25,Z+5
+ 543 0370 1582      		std Z+5,__zero_reg__
+ 544 0372 1482      		std Z+4,__zero_reg__
+ 545               	/* #APP */
+ 546               	 ;  57 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 547 0374 7894      		sei
+ 548               	 ;  0 "" 2
+ 549               	/* epilogue start */
+ 550               	/* #NOAPP */
+ 551 0376 0895      		ret
+ 552               		.size	OSMboxAccept, .-OSMboxAccept
+ 553               	.global	OSMboxCreate
+ 554               		.type	OSMboxCreate, @function
+ 555               	OSMboxCreate:
+ 556               	/* prologue: function */
+ 557               	/* frame size = 0 */
+ 558 0378 9C01      		movw r18,r24
+ 559 037a 8091 0000 		lds r24,OSIntNesting
+ 560 037e 8823      		tst r24
+ 561 0380 01F4      		brne .L56
+ 562               	/* #APP */
+ 563               	 ;  89 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 564 0382 F894      		cli
+ 565               	 ;  0 "" 2
+ 566               	/* #NOAPP */
+ 567 0384 E091 0000 		lds r30,OSEventFreeList
+ 568 0388 F091 0000 		lds r31,(OSEventFreeList)+1
+ 569 038c 3097      		sbiw r30,0
+ 570 038e 01F0      		breq .L54
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 11
+
+
+ 571 0390 8481      		ldd r24,Z+4
+ 572 0392 9581      		ldd r25,Z+5
+ 573 0394 9093 0000 		sts (OSEventFreeList)+1,r25
+ 574 0398 8093 0000 		sts OSEventFreeList,r24
+ 575               	.L54:
+ 576               	/* #APP */
+ 577               	 ;  94 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 578 039c 7894      		sei
+ 579               	 ;  0 "" 2
+ 580               	/* #NOAPP */
+ 581 039e 3097      		sbiw r30,0
+ 582 03a0 01F0      		breq .L53
+ 583 03a2 81E0      		ldi r24,lo8(1)
+ 584 03a4 8083      		st Z,r24
+ 585 03a6 1382      		std Z+3,__zero_reg__
+ 586 03a8 1282      		std Z+2,__zero_reg__
+ 587 03aa 3583      		std Z+5,r19
+ 588 03ac 2483      		std Z+4,r18
+ 589 03ae 1182      		std Z+1,__zero_reg__
+ 590 03b0 1682      		std Z+6,__zero_reg__
+ 591 03b2 1782      		std Z+7,__zero_reg__
+ 592               	.L53:
+ 593 03b4 CF01      		movw r24,r30
+ 594               	/* epilogue start */
+ 595 03b6 0895      		ret
+ 596               	.L56:
+ 597 03b8 E0E0      		ldi r30,lo8(0)
+ 598 03ba F0E0      		ldi r31,hi8(0)
+ 599 03bc CF01      		movw r24,r30
+ 600 03be 0895      		ret
+ 601               		.size	OSMboxCreate, .-OSMboxCreate
+ 602               	.global	OSMemCreate
+ 603               		.type	OSMemCreate, @function
+ 604               	OSMemCreate:
+ 605 03c0 2F92      		push r2
+ 606 03c2 3F92      		push r3
+ 607 03c4 4F92      		push r4
+ 608 03c6 5F92      		push r5
+ 609 03c8 6F92      		push r6
+ 610 03ca 7F92      		push r7
+ 611 03cc 8F92      		push r8
+ 612 03ce 9F92      		push r9
+ 613 03d0 AF92      		push r10
+ 614 03d2 BF92      		push r11
+ 615 03d4 CF92      		push r12
+ 616 03d6 DF92      		push r13
+ 617 03d8 EF92      		push r14
+ 618 03da FF92      		push r15
+ 619 03dc 0F93      		push r16
+ 620 03de 1F93      		push r17
+ 621 03e0 CF93      		push r28
+ 622 03e2 DF93      		push r29
+ 623               	/* prologue: function */
+ 624               	/* frame size = 0 */
+ 625 03e4 4C01      		movw r8,r24
+ 626 03e6 5A01      		movw r10,r20
+ 627 03e8 6B01      		movw r12,r22
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 12
+
+
+ 628 03ea 2801      		movw r4,r16
+ 629 03ec 3901      		movw r6,r18
+ 630 03ee 1701      		movw r2,r14
+ 631               	/* #APP */
+ 632               	 ;  73 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 633 03f0 F894      		cli
+ 634               	 ;  0 "" 2
+ 635               	/* #NOAPP */
+ 636 03f2 6091 0000 		lds r22,OSMemFreeList
+ 637 03f6 7091 0000 		lds r23,(OSMemFreeList)+1
+ 638 03fa 6115      		cp r22,__zero_reg__
+ 639 03fc 7105      		cpc r23,__zero_reg__
+ 640 03fe 01F0      		breq .L58
+ 641 0400 DB01      		movw r26,r22
+ 642 0402 1296      		adiw r26,2
+ 643 0404 8D91      		ld r24,X+
+ 644 0406 9C91      		ld r25,X
+ 645 0408 1397      		sbiw r26,2+1
+ 646 040a 9093 0000 		sts (OSMemFreeList)+1,r25
+ 647 040e 8093 0000 		sts OSMemFreeList,r24
+ 648               	.L58:
+ 649               	/* #APP */
+ 650               	 ;  78 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 651 0412 7894      		sei
+ 652               	 ;  0 "" 2
+ 653               	/* #NOAPP */
+ 654 0414 6115      		cp r22,__zero_reg__
+ 655 0416 7105      		cpc r23,__zero_reg__
+ 656 0418 01F4      		brne .+2
+ 657 041a 00C0      		rjmp .L65
+ 658 041c E401      		movw r28,r8
+ 659 041e A601      		movw r20,r12
+ 660 0420 9501      		movw r18,r10
+ 661 0422 2150      		subi r18,lo8(-(-1))
+ 662 0424 3040      		sbci r19,hi8(-(-1))
+ 663 0426 4040      		sbci r20,hlo8(-(-1))
+ 664 0428 5040      		sbci r21,hhi8(-(-1))
+ 665 042a 01F0      		breq .L61
+ 666 042c 7201      		movw r14,r4
+ 667 042e 8401      		movw r16,r8
+ 668 0430 040D      		add r16,r4
+ 669 0432 151D      		adc r17,r5
+ 670 0434 F801      		movw r30,r16
+ 671 0436 80E0      		ldi r24,lo8(0)
+ 672 0438 90E0      		ldi r25,hi8(0)
+ 673 043a A0E0      		ldi r26,hlo8(0)
+ 674 043c B0E0      		ldi r27,hhi8(0)
+ 675               	.L62:
+ 676 043e F983      		std Y+1,r31
+ 677 0440 E883      		st Y,r30
+ 678 0442 EF01      		movw r28,r30
+ 679 0444 EE0D      		add r30,r14
+ 680 0446 FF1D      		adc r31,r15
+ 681 0448 0196      		adiw r24,1
+ 682 044a A11D      		adc r26,__zero_reg__
+ 683 044c B11D      		adc r27,__zero_reg__
+ 684 044e 8217      		cp r24,r18
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 13
+
+
+ 685 0450 9307      		cpc r25,r19
+ 686 0452 A407      		cpc r26,r20
+ 687 0454 B507      		cpc r27,r21
+ 688 0456 00F0      		brlo .L62
+ 689 0458 8EEF      		ldi r24,lo8(-2)
+ 690 045a 9FEF      		ldi r25,hi8(-2)
+ 691 045c AFEF      		ldi r26,hlo8(-2)
+ 692 045e BFEF      		ldi r27,hhi8(-2)
+ 693 0460 A80E      		add r10,r24
+ 694 0462 B91E      		adc r11,r25
+ 695 0464 CA1E      		adc r12,r26
+ 696 0466 DB1E      		adc r13,r27
+ 697 0468 EA9C      		mul r14,r10
+ 698 046a E001      		movw r28,r0
+ 699 046c EB9C      		mul r14,r11
+ 700 046e D00D      		add r29,r0
+ 701 0470 FA9C      		mul r15,r10
+ 702 0472 D00D      		add r29,r0
+ 703 0474 1124      		clr r1
+ 704 0476 82E0      		ldi r24,lo8(2)
+ 705 0478 90E0      		ldi r25,hi8(2)
+ 706 047a A0E0      		ldi r26,hlo8(2)
+ 707 047c B0E0      		ldi r27,hhi8(2)
+ 708 047e A80E      		add r10,r24
+ 709 0480 B91E      		adc r11,r25
+ 710 0482 CA1E      		adc r12,r26
+ 711 0484 DB1E      		adc r13,r27
+ 712 0486 C00F      		add r28,r16
+ 713 0488 D11F      		adc r29,r17
+ 714               	.L61:
+ 715 048a 1982      		std Y+1,__zero_reg__
+ 716 048c 1882      		st Y,__zero_reg__
+ 717 048e DB01      		movw r26,r22
+ 718 0490 1196      		adiw r26,1
+ 719 0492 9C92      		st X,r9
+ 720 0494 8E92      		st -X,r8
+ 721 0496 1396      		adiw r26,2+1
+ 722 0498 9C92      		st X,r9
+ 723 049a 8E92      		st -X,r8
+ 724 049c 1297      		sbiw r26,2
+ 725 049e FB01      		movw r30,r22
+ 726 04a0 A486      		std Z+12,r10
+ 727 04a2 B586      		std Z+13,r11
+ 728 04a4 C686      		std Z+14,r12
+ 729 04a6 D786      		std Z+15,r13
+ 730 04a8 1896      		adiw r26,8
+ 731 04aa AD92      		st X+,r10
+ 732 04ac BD92      		st X+,r11
+ 733 04ae CD92      		st X+,r12
+ 734 04b0 DC92      		st X,r13
+ 735 04b2 1B97      		sbiw r26,8+3
+ 736 04b4 4482      		std Z+4,r4
+ 737 04b6 5582      		std Z+5,r5
+ 738 04b8 6682      		std Z+6,r6
+ 739 04ba 7782      		std Z+7,r7
+ 740 04bc D101      		movw r26,r2
+ 741 04be 1C92      		st X,__zero_reg__
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 14
+
+
+ 742               	.L60:
+ 743 04c0 CB01      		movw r24,r22
+ 744               	/* epilogue start */
+ 745 04c2 DF91      		pop r29
+ 746 04c4 CF91      		pop r28
+ 747 04c6 1F91      		pop r17
+ 748 04c8 0F91      		pop r16
+ 749 04ca FF90      		pop r15
+ 750 04cc EF90      		pop r14
+ 751 04ce DF90      		pop r13
+ 752 04d0 CF90      		pop r12
+ 753 04d2 BF90      		pop r11
+ 754 04d4 AF90      		pop r10
+ 755 04d6 9F90      		pop r9
+ 756 04d8 8F90      		pop r8
+ 757 04da 7F90      		pop r7
+ 758 04dc 6F90      		pop r6
+ 759 04de 5F90      		pop r5
+ 760 04e0 4F90      		pop r4
+ 761 04e2 3F90      		pop r3
+ 762 04e4 2F90      		pop r2
+ 763 04e6 0895      		ret
+ 764               	.L65:
+ 765 04e8 8EE6      		ldi r24,lo8(110)
+ 766 04ea F101      		movw r30,r2
+ 767 04ec 8083      		st Z,r24
+ 768 04ee 00C0      		rjmp .L60
+ 769               		.size	OSMemCreate, .-OSMemCreate
+ 770               	.global	OSMemGet
+ 771               		.type	OSMemGet, @function
+ 772               	OSMemGet:
+ 773 04f0 CF93      		push r28
+ 774 04f2 DF93      		push r29
+ 775               	/* prologue: function */
+ 776               	/* frame size = 0 */
+ 777 04f4 FC01      		movw r30,r24
+ 778 04f6 EB01      		movw r28,r22
+ 779               	/* #APP */
+ 780               	 ;  134 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 781 04f8 F894      		cli
+ 782               	 ;  0 "" 2
+ 783               	/* #NOAPP */
+ 784 04fa 2485      		ldd r18,Z+12
+ 785 04fc 3585      		ldd r19,Z+13
+ 786 04fe 4685      		ldd r20,Z+14
+ 787 0500 5785      		ldd r21,Z+15
+ 788 0502 2115      		cp r18,__zero_reg__
+ 789 0504 3105      		cpc r19,__zero_reg__
+ 790 0506 4105      		cpc r20,__zero_reg__
+ 791 0508 5105      		cpc r21,__zero_reg__
+ 792 050a 01F0      		breq .L67
+ 793 050c A281      		ldd r26,Z+2
+ 794 050e B381      		ldd r27,Z+3
+ 795 0510 8D91      		ld r24,X+
+ 796 0512 9C91      		ld r25,X
+ 797 0514 1197      		sbiw r26,1
+ 798 0516 9383      		std Z+3,r25
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 15
+
+
+ 799 0518 8283      		std Z+2,r24
+ 800 051a 2150      		subi r18,lo8(-(-1))
+ 801 051c 3040      		sbci r19,hi8(-(-1))
+ 802 051e 4040      		sbci r20,hlo8(-(-1))
+ 803 0520 5040      		sbci r21,hhi8(-(-1))
+ 804 0522 2487      		std Z+12,r18
+ 805 0524 3587      		std Z+13,r19
+ 806 0526 4687      		std Z+14,r20
+ 807 0528 5787      		std Z+15,r21
+ 808               	/* #APP */
+ 809               	 ;  139 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 810 052a 7894      		sei
+ 811               	 ;  0 "" 2
+ 812               	/* #NOAPP */
+ 813 052c 1882      		st Y,__zero_reg__
+ 814               	.L68:
+ 815 052e CD01      		movw r24,r26
+ 816               	/* epilogue start */
+ 817 0530 DF91      		pop r29
+ 818 0532 CF91      		pop r28
+ 819 0534 0895      		ret
+ 820               	.L67:
+ 821               	/* #APP */
+ 822               	 ;  143 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 823 0536 7894      		sei
+ 824               	 ;  0 "" 2
+ 825               	/* #NOAPP */
+ 826 0538 81E7      		ldi r24,lo8(113)
+ 827 053a 8883      		st Y,r24
+ 828 053c A0E0      		ldi r26,lo8(0)
+ 829 053e B0E0      		ldi r27,hi8(0)
+ 830 0540 00C0      		rjmp .L68
+ 831               		.size	OSMemGet, .-OSMemGet
+ 832               	.global	OSMemPut
+ 833               		.type	OSMemPut, @function
+ 834               	OSMemPut:
+ 835 0542 CF93      		push r28
+ 836 0544 DF93      		push r29
+ 837               	/* prologue: function */
+ 838               	/* frame size = 0 */
+ 839 0546 FC01      		movw r30,r24
+ 840 0548 EB01      		movw r28,r22
+ 841               	/* #APP */
+ 842               	 ;  181 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 843 054a F894      		cli
+ 844               	 ;  0 "" 2
+ 845               	/* #NOAPP */
+ 846 054c 2485      		ldd r18,Z+12
+ 847 054e 3585      		ldd r19,Z+13
+ 848 0550 4685      		ldd r20,Z+14
+ 849 0552 5785      		ldd r21,Z+15
+ 850 0554 8085      		ldd r24,Z+8
+ 851 0556 9185      		ldd r25,Z+9
+ 852 0558 A285      		ldd r26,Z+10
+ 853 055a B385      		ldd r27,Z+11
+ 854 055c 2817      		cp r18,r24
+ 855 055e 3907      		cpc r19,r25
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 16
+
+
+ 856 0560 4A07      		cpc r20,r26
+ 857 0562 5B07      		cpc r21,r27
+ 858 0564 00F0      		brlo .L71
+ 859               	/* #APP */
+ 860               	 ;  183 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 861 0566 7894      		sei
+ 862               	 ;  0 "" 2
+ 863               	/* #NOAPP */
+ 864 0568 82E7      		ldi r24,lo8(114)
+ 865               	/* epilogue start */
+ 866 056a DF91      		pop r29
+ 867 056c CF91      		pop r28
+ 868 056e 0895      		ret
+ 869               	.L71:
+ 870 0570 8281      		ldd r24,Z+2
+ 871 0572 9381      		ldd r25,Z+3
+ 872 0574 9983      		std Y+1,r25
+ 873 0576 8883      		st Y,r24
+ 874 0578 7383      		std Z+3,r23
+ 875 057a 6283      		std Z+2,r22
+ 876 057c 2F5F      		subi r18,lo8(-(1))
+ 877 057e 3F4F      		sbci r19,hi8(-(1))
+ 878 0580 4F4F      		sbci r20,hlo8(-(1))
+ 879 0582 5F4F      		sbci r21,hhi8(-(1))
+ 880 0584 2487      		std Z+12,r18
+ 881 0586 3587      		std Z+13,r19
+ 882 0588 4687      		std Z+14,r20
+ 883 058a 5787      		std Z+15,r21
+ 884               	/* #APP */
+ 885               	 ;  189 "C:/WinAVR-work/lab1/source/os_mem.c" 1
+ 886 058c 7894      		sei
+ 887               	 ;  0 "" 2
+ 888               	/* #NOAPP */
+ 889 058e 80E0      		ldi r24,lo8(0)
+ 890 0590 DF91      		pop r29
+ 891 0592 CF91      		pop r28
+ 892 0594 0895      		ret
+ 893               		.size	OSMemPut, .-OSMemPut
+ 894               	.global	OS_MemInit
+ 895               		.type	OS_MemInit, @function
+ 896               	OS_MemInit:
+ 897               	/* prologue: function */
+ 898               	/* frame size = 0 */
+ 899 0596 80E0      		ldi r24,lo8(OSMemTbl)
+ 900 0598 90E0      		ldi r25,hi8(OSMemTbl)
+ 901 059a 9093 0000 		sts (OSMemFreeList)+1,r25
+ 902 059e 8093 0000 		sts OSMemFreeList,r24
+ 903 05a2 1092 0000 		sts (OSMemTbl+2)+1,__zero_reg__
+ 904 05a6 1092 0000 		sts OSMemTbl+2,__zero_reg__
+ 905 05aa 1092 0000 		sts (OSMemTbl)+1,__zero_reg__
+ 906 05ae 1092 0000 		sts OSMemTbl,__zero_reg__
+ 907 05b2 1092 0000 		sts OSMemTbl+12,__zero_reg__
+ 908 05b6 1092 0000 		sts (OSMemTbl+12)+1,__zero_reg__
+ 909 05ba 1092 0000 		sts (OSMemTbl+12)+2,__zero_reg__
+ 910 05be 1092 0000 		sts (OSMemTbl+12)+3,__zero_reg__
+ 911 05c2 1092 0000 		sts OSMemTbl+8,__zero_reg__
+ 912 05c6 1092 0000 		sts (OSMemTbl+8)+1,__zero_reg__
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 17
+
+
+ 913 05ca 1092 0000 		sts (OSMemTbl+8)+2,__zero_reg__
+ 914 05ce 1092 0000 		sts (OSMemTbl+8)+3,__zero_reg__
+ 915 05d2 1092 0000 		sts OSMemTbl+4,__zero_reg__
+ 916 05d6 1092 0000 		sts (OSMemTbl+4)+1,__zero_reg__
+ 917 05da 1092 0000 		sts (OSMemTbl+4)+2,__zero_reg__
+ 918 05de 1092 0000 		sts (OSMemTbl+4)+3,__zero_reg__
+ 919               	/* epilogue start */
+ 920 05e2 0895      		ret
+ 921               		.size	OS_MemInit, .-OS_MemInit
+ 922               	.global	OSMutexCreate
+ 923               		.type	OSMutexCreate, @function
+ 924               	OSMutexCreate:
+ 925 05e4 CF93      		push r28
+ 926 05e6 DF93      		push r29
+ 927               	/* prologue: function */
+ 928               	/* frame size = 0 */
+ 929 05e8 982F      		mov r25,r24
+ 930 05ea EB01      		movw r28,r22
+ 931 05ec 8091 0000 		lds r24,OSIntNesting
+ 932 05f0 8823      		tst r24
+ 933 05f2 01F0      		breq .+2
+ 934 05f4 00C0      		rjmp .L82
+ 935               	/* #APP */
+ 936               	 ;  147 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 937 05f6 F894      		cli
+ 938               	 ;  0 "" 2
+ 939               	/* #NOAPP */
+ 940 05f8 292F      		mov r18,r25
+ 941 05fa 30E0      		ldi r19,lo8(0)
+ 942 05fc D901      		movw r26,r18
+ 943 05fe AA0F      		lsl r26
+ 944 0600 BB1F      		rol r27
+ 945 0602 A050      		subi r26,lo8(-(OSTCBPrioTbl))
+ 946 0604 B040      		sbci r27,hi8(-(OSTCBPrioTbl))
+ 947 0606 8D91      		ld r24,X+
+ 948 0608 9C91      		ld r25,X
+ 949 060a 1197      		sbiw r26,1
+ 950 060c 892B      		or r24,r25
+ 951 060e 01F4      		brne .L83
+ 952 0610 81E0      		ldi r24,lo8(1)
+ 953 0612 90E0      		ldi r25,hi8(1)
+ 954 0614 1196      		adiw r26,1
+ 955 0616 9C93      		st X,r25
+ 956 0618 8E93      		st -X,r24
+ 957 061a E091 0000 		lds r30,OSEventFreeList
+ 958 061e F091 0000 		lds r31,(OSEventFreeList)+1
+ 959 0622 3097      		sbiw r30,0
+ 960 0624 01F0      		breq .L84
+ 961 0626 8481      		ldd r24,Z+4
+ 962 0628 9581      		ldd r25,Z+5
+ 963 062a 9093 0000 		sts (OSEventFreeList)+1,r25
+ 964 062e 8093 0000 		sts OSEventFreeList,r24
+ 965               	/* #APP */
+ 966               	 ;  162 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 967 0632 7894      		sei
+ 968               	 ;  0 "" 2
+ 969               	/* #NOAPP */
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 18
+
+
+ 970 0634 84E0      		ldi r24,lo8(4)
+ 971 0636 8083      		st Z,r24
+ 972 0638 922F      		mov r25,r18
+ 973 063a 8827      		clr r24
+ 974 063c 8F6F      		ori r24,lo8(255)
+ 975 063e 9383      		std Z+3,r25
+ 976 0640 8283      		std Z+2,r24
+ 977 0642 1582      		std Z+5,__zero_reg__
+ 978 0644 1482      		std Z+4,__zero_reg__
+ 979 0646 1182      		std Z+1,__zero_reg__
+ 980 0648 1682      		std Z+6,__zero_reg__
+ 981 064a 1782      		std Z+7,__zero_reg__
+ 982 064c 1882      		st Y,__zero_reg__
+ 983               	.L78:
+ 984 064e CF01      		movw r24,r30
+ 985               	/* epilogue start */
+ 986 0650 DF91      		pop r29
+ 987 0652 CF91      		pop r28
+ 988 0654 0895      		ret
+ 989               	.L83:
+ 990               	/* #APP */
+ 991               	 ;  149 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 992 0656 7894      		sei
+ 993               	 ;  0 "" 2
+ 994               	/* #NOAPP */
+ 995 0658 88E2      		ldi r24,lo8(40)
+ 996 065a 8883      		st Y,r24
+ 997 065c E0E0      		ldi r30,lo8(0)
+ 998 065e F0E0      		ldi r31,hi8(0)
+ 999 0660 CF01      		movw r24,r30
+ 1000 0662 DF91      		pop r29
+ 1001 0664 CF91      		pop r28
+ 1002 0666 0895      		ret
+ 1003               	.L84:
+ 1004 0668 1D92      		st X+,__zero_reg__
+ 1005 066a 1C92      		st X,__zero_reg__
+ 1006               	/* #APP */
+ 1007               	 ;  157 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 1008 066c 7894      		sei
+ 1009               	 ;  0 "" 2
+ 1010               	/* #NOAPP */
+ 1011 066e 84E0      		ldi r24,lo8(4)
+ 1012 0670 8883      		st Y,r24
+ 1013 0672 CF01      		movw r24,r30
+ 1014 0674 DF91      		pop r29
+ 1015 0676 CF91      		pop r28
+ 1016 0678 0895      		ret
+ 1017               	.L82:
+ 1018 067a 8DE8      		ldi r24,lo8(-115)
+ 1019 067c 8883      		st Y,r24
+ 1020 067e E0E0      		ldi r30,lo8(0)
+ 1021 0680 F0E0      		ldi r31,hi8(0)
+ 1022 0682 00C0      		rjmp .L78
+ 1023               		.size	OSMutexCreate, .-OSMutexCreate
+ 1024               	.global	OSQCreate
+ 1025               		.type	OSQCreate, @function
+ 1026               	OSQCreate:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 19
+
+
+ 1027               	/* prologue: function */
+ 1028               	/* frame size = 0 */
+ 1029 0684 9C01      		movw r18,r24
+ 1030 0686 8091 0000 		lds r24,OSIntNesting
+ 1031 068a 8823      		tst r24
+ 1032 068c 01F0      		breq .+2
+ 1033 068e 00C0      		rjmp .L91
+ 1034               	/* #APP */
+ 1035               	 ;  103 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 1036 0690 F894      		cli
+ 1037               	 ;  0 "" 2
+ 1038               	/* #NOAPP */
+ 1039 0692 E091 0000 		lds r30,OSEventFreeList
+ 1040 0696 F091 0000 		lds r31,(OSEventFreeList)+1
+ 1041 069a 3097      		sbiw r30,0
+ 1042 069c 01F0      		breq .L88
+ 1043 069e 8481      		ldd r24,Z+4
+ 1044 06a0 9581      		ldd r25,Z+5
+ 1045 06a2 9093 0000 		sts (OSEventFreeList)+1,r25
+ 1046 06a6 8093 0000 		sts OSEventFreeList,r24
+ 1047               	.L88:
+ 1048               	/* #APP */
+ 1049               	 ;  108 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 1050 06aa 7894      		sei
+ 1051               	 ;  0 "" 2
+ 1052               	/* #NOAPP */
+ 1053 06ac 3097      		sbiw r30,0
+ 1054 06ae 01F0      		breq .L87
+ 1055               	/* #APP */
+ 1056               	 ;  110 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 1057 06b0 F894      		cli
+ 1058               	 ;  0 "" 2
+ 1059               	/* #NOAPP */
+ 1060 06b2 A091 0000 		lds r26,OSQFreeList
+ 1061 06b6 B091 0000 		lds r27,(OSQFreeList)+1
+ 1062 06ba 1097      		sbiw r26,0
+ 1063 06bc 01F0      		breq .L89
+ 1064 06be 8D91      		ld r24,X+
+ 1065 06c0 9C91      		ld r25,X
+ 1066 06c2 1197      		sbiw r26,1
+ 1067 06c4 9093 0000 		sts (OSQFreeList)+1,r25
+ 1068 06c8 8093 0000 		sts OSQFreeList,r24
+ 1069               	/* #APP */
+ 1070               	 ;  114 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 1071 06cc 7894      		sei
+ 1072               	 ;  0 "" 2
+ 1073               	/* #NOAPP */
+ 1074 06ce 1396      		adiw r26,2+1
+ 1075 06d0 3C93      		st X,r19
+ 1076 06d2 2E93      		st -X,r18
+ 1077 06d4 1297      		sbiw r26,2
+ 1078 06d6 CB01      		movw r24,r22
+ 1079 06d8 880F      		lsl r24
+ 1080 06da 991F      		rol r25
+ 1081 06dc 820F      		add r24,r18
+ 1082 06de 931F      		adc r25,r19
+ 1083 06e0 1596      		adiw r26,4+1
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 20
+
+
+ 1084 06e2 9C93      		st X,r25
+ 1085 06e4 8E93      		st -X,r24
+ 1086 06e6 1497      		sbiw r26,4
+ 1087 06e8 1796      		adiw r26,6+1
+ 1088 06ea 3C93      		st X,r19
+ 1089 06ec 2E93      		st -X,r18
+ 1090 06ee 1697      		sbiw r26,6
+ 1091 06f0 1996      		adiw r26,8+1
+ 1092 06f2 3C93      		st X,r19
+ 1093 06f4 2E93      		st -X,r18
+ 1094 06f6 1897      		sbiw r26,8
+ 1095 06f8 1B96      		adiw r26,10+1
+ 1096 06fa 7C93      		st X,r23
+ 1097 06fc 6E93      		st -X,r22
+ 1098 06fe 1A97      		sbiw r26,10
+ 1099 0700 1D96      		adiw r26,12+1
+ 1100 0702 1C92      		st X,__zero_reg__
+ 1101 0704 1E92      		st -X,__zero_reg__
+ 1102 0706 1C97      		sbiw r26,12
+ 1103 0708 82E0      		ldi r24,lo8(2)
+ 1104 070a 8083      		st Z,r24
+ 1105 070c 1382      		std Z+3,__zero_reg__
+ 1106 070e 1282      		std Z+2,__zero_reg__
+ 1107 0710 B583      		std Z+5,r27
+ 1108 0712 A483      		std Z+4,r26
+ 1109 0714 1182      		std Z+1,__zero_reg__
+ 1110 0716 1682      		std Z+6,__zero_reg__
+ 1111 0718 1782      		std Z+7,__zero_reg__
+ 1112               	.L87:
+ 1113 071a CF01      		movw r24,r30
+ 1114               	/* epilogue start */
+ 1115 071c 0895      		ret
+ 1116               	.L89:
+ 1117 071e 8091 0000 		lds r24,OSEventFreeList
+ 1118 0722 9091 0000 		lds r25,(OSEventFreeList)+1
+ 1119 0726 9583      		std Z+5,r25
+ 1120 0728 8483      		std Z+4,r24
+ 1121 072a F093 0000 		sts (OSEventFreeList)+1,r31
+ 1122 072e E093 0000 		sts OSEventFreeList,r30
+ 1123               	/* #APP */
+ 1124               	 ;  128 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 1125 0732 7894      		sei
+ 1126               	 ;  0 "" 2
+ 1127               	/* #NOAPP */
+ 1128               	.L91:
+ 1129 0734 E0E0      		ldi r30,lo8(0)
+ 1130 0736 F0E0      		ldi r31,hi8(0)
+ 1131 0738 CF01      		movw r24,r30
+ 1132 073a 0895      		ret
+ 1133               		.size	OSQCreate, .-OSQCreate
+ 1134               	.global	OS_QInit
+ 1135               		.type	OS_QInit, @function
+ 1136               	OS_QInit:
+ 1137               	/* prologue: function */
+ 1138               	/* frame size = 0 */
+ 1139 073c 80E0      		ldi r24,lo8(OSQTbl+14)
+ 1140 073e 90E0      		ldi r25,hi8(OSQTbl+14)
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 21
+
+
+ 1141 0740 9093 0000 		sts (OSQTbl)+1,r25
+ 1142 0744 8093 0000 		sts OSQTbl,r24
+ 1143 0748 0E97      		sbiw r24,14
+ 1144 074a 1092 0000 		sts (OSQTbl+14)+1,__zero_reg__
+ 1145 074e 1092 0000 		sts OSQTbl+14,__zero_reg__
+ 1146 0752 9093 0000 		sts (OSQFreeList)+1,r25
+ 1147 0756 8093 0000 		sts OSQFreeList,r24
+ 1148               	/* epilogue start */
+ 1149 075a 0895      		ret
+ 1150               		.size	OS_QInit, .-OS_QInit
+ 1151               	.global	OSSemCreate
+ 1152               		.type	OSSemCreate, @function
+ 1153               	OSSemCreate:
+ 1154               	/* prologue: function */
+ 1155               	/* frame size = 0 */
+ 1156 075c 9C01      		movw r18,r24
+ 1157 075e 8091 0000 		lds r24,OSIntNesting
+ 1158 0762 8823      		tst r24
+ 1159 0764 01F4      		brne .L99
+ 1160               	/* #APP */
+ 1161               	 ;  94 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1162 0766 F894      		cli
+ 1163               	 ;  0 "" 2
+ 1164               	/* #NOAPP */
+ 1165 0768 E091 0000 		lds r30,OSEventFreeList
+ 1166 076c F091 0000 		lds r31,(OSEventFreeList)+1
+ 1167 0770 3097      		sbiw r30,0
+ 1168 0772 01F0      		breq .L97
+ 1169 0774 8481      		ldd r24,Z+4
+ 1170 0776 9581      		ldd r25,Z+5
+ 1171 0778 9093 0000 		sts (OSEventFreeList)+1,r25
+ 1172 077c 8093 0000 		sts OSEventFreeList,r24
+ 1173               	.L97:
+ 1174               	/* #APP */
+ 1175               	 ;  99 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1176 0780 7894      		sei
+ 1177               	 ;  0 "" 2
+ 1178               	/* #NOAPP */
+ 1179 0782 3097      		sbiw r30,0
+ 1180 0784 01F0      		breq .L96
+ 1181 0786 83E0      		ldi r24,lo8(3)
+ 1182 0788 8083      		st Z,r24
+ 1183 078a 3383      		std Z+3,r19
+ 1184 078c 2283      		std Z+2,r18
+ 1185 078e 1582      		std Z+5,__zero_reg__
+ 1186 0790 1482      		std Z+4,__zero_reg__
+ 1187 0792 1182      		std Z+1,__zero_reg__
+ 1188 0794 1682      		std Z+6,__zero_reg__
+ 1189 0796 1782      		std Z+7,__zero_reg__
+ 1190               	.L96:
+ 1191 0798 CF01      		movw r24,r30
+ 1192               	/* epilogue start */
+ 1193 079a 0895      		ret
+ 1194               	.L99:
+ 1195 079c E0E0      		ldi r30,lo8(0)
+ 1196 079e F0E0      		ldi r31,hi8(0)
+ 1197 07a0 CF01      		movw r24,r30
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 22
+
+
+ 1198 07a2 0895      		ret
+ 1199               		.size	OSSemCreate, .-OSSemCreate
+ 1200               	.global	OSSemQuery
+ 1201               		.type	OSSemQuery, @function
+ 1202               	OSSemQuery:
+ 1203               	/* prologue: function */
+ 1204               	/* frame size = 0 */
+ 1205 07a4 FC01      		movw r30,r24
+ 1206 07a6 DB01      		movw r26,r22
+ 1207               	/* #APP */
+ 1208               	 ;  375 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1209 07a8 F894      		cli
+ 1210               	 ;  0 "" 2
+ 1211               	/* #NOAPP */
+ 1212 07aa 8181      		ldd r24,Z+1
+ 1213 07ac 1496      		adiw r26,4
+ 1214 07ae 8C93      		st X,r24
+ 1215 07b0 1497      		sbiw r26,4
+ 1216 07b2 8681      		ldd r24,Z+6
+ 1217 07b4 1296      		adiw r26,2
+ 1218 07b6 8C93      		st X,r24
+ 1219 07b8 1297      		sbiw r26,2
+ 1220 07ba 8781      		ldd r24,Z+7
+ 1221 07bc 1396      		adiw r26,3
+ 1222 07be 8C93      		st X,r24
+ 1223 07c0 1397      		sbiw r26,3
+ 1224 07c2 8281      		ldd r24,Z+2
+ 1225 07c4 9381      		ldd r25,Z+3
+ 1226 07c6 8D93      		st X+,r24
+ 1227 07c8 9C93      		st X,r25
+ 1228               	/* #APP */
+ 1229               	 ;  411 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1230 07ca 7894      		sei
+ 1231               	 ;  0 "" 2
+ 1232               	/* #NOAPP */
+ 1233 07cc 80E0      		ldi r24,lo8(0)
+ 1234               	/* epilogue start */
+ 1235 07ce 0895      		ret
+ 1236               		.size	OSSemQuery, .-OSSemQuery
+ 1237               	.global	OS_TCBInit
+ 1238               		.type	OS_TCBInit, @function
+ 1239               	OS_TCBInit:
+ 1240 07d0 1F93      		push r17
+ 1241 07d2 CF93      		push r28
+ 1242 07d4 DF93      		push r29
+ 1243               	/* prologue: function */
+ 1244               	/* frame size = 0 */
+ 1245 07d6 182F      		mov r17,r24
+ 1246               	/* #APP */
+ 1247               	 ;  1043 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1248 07d8 F894      		cli
+ 1249               	 ;  0 "" 2
+ 1250               	/* #NOAPP */
+ 1251 07da C091 0000 		lds r28,OSTCBFreeList
+ 1252 07de D091 0000 		lds r29,(OSTCBFreeList)+1
+ 1253 07e2 2097      		sbiw r28,0
+ 1254 07e4 01F4      		brne .+2
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 23
+
+
+ 1255 07e6 00C0      		rjmp .L103
+ 1256 07e8 8A81      		ldd r24,Y+2
+ 1257 07ea 9B81      		ldd r25,Y+3
+ 1258 07ec 9093 0000 		sts (OSTCBFreeList)+1,r25
+ 1259 07f0 8093 0000 		sts OSTCBFreeList,r24
+ 1260               	/* #APP */
+ 1261               	 ;  1047 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1262 07f4 7894      		sei
+ 1263               	 ;  0 "" 2
+ 1264               	/* #NOAPP */
+ 1265 07f6 7983      		std Y+1,r23
+ 1266 07f8 6883      		st Y,r22
+ 1267 07fa 1E87      		std Y+14,r17
+ 1268 07fc 1D86      		std Y+13,__zero_reg__
+ 1269 07fe 1C86      		std Y+12,__zero_reg__
+ 1270 0800 1B86      		std Y+11,__zero_reg__
+ 1271 0802 E12F      		mov r30,r17
+ 1272 0804 E695      		lsr r30
+ 1273 0806 E695      		lsr r30
+ 1274 0808 E695      		lsr r30
+ 1275 080a E88B      		std Y+16,r30
+ 1276 080c F0E0      		ldi r31,lo8(0)
+ 1277 080e E050      		subi r30,lo8(-(OSMapTbl))
+ 1278 0810 F040      		sbci r31,hi8(-(OSMapTbl))
+ 1279 0812 8081      		ld r24,Z
+ 1280 0814 8A8B      		std Y+18,r24
+ 1281 0816 E12F      		mov r30,r17
+ 1282 0818 E770      		andi r30,lo8(7)
+ 1283 081a EF87      		std Y+15,r30
+ 1284 081c F0E0      		ldi r31,lo8(0)
+ 1285 081e E050      		subi r30,lo8(-(OSMapTbl))
+ 1286 0820 F040      		sbci r31,hi8(-(OSMapTbl))
+ 1287 0822 8081      		ld r24,Z
+ 1288 0824 898B      		std Y+17,r24
+ 1289 0826 1F82      		std Y+7,__zero_reg__
+ 1290 0828 1E82      		std Y+6,__zero_reg__
+ 1291 082a 1986      		std Y+9,__zero_reg__
+ 1292 082c 1886      		std Y+8,__zero_reg__
+ 1293 082e CE01      		movw r24,r28
+ 1294 0830 0E94 0000 		call OSTCBInitHook
+ 1295 0834 CE01      		movw r24,r28
+ 1296 0836 0E94 0000 		call OSTaskCreateHook
+ 1297               	/* #APP */
+ 1298               	 ;  1094 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1299 083a F894      		cli
+ 1300               	 ;  0 "" 2
+ 1301               	/* #NOAPP */
+ 1302 083c E12F      		mov r30,r17
+ 1303 083e F0E0      		ldi r31,lo8(0)
+ 1304 0840 EE0F      		lsl r30
+ 1305 0842 FF1F      		rol r31
+ 1306 0844 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 1307 0846 F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 1308 0848 D183      		std Z+1,r29
+ 1309 084a C083      		st Z,r28
+ 1310 084c E091 0000 		lds r30,OSTCBList
+ 1311 0850 F091 0000 		lds r31,(OSTCBList)+1
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 24
+
+
+ 1312 0854 FB83      		std Y+3,r31
+ 1313 0856 EA83      		std Y+2,r30
+ 1314 0858 1D82      		std Y+5,__zero_reg__
+ 1315 085a 1C82      		std Y+4,__zero_reg__
+ 1316 085c 3097      		sbiw r30,0
+ 1317 085e 01F0      		breq .L104
+ 1318 0860 D583      		std Z+5,r29
+ 1319 0862 C483      		std Z+4,r28
+ 1320               	.L104:
+ 1321 0864 D093 0000 		sts (OSTCBList)+1,r29
+ 1322 0868 C093 0000 		sts OSTCBList,r28
+ 1323 086c 8091 0000 		lds r24,OSRdyGrp
+ 1324 0870 9A89      		ldd r25,Y+18
+ 1325 0872 892B      		or r24,r25
+ 1326 0874 8093 0000 		sts OSRdyGrp,r24
+ 1327 0878 E889      		ldd r30,Y+16
+ 1328 087a F0E0      		ldi r31,lo8(0)
+ 1329 087c E050      		subi r30,lo8(-(OSRdyTbl))
+ 1330 087e F040      		sbci r31,hi8(-(OSRdyTbl))
+ 1331 0880 8081      		ld r24,Z
+ 1332 0882 9989      		ldd r25,Y+17
+ 1333 0884 892B      		or r24,r25
+ 1334 0886 8083      		st Z,r24
+ 1335               	/* #APP */
+ 1336               	 ;  1104 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1337 0888 7894      		sei
+ 1338               	 ;  0 "" 2
+ 1339               	/* #NOAPP */
+ 1340 088a 80E0      		ldi r24,lo8(0)
+ 1341               	/* epilogue start */
+ 1342 088c DF91      		pop r29
+ 1343 088e CF91      		pop r28
+ 1344 0890 1F91      		pop r17
+ 1345 0892 0895      		ret
+ 1346               	.L103:
+ 1347               	/* #APP */
+ 1348               	 ;  1107 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1349 0894 7894      		sei
+ 1350               	 ;  0 "" 2
+ 1351               	/* #NOAPP */
+ 1352 0896 86E4      		ldi r24,lo8(70)
+ 1353 0898 DF91      		pop r29
+ 1354 089a CF91      		pop r28
+ 1355 089c 1F91      		pop r17
+ 1356 089e 0895      		ret
+ 1357               		.size	OS_TCBInit, .-OS_TCBInit
+ 1358               	.global	OS_TaskIdle
+ 1359               		.type	OS_TaskIdle, @function
+ 1360               	OS_TaskIdle:
+ 1361               	/* prologue: function */
+ 1362               	/* frame size = 0 */
+ 1363               	.L108:
+ 1364               	/* #APP */
+ 1365               	 ;  920 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1366 08a0 F894      		cli
+ 1367               	 ;  0 "" 2
+ 1368               	/* #NOAPP */
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 25
+
+
+ 1369 08a2 8091 0000 		lds r24,OSIdleCtr
+ 1370 08a6 9091 0000 		lds r25,(OSIdleCtr)+1
+ 1371 08aa A091 0000 		lds r26,(OSIdleCtr)+2
+ 1372 08ae B091 0000 		lds r27,(OSIdleCtr)+3
+ 1373 08b2 0196      		adiw r24,1
+ 1374 08b4 A11D      		adc r26,__zero_reg__
+ 1375 08b6 B11D      		adc r27,__zero_reg__
+ 1376 08b8 8093 0000 		sts OSIdleCtr,r24
+ 1377 08bc 9093 0000 		sts (OSIdleCtr)+1,r25
+ 1378 08c0 A093 0000 		sts (OSIdleCtr)+2,r26
+ 1379 08c4 B093 0000 		sts (OSIdleCtr)+3,r27
+ 1380               	/* #APP */
+ 1381               	 ;  922 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1382 08c8 7894      		sei
+ 1383               	 ;  0 "" 2
+ 1384               	/* #NOAPP */
+ 1385 08ca 0E94 0000 		call OSTaskIdleHook
+ 1386 08ce 00C0      		rjmp .L108
+ 1387               		.size	OS_TaskIdle, .-OS_TaskIdle
+ 1388               	.global	OS_Sched
+ 1389               		.type	OS_Sched, @function
+ 1390               	OS_Sched:
+ 1391               	/* prologue: function */
+ 1392               	/* frame size = 0 */
+ 1393               	/* #APP */
+ 1394               	 ;  877 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1395 08d0 F894      		cli
+ 1396               	 ;  0 "" 2
+ 1397               	/* #NOAPP */
+ 1398 08d2 8091 0000 		lds r24,OSIntNesting
+ 1399 08d6 8823      		tst r24
+ 1400 08d8 01F0      		breq .+2
+ 1401 08da 00C0      		rjmp .L111
+ 1402 08dc 8091 0000 		lds r24,OSLockNesting
+ 1403 08e0 8823      		tst r24
+ 1404 08e2 01F4      		brne .L111
+ 1405 08e4 E091 0000 		lds r30,OSRdyGrp
+ 1406 08e8 F0E0      		ldi r31,lo8(0)
+ 1407 08ea E050      		subi r30,lo8(-(OSUnMapTbl))
+ 1408 08ec F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 1409 08ee 8081      		ld r24,Z
+ 1410 08f0 E82F      		mov r30,r24
+ 1411 08f2 F0E0      		ldi r31,lo8(0)
+ 1412 08f4 E050      		subi r30,lo8(-(OSRdyTbl))
+ 1413 08f6 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 1414 08f8 E081      		ld r30,Z
+ 1415 08fa F0E0      		ldi r31,lo8(0)
+ 1416 08fc E050      		subi r30,lo8(-(OSUnMapTbl))
+ 1417 08fe F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 1418 0900 982F      		mov r25,r24
+ 1419 0902 990F      		lsl r25
+ 1420 0904 990F      		lsl r25
+ 1421 0906 990F      		lsl r25
+ 1422 0908 8081      		ld r24,Z
+ 1423 090a 980F      		add r25,r24
+ 1424 090c 9093 0000 		sts OSPrioHighRdy,r25
+ 1425 0910 8091 0000 		lds r24,OSPrioCur
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 26
+
+
+ 1426 0914 9817      		cp r25,r24
+ 1427 0916 01F0      		breq .L111
+ 1428 0918 E92F      		mov r30,r25
+ 1429 091a F0E0      		ldi r31,lo8(0)
+ 1430 091c EE0F      		lsl r30
+ 1431 091e FF1F      		rol r31
+ 1432 0920 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 1433 0922 F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 1434 0924 8081      		ld r24,Z
+ 1435 0926 9181      		ldd r25,Z+1
+ 1436 0928 9093 0000 		sts (OSTCBHighRdy)+1,r25
+ 1437 092c 8093 0000 		sts OSTCBHighRdy,r24
+ 1438 0930 8091 0000 		lds r24,OSCtxSwCtr
+ 1439 0934 9091 0000 		lds r25,(OSCtxSwCtr)+1
+ 1440 0938 A091 0000 		lds r26,(OSCtxSwCtr)+2
+ 1441 093c B091 0000 		lds r27,(OSCtxSwCtr)+3
+ 1442 0940 0196      		adiw r24,1
+ 1443 0942 A11D      		adc r26,__zero_reg__
+ 1444 0944 B11D      		adc r27,__zero_reg__
+ 1445 0946 8093 0000 		sts OSCtxSwCtr,r24
+ 1446 094a 9093 0000 		sts (OSCtxSwCtr)+1,r25
+ 1447 094e A093 0000 		sts (OSCtxSwCtr)+2,r26
+ 1448 0952 B093 0000 		sts (OSCtxSwCtr)+3,r27
+ 1449 0956 0E94 0000 		call OSCtxSw
+ 1450               	.L111:
+ 1451               	/* #APP */
+ 1452               	 ;  887 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1453 095a 7894      		sei
+ 1454               	 ;  0 "" 2
+ 1455               	/* epilogue start */
+ 1456               	/* #NOAPP */
+ 1457 095c 0895      		ret
+ 1458               		.size	OS_Sched, .-OS_Sched
+ 1459               	.global	OSTimeDly
+ 1460               		.type	OSTimeDly, @function
+ 1461               	OSTimeDly:
+ 1462               	/* prologue: function */
+ 1463               	/* frame size = 0 */
+ 1464 095e 9C01      		movw r18,r24
+ 1465 0960 0097      		sbiw r24,0
+ 1466 0962 01F0      		breq .L116
+ 1467               	/* #APP */
+ 1468               	 ;  43 "C:/WinAVR-work/lab1/source/os_time.c" 1
+ 1469 0964 F894      		cli
+ 1470               	 ;  0 "" 2
+ 1471               	/* #NOAPP */
+ 1472 0966 A091 0000 		lds r26,OSTCBCur
+ 1473 096a B091 0000 		lds r27,(OSTCBCur)+1
+ 1474 096e 5096      		adiw r26,16
+ 1475 0970 EC91      		ld r30,X
+ 1476 0972 5097      		sbiw r26,16
+ 1477 0974 F0E0      		ldi r31,lo8(0)
+ 1478 0976 E050      		subi r30,lo8(-(OSRdyTbl))
+ 1479 0978 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 1480 097a 5196      		adiw r26,17
+ 1481 097c 8C91      		ld r24,X
+ 1482 097e 5197      		sbiw r26,17
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 27
+
+
+ 1483 0980 8095      		com r24
+ 1484 0982 9081      		ld r25,Z
+ 1485 0984 8923      		and r24,r25
+ 1486 0986 8083      		st Z,r24
+ 1487 0988 8823      		tst r24
+ 1488 098a 01F4      		brne .L115
+ 1489 098c 5296      		adiw r26,18
+ 1490 098e 9C91      		ld r25,X
+ 1491 0990 5297      		sbiw r26,18
+ 1492 0992 9095      		com r25
+ 1493 0994 8091 0000 		lds r24,OSRdyGrp
+ 1494 0998 8923      		and r24,r25
+ 1495 099a 8093 0000 		sts OSRdyGrp,r24
+ 1496               	.L115:
+ 1497 099e 1C96      		adiw r26,11+1
+ 1498 09a0 3C93      		st X,r19
+ 1499 09a2 2E93      		st -X,r18
+ 1500 09a4 1B97      		sbiw r26,11
+ 1501               	/* #APP */
+ 1502               	 ;  48 "C:/WinAVR-work/lab1/source/os_time.c" 1
+ 1503 09a6 7894      		sei
+ 1504               	 ;  0 "" 2
+ 1505               	/* #NOAPP */
+ 1506 09a8 0E94 0000 		call OS_Sched
+ 1507               	.L116:
+ 1508 09ac 0895      		ret
+ 1509               		.size	OSTimeDly, .-OSTimeDly
+ 1510               	.global	OSTimeDlyHMSM
+ 1511               		.type	OSTimeDlyHMSM, @function
+ 1512               	OSTimeDlyHMSM:
+ 1513 09ae 8F92      		push r8
+ 1514 09b0 9F92      		push r9
+ 1515 09b2 AF92      		push r10
+ 1516 09b4 BF92      		push r11
+ 1517 09b6 CF92      		push r12
+ 1518 09b8 DF92      		push r13
+ 1519 09ba EF92      		push r14
+ 1520 09bc FF92      		push r15
+ 1521 09be 0F93      		push r16
+ 1522 09c0 1F93      		push r17
+ 1523 09c2 CF93      		push r28
+ 1524 09c4 DF93      		push r29
+ 1525               	/* prologue: function */
+ 1526               	/* frame size = 0 */
+ 1527 09c6 882E      		mov r8,r24
+ 1528 09c8 162F      		mov r17,r22
+ 1529 09ca 942E      		mov r9,r20
+ 1530 09cc 8823      		tst r24
+ 1531 09ce 01F0      		breq .L128
+ 1532               	.L118:
+ 1533 09d0 1C33      		cpi r17,lo8(60)
+ 1534 09d2 00F4      		brsh .L129
+ 1535               	.L119:
+ 1536 09d4 8BE3      		ldi r24,lo8(59)
+ 1537 09d6 8915      		cp r24,r9
+ 1538 09d8 00F0      		brlo .L130
+ 1539               	.L120:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 28
+
+
+ 1540 09da 93E0      		ldi r25,hi8(1000)
+ 1541 09dc 283E      		cpi r18,lo8(1000)
+ 1542 09de 3907      		cpc r19,r25
+ 1543 09e0 00F0      		brlo .L122
+ 1544 09e2 83E5      		ldi r24,lo8(83)
+ 1545               	.L121:
+ 1546               	/* epilogue start */
+ 1547 09e4 DF91      		pop r29
+ 1548 09e6 CF91      		pop r28
+ 1549 09e8 1F91      		pop r17
+ 1550 09ea 0F91      		pop r16
+ 1551 09ec FF90      		pop r15
+ 1552 09ee EF90      		pop r14
+ 1553 09f0 DF90      		pop r13
+ 1554 09f2 CF90      		pop r12
+ 1555 09f4 BF90      		pop r11
+ 1556 09f6 AF90      		pop r10
+ 1557 09f8 9F90      		pop r9
+ 1558 09fa 8F90      		pop r8
+ 1559 09fc 0895      		ret
+ 1560               	.L130:
+ 1561 09fe 82E5      		ldi r24,lo8(82)
+ 1562 0a00 00C0      		rjmp .L121
+ 1563               	.L128:
+ 1564 0a02 6623      		tst r22
+ 1565 0a04 01F4      		brne .L118
+ 1566 0a06 4423      		tst r20
+ 1567 0a08 01F4      		brne .L119
+ 1568 0a0a 2115      		cp r18,__zero_reg__
+ 1569 0a0c 3105      		cpc r19,__zero_reg__
+ 1570 0a0e 01F4      		brne .L120
+ 1571 0a10 84E5      		ldi r24,lo8(84)
+ 1572 0a12 00C0      		rjmp .L121
+ 1573               	.L129:
+ 1574 0a14 81E5      		ldi r24,lo8(81)
+ 1575 0a16 00C0      		rjmp .L121
+ 1576               	.L122:
+ 1577 0a18 B901      		movw r22,r18
+ 1578 0a1a 80E0      		ldi r24,lo8(0)
+ 1579 0a1c 90E0      		ldi r25,hi8(0)
+ 1580 0a1e 24E6      		ldi r18,lo8(100)
+ 1581 0a20 30E0      		ldi r19,hi8(100)
+ 1582 0a22 40E0      		ldi r20,hlo8(100)
+ 1583 0a24 50E0      		ldi r21,hhi8(100)
+ 1584 0a26 0E94 0000 		call __mulsi3
+ 1585 0a2a 6C50      		subi r22,lo8(-(500))
+ 1586 0a2c 7E4F      		sbci r23,hi8(-(500))
+ 1587 0a2e 8F4F      		sbci r24,hlo8(-(500))
+ 1588 0a30 9F4F      		sbci r25,hhi8(-(500))
+ 1589 0a32 28EE      		ldi r18,lo8(1000)
+ 1590 0a34 33E0      		ldi r19,hi8(1000)
+ 1591 0a36 40E0      		ldi r20,hlo8(1000)
+ 1592 0a38 50E0      		ldi r21,hhi8(1000)
+ 1593 0a3a 0E94 0000 		call __udivmodsi4
+ 1594 0a3e 5901      		movw r10,r18
+ 1595 0a40 6A01      		movw r12,r20
+ 1596 0a42 612F      		mov r22,r17
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 29
+
+
+ 1597 0a44 70E0      		ldi r23,lo8(0)
+ 1598 0a46 80E0      		ldi r24,lo8(0)
+ 1599 0a48 90E0      		ldi r25,hi8(0)
+ 1600 0a4a 2CE3      		ldi r18,lo8(60)
+ 1601 0a4c 30E0      		ldi r19,hi8(60)
+ 1602 0a4e 40E0      		ldi r20,hlo8(60)
+ 1603 0a50 50E0      		ldi r21,hhi8(60)
+ 1604 0a52 0E94 0000 		call __mulsi3
+ 1605 0a56 7B01      		movw r14,r22
+ 1606 0a58 8C01      		movw r16,r24
+ 1607 0a5a E90C      		add r14,r9
+ 1608 0a5c F11C      		adc r15,__zero_reg__
+ 1609 0a5e 011D      		adc r16,__zero_reg__
+ 1610 0a60 111D      		adc r17,__zero_reg__
+ 1611 0a62 682D      		mov r22,r8
+ 1612 0a64 70E0      		ldi r23,lo8(0)
+ 1613 0a66 80E0      		ldi r24,lo8(0)
+ 1614 0a68 90E0      		ldi r25,hi8(0)
+ 1615 0a6a 20E1      		ldi r18,lo8(3600)
+ 1616 0a6c 3EE0      		ldi r19,hi8(3600)
+ 1617 0a6e 40E0      		ldi r20,hlo8(3600)
+ 1618 0a70 50E0      		ldi r21,hhi8(3600)
+ 1619 0a72 0E94 0000 		call __mulsi3
+ 1620 0a76 E60E      		add r14,r22
+ 1621 0a78 F71E      		adc r15,r23
+ 1622 0a7a 081F      		adc r16,r24
+ 1623 0a7c 191F      		adc r17,r25
+ 1624 0a7e C801      		movw r24,r16
+ 1625 0a80 B701      		movw r22,r14
+ 1626 0a82 24E6      		ldi r18,lo8(100)
+ 1627 0a84 30E0      		ldi r19,hi8(100)
+ 1628 0a86 40E0      		ldi r20,hlo8(100)
+ 1629 0a88 50E0      		ldi r21,hhi8(100)
+ 1630 0a8a 0E94 0000 		call __mulsi3
+ 1631 0a8e A60E      		add r10,r22
+ 1632 0a90 B71E      		adc r11,r23
+ 1633 0a92 C81E      		adc r12,r24
+ 1634 0a94 D91E      		adc r13,r25
+ 1635 0a96 7601      		movw r14,r12
+ 1636 0a98 0027      		clr r16
+ 1637 0a9a 1127      		clr r17
+ 1638 0a9c E701      		movw r28,r14
+ 1639 0a9e 8FEF      		ldi r24,lo8(65535)
+ 1640 0aa0 9FEF      		ldi r25,hi8(65535)
+ 1641 0aa2 A0E0      		ldi r26,hlo8(65535)
+ 1642 0aa4 B0E0      		ldi r27,hhi8(65535)
+ 1643 0aa6 A822      		and r10,r24
+ 1644 0aa8 B922      		and r11,r25
+ 1645 0aaa CA22      		and r12,r26
+ 1646 0aac DB22      		and r13,r27
+ 1647 0aae C501      		movw r24,r10
+ 1648 0ab0 0E94 0000 		call OSTimeDly
+ 1649 0ab4 EF28      		or r14,r15
+ 1650 0ab6 01F0      		breq .L123
+ 1651               	.L126:
+ 1652 0ab8 80E0      		ldi r24,lo8(-32768)
+ 1653 0aba 90E8      		ldi r25,hi8(-32768)
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 30
+
+
+ 1654 0abc 0E94 0000 		call OSTimeDly
+ 1655 0ac0 80E0      		ldi r24,lo8(-32768)
+ 1656 0ac2 90E8      		ldi r25,hi8(-32768)
+ 1657 0ac4 0E94 0000 		call OSTimeDly
+ 1658 0ac8 2197      		sbiw r28,1
+ 1659 0aca 01F4      		brne .L126
+ 1660               	.L123:
+ 1661 0acc 80E0      		ldi r24,lo8(0)
+ 1662 0ace 00C0      		rjmp .L121
+ 1663               		.size	OSTimeDlyHMSM, .-OSTimeDlyHMSM
+ 1664               	.global	OS_TaskStat
+ 1665               		.type	OS_TaskStat, @function
+ 1666               	OS_TaskStat:
+ 1667 0ad0 DF92      		push r13
+ 1668 0ad2 EF92      		push r14
+ 1669 0ad4 FF92      		push r15
+ 1670 0ad6 0F93      		push r16
+ 1671 0ad8 1F93      		push r17
+ 1672               	/* prologue: function */
+ 1673               	/* frame size = 0 */
+ 1674 0ada 8091 0000 		lds r24,OSStatRdy
+ 1675 0ade 8823      		tst r24
+ 1676 0ae0 01F4      		brne .L132
+ 1677               	.L139:
+ 1678 0ae2 88EC      		ldi r24,lo8(200)
+ 1679 0ae4 90E0      		ldi r25,hi8(200)
+ 1680 0ae6 0E94 0000 		call OSTimeDly
+ 1681 0aea 8091 0000 		lds r24,OSStatRdy
+ 1682 0aee 8823      		tst r24
+ 1683 0af0 01F0      		breq .L139
+ 1684               	.L132:
+ 1685 0af2 6091 0000 		lds r22,OSIdleCtrMax
+ 1686 0af6 7091 0000 		lds r23,(OSIdleCtrMax)+1
+ 1687 0afa 8091 0000 		lds r24,(OSIdleCtrMax)+2
+ 1688 0afe 9091 0000 		lds r25,(OSIdleCtrMax)+3
+ 1689 0b02 24E6      		ldi r18,lo8(100)
+ 1690 0b04 30E0      		ldi r19,hi8(100)
+ 1691 0b06 40E0      		ldi r20,hlo8(100)
+ 1692 0b08 50E0      		ldi r21,hhi8(100)
+ 1693 0b0a 0E94 0000 		call __udivmodsi4
+ 1694 0b0e C901      		movw r24,r18
+ 1695 0b10 DA01      		movw r26,r20
+ 1696 0b12 7C01      		movw r14,r24
+ 1697 0b14 8D01      		movw r16,r26
+ 1698 0b16 F4E6      		ldi r31,lo8(100)
+ 1699 0b18 DF2E      		mov r13,r31
+ 1700 0b1a 00C0      		rjmp .L137
+ 1701               	.L141:
+ 1702 0b1c A801      		movw r20,r16
+ 1703 0b1e 9701      		movw r18,r14
+ 1704 0b20 0E94 0000 		call __udivmodsi4
+ 1705 0b24 8D2D      		mov r24,r13
+ 1706 0b26 821B      		sub r24,r18
+ 1707 0b28 87FD      		sbrc r24,7
+ 1708 0b2a 00C0      		rjmp .L135
+ 1709 0b2c 8093 0000 		sts OSCPUUsage,r24
+ 1710               	.L136:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 31
+
+
+ 1711 0b30 0E94 0000 		call OSTaskStatHook
+ 1712 0b34 84E6      		ldi r24,lo8(100)
+ 1713 0b36 90E0      		ldi r25,hi8(100)
+ 1714 0b38 0E94 0000 		call OSTimeDly
+ 1715               	.L137:
+ 1716               	/* #APP */
+ 1717               	 ;  970 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1718 0b3c F894      		cli
+ 1719               	 ;  0 "" 2
+ 1720               	/* #NOAPP */
+ 1721 0b3e 8091 0000 		lds r24,OSIdleCtr
+ 1722 0b42 9091 0000 		lds r25,(OSIdleCtr)+1
+ 1723 0b46 A091 0000 		lds r26,(OSIdleCtr)+2
+ 1724 0b4a B091 0000 		lds r27,(OSIdleCtr)+3
+ 1725 0b4e 8093 0000 		sts OSIdleCtrRun,r24
+ 1726 0b52 9093 0000 		sts (OSIdleCtrRun)+1,r25
+ 1727 0b56 A093 0000 		sts (OSIdleCtrRun)+2,r26
+ 1728 0b5a B093 0000 		sts (OSIdleCtrRun)+3,r27
+ 1729 0b5e 6091 0000 		lds r22,OSIdleCtr
+ 1730 0b62 7091 0000 		lds r23,(OSIdleCtr)+1
+ 1731 0b66 8091 0000 		lds r24,(OSIdleCtr)+2
+ 1732 0b6a 9091 0000 		lds r25,(OSIdleCtr)+3
+ 1733 0b6e 1092 0000 		sts OSIdleCtr,__zero_reg__
+ 1734 0b72 1092 0000 		sts (OSIdleCtr)+1,__zero_reg__
+ 1735 0b76 1092 0000 		sts (OSIdleCtr)+2,__zero_reg__
+ 1736 0b7a 1092 0000 		sts (OSIdleCtr)+3,__zero_reg__
+ 1737               	/* #APP */
+ 1738               	 ;  974 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1739 0b7e 7894      		sei
+ 1740               	 ;  0 "" 2
+ 1741               	/* #NOAPP */
+ 1742 0b80 E114      		cp r14,__zero_reg__
+ 1743 0b82 F104      		cpc r15,__zero_reg__
+ 1744 0b84 0105      		cpc r16,__zero_reg__
+ 1745 0b86 1105      		cpc r17,__zero_reg__
+ 1746 0b88 01F4      		brne .L141
+ 1747 0b8a 1092 0000 		sts OSCPUUsage,__zero_reg__
+ 1748 0b8e 6091 0000 		lds r22,OSIdleCtrMax
+ 1749 0b92 7091 0000 		lds r23,(OSIdleCtrMax)+1
+ 1750 0b96 8091 0000 		lds r24,(OSIdleCtrMax)+2
+ 1751 0b9a 9091 0000 		lds r25,(OSIdleCtrMax)+3
+ 1752 0b9e 24E6      		ldi r18,lo8(100)
+ 1753 0ba0 30E0      		ldi r19,hi8(100)
+ 1754 0ba2 40E0      		ldi r20,hlo8(100)
+ 1755 0ba4 50E0      		ldi r21,hhi8(100)
+ 1756 0ba6 0E94 0000 		call __udivmodsi4
+ 1757 0baa C901      		movw r24,r18
+ 1758 0bac DA01      		movw r26,r20
+ 1759 0bae 7C01      		movw r14,r24
+ 1760 0bb0 8D01      		movw r16,r26
+ 1761 0bb2 00C0      		rjmp .L136
+ 1762               	.L135:
+ 1763 0bb4 1092 0000 		sts OSCPUUsage,__zero_reg__
+ 1764 0bb8 00C0      		rjmp .L136
+ 1765               		.size	OS_TaskStat, .-OS_TaskStat
+ 1766               	.global	OSStatInit
+ 1767               		.type	OSStatInit, @function
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 32
+
+
+ 1768               	OSStatInit:
+ 1769               	/* prologue: function */
+ 1770               	/* frame size = 0 */
+ 1771 0bba 82E0      		ldi r24,lo8(2)
+ 1772 0bbc 90E0      		ldi r25,hi8(2)
+ 1773 0bbe 0E94 0000 		call OSTimeDly
+ 1774               	/* #APP */
+ 1775               	 ;  339 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1776 0bc2 F894      		cli
+ 1777               	 ;  0 "" 2
+ 1778               	/* #NOAPP */
+ 1779 0bc4 1092 0000 		sts OSIdleCtr,__zero_reg__
+ 1780 0bc8 1092 0000 		sts (OSIdleCtr)+1,__zero_reg__
+ 1781 0bcc 1092 0000 		sts (OSIdleCtr)+2,__zero_reg__
+ 1782 0bd0 1092 0000 		sts (OSIdleCtr)+3,__zero_reg__
+ 1783               	/* #APP */
+ 1784               	 ;  341 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1785 0bd4 7894      		sei
+ 1786               	 ;  0 "" 2
+ 1787               	/* #NOAPP */
+ 1788 0bd6 84E6      		ldi r24,lo8(100)
+ 1789 0bd8 90E0      		ldi r25,hi8(100)
+ 1790 0bda 0E94 0000 		call OSTimeDly
+ 1791               	/* #APP */
+ 1792               	 ;  343 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1793 0bde F894      		cli
+ 1794               	 ;  0 "" 2
+ 1795               	/* #NOAPP */
+ 1796 0be0 8091 0000 		lds r24,OSIdleCtr
+ 1797 0be4 9091 0000 		lds r25,(OSIdleCtr)+1
+ 1798 0be8 A091 0000 		lds r26,(OSIdleCtr)+2
+ 1799 0bec B091 0000 		lds r27,(OSIdleCtr)+3
+ 1800 0bf0 8093 0000 		sts OSIdleCtrMax,r24
+ 1801 0bf4 9093 0000 		sts (OSIdleCtrMax)+1,r25
+ 1802 0bf8 A093 0000 		sts (OSIdleCtrMax)+2,r26
+ 1803 0bfc B093 0000 		sts (OSIdleCtrMax)+3,r27
+ 1804 0c00 81E0      		ldi r24,lo8(1)
+ 1805 0c02 8093 0000 		sts OSStatRdy,r24
+ 1806               	/* #APP */
+ 1807               	 ;  346 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 1808 0c06 7894      		sei
+ 1809               	 ;  0 "" 2
+ 1810               	/* epilogue start */
+ 1811               	/* #NOAPP */
+ 1812 0c08 0895      		ret
+ 1813               		.size	OSStatInit, .-OSStatInit
+ 1814               	.global	OSTaskCreate
+ 1815               		.type	OSTaskCreate, @function
+ 1816               	OSTaskCreate:
+ 1817 0c0a AF92      		push r10
+ 1818 0c0c BF92      		push r11
+ 1819 0c0e CF92      		push r12
+ 1820 0c10 DF92      		push r13
+ 1821 0c12 EF92      		push r14
+ 1822 0c14 FF92      		push r15
+ 1823 0c16 0F93      		push r16
+ 1824 0c18 1F93      		push r17
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 33
+
+
+ 1825 0c1a CF93      		push r28
+ 1826 0c1c DF93      		push r29
+ 1827               	/* prologue: function */
+ 1828               	/* frame size = 0 */
+ 1829 0c1e FC01      		movw r30,r24
+ 1830 0c20 122F      		mov r17,r18
+ 1831               	/* #APP */
+ 1832               	 ;  172 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1833 0c22 F894      		cli
+ 1834               	 ;  0 "" 2
+ 1835               	/* #NOAPP */
+ 1836 0c24 C22F      		mov r28,r18
+ 1837 0c26 D0E0      		ldi r29,lo8(0)
+ 1838 0c28 CC0F      		lsl r28
+ 1839 0c2a DD1F      		rol r29
+ 1840 0c2c C050      		subi r28,lo8(-(OSTCBPrioTbl))
+ 1841 0c2e D040      		sbci r29,hi8(-(OSTCBPrioTbl))
+ 1842 0c30 8881      		ld r24,Y
+ 1843 0c32 9981      		ldd r25,Y+1
+ 1844 0c34 892B      		or r24,r25
+ 1845 0c36 01F0      		breq .L149
+ 1846               	/* #APP */
+ 1847               	 ;  193 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1848 0c38 7894      		sei
+ 1849               	 ;  0 "" 2
+ 1850               	/* #NOAPP */
+ 1851 0c3a 18E2      		ldi r17,lo8(40)
+ 1852               	.L147:
+ 1853 0c3c 812F      		mov r24,r17
+ 1854               	/* epilogue start */
+ 1855 0c3e DF91      		pop r29
+ 1856 0c40 CF91      		pop r28
+ 1857 0c42 1F91      		pop r17
+ 1858 0c44 0F91      		pop r16
+ 1859 0c46 FF90      		pop r15
+ 1860 0c48 EF90      		pop r14
+ 1861 0c4a DF90      		pop r13
+ 1862 0c4c CF90      		pop r12
+ 1863 0c4e BF90      		pop r11
+ 1864 0c50 AF90      		pop r10
+ 1865 0c52 0895      		ret
+ 1866               	.L149:
+ 1867 0c54 81E0      		ldi r24,lo8(1)
+ 1868 0c56 90E0      		ldi r25,hi8(1)
+ 1869 0c58 9983      		std Y+1,r25
+ 1870 0c5a 8883      		st Y,r24
+ 1871               	/* #APP */
+ 1872               	 ;  176 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1873 0c5c 7894      		sei
+ 1874               	 ;  0 "" 2
+ 1875               	/* #NOAPP */
+ 1876 0c5e CF01      		movw r24,r30
+ 1877 0c60 20E0      		ldi r18,lo8(0)
+ 1878 0c62 30E0      		ldi r19,hi8(0)
+ 1879 0c64 0E94 0000 		call OSTaskStkInit
+ 1880 0c68 BC01      		movw r22,r24
+ 1881 0c6a 812F      		mov r24,r17
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 34
+
+
+ 1882 0c6c 40E0      		ldi r20,lo8(0)
+ 1883 0c6e 50E0      		ldi r21,hi8(0)
+ 1884 0c70 20E0      		ldi r18,lo8(0)
+ 1885 0c72 30E0      		ldi r19,hi8(0)
+ 1886 0c74 EE24      		clr r14
+ 1887 0c76 FF24      		clr r15
+ 1888 0c78 8701      		movw r16,r14
+ 1889 0c7a CC24      		clr r12
+ 1890 0c7c DD24      		clr r13
+ 1891 0c7e AA24      		clr r10
+ 1892 0c80 BB24      		clr r11
+ 1893 0c82 0E94 0000 		call OS_TCBInit
+ 1894 0c86 182F      		mov r17,r24
+ 1895 0c88 8823      		tst r24
+ 1896 0c8a 01F4      		brne .L146
+ 1897               	/* #APP */
+ 1898               	 ;  180 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1899 0c8c F894      		cli
+ 1900               	 ;  0 "" 2
+ 1901               	/* #NOAPP */
+ 1902 0c8e 8091 0000 		lds r24,OSTaskCtr
+ 1903 0c92 8F5F      		subi r24,lo8(-(1))
+ 1904 0c94 8093 0000 		sts OSTaskCtr,r24
+ 1905               	/* #APP */
+ 1906               	 ;  182 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1907 0c98 7894      		sei
+ 1908               	 ;  0 "" 2
+ 1909               	/* #NOAPP */
+ 1910 0c9a 8091 0000 		lds r24,OSRunning
+ 1911 0c9e 8130      		cpi r24,lo8(1)
+ 1912 0ca0 01F4      		brne .L147
+ 1913 0ca2 0E94 0000 		call OS_Sched
+ 1914 0ca6 00C0      		rjmp .L147
+ 1915               	.L146:
+ 1916               	/* #APP */
+ 1917               	 ;  187 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1918 0ca8 F894      		cli
+ 1919               	 ;  0 "" 2
+ 1920               	/* #NOAPP */
+ 1921 0caa 1982      		std Y+1,__zero_reg__
+ 1922 0cac 1882      		st Y,__zero_reg__
+ 1923               	/* #APP */
+ 1924               	 ;  189 "C:/WinAVR-work/lab1/source/os_task.c" 1
+ 1925 0cae 7894      		sei
+ 1926               	 ;  0 "" 2
+ 1927               	/* #NOAPP */
+ 1928 0cb0 00C0      		rjmp .L147
+ 1929               		.size	OSTaskCreate, .-OSTaskCreate
+ 1930               	.global	OSSemPost
+ 1931               		.type	OSSemPost, @function
+ 1932               	OSSemPost:
+ 1933               	/* prologue: function */
+ 1934               	/* frame size = 0 */
+ 1935 0cb2 FC01      		movw r30,r24
+ 1936               	/* #APP */
+ 1937               	 ;  323 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1938 0cb4 F894      		cli
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 35
+
+
+ 1939               	 ;  0 "" 2
+ 1940               	/* #NOAPP */
+ 1941 0cb6 8181      		ldd r24,Z+1
+ 1942 0cb8 8823      		tst r24
+ 1943 0cba 01F4      		brne .L155
+ 1944 0cbc 8281      		ldd r24,Z+2
+ 1945 0cbe 9381      		ldd r25,Z+3
+ 1946 0cc0 2FEF      		ldi r18,hi8(-1)
+ 1947 0cc2 8F3F      		cpi r24,lo8(-1)
+ 1948 0cc4 9207      		cpc r25,r18
+ 1949 0cc6 01F0      		breq .L153
+ 1950 0cc8 0196      		adiw r24,1
+ 1951 0cca 9383      		std Z+3,r25
+ 1952 0ccc 8283      		std Z+2,r24
+ 1953               	/* #APP */
+ 1954               	 ;  332 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1955 0cce 7894      		sei
+ 1956               	 ;  0 "" 2
+ 1957               	/* #NOAPP */
+ 1958 0cd0 80E0      		ldi r24,lo8(0)
+ 1959 0cd2 0895      		ret
+ 1960               	.L153:
+ 1961               	/* #APP */
+ 1962               	 ;  335 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1963 0cd4 7894      		sei
+ 1964               	 ;  0 "" 2
+ 1965               	/* #NOAPP */
+ 1966 0cd6 82E3      		ldi r24,lo8(50)
+ 1967 0cd8 0895      		ret
+ 1968               	.L155:
+ 1969 0cda CF01      		movw r24,r30
+ 1970 0cdc 60E0      		ldi r22,lo8(0)
+ 1971 0cde 70E0      		ldi r23,hi8(0)
+ 1972 0ce0 41E0      		ldi r20,lo8(1)
+ 1973 0ce2 0E94 0000 		call OS_EventTaskRdy
+ 1974               	/* #APP */
+ 1975               	 ;  326 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1976 0ce6 7894      		sei
+ 1977               	 ;  0 "" 2
+ 1978               	/* #NOAPP */
+ 1979 0ce8 0E94 0000 		call OS_Sched
+ 1980 0cec 80E0      		ldi r24,lo8(0)
+ 1981 0cee 0895      		ret
+ 1982               		.size	OSSemPost, .-OSSemPost
+ 1983               	.global	OSSemPend
+ 1984               		.type	OSSemPend, @function
+ 1985               	OSSemPend:
+ 1986 0cf0 0F93      		push r16
+ 1987 0cf2 1F93      		push r17
+ 1988 0cf4 CF93      		push r28
+ 1989 0cf6 DF93      		push r29
+ 1990               	/* prologue: function */
+ 1991               	/* frame size = 0 */
+ 1992 0cf8 EC01      		movw r28,r24
+ 1993 0cfa 8A01      		movw r16,r20
+ 1994 0cfc 8091 0000 		lds r24,OSIntNesting
+ 1995 0d00 8823      		tst r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 36
+
+
+ 1996 0d02 01F4      		brne .L162
+ 1997               	/* #APP */
+ 1998               	 ;  265 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 1999 0d04 F894      		cli
+ 2000               	 ;  0 "" 2
+ 2001               	/* #NOAPP */
+ 2002 0d06 8A81      		ldd r24,Y+2
+ 2003 0d08 9B81      		ldd r25,Y+3
+ 2004 0d0a 0097      		sbiw r24,0
+ 2005 0d0c 01F0      		breq .L159
+ 2006 0d0e 0197      		sbiw r24,1
+ 2007 0d10 9B83      		std Y+3,r25
+ 2008 0d12 8A83      		std Y+2,r24
+ 2009               	/* #APP */
+ 2010               	 ;  268 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2011 0d14 7894      		sei
+ 2012               	 ;  0 "" 2
+ 2013               	/* #NOAPP */
+ 2014 0d16 FA01      		movw r30,r20
+ 2015 0d18 1082      		st Z,__zero_reg__
+ 2016               	.L161:
+ 2017               	/* epilogue start */
+ 2018 0d1a DF91      		pop r29
+ 2019 0d1c CF91      		pop r28
+ 2020 0d1e 1F91      		pop r17
+ 2021 0d20 0F91      		pop r16
+ 2022 0d22 0895      		ret
+ 2023               	.L162:
+ 2024 0d24 82E0      		ldi r24,lo8(2)
+ 2025 0d26 FA01      		movw r30,r20
+ 2026 0d28 8083      		st Z,r24
+ 2027 0d2a DF91      		pop r29
+ 2028 0d2c CF91      		pop r28
+ 2029 0d2e 1F91      		pop r17
+ 2030 0d30 0F91      		pop r16
+ 2031 0d32 0895      		ret
+ 2032               	.L159:
+ 2033 0d34 E091 0000 		lds r30,OSTCBCur
+ 2034 0d38 F091 0000 		lds r31,(OSTCBCur)+1
+ 2035 0d3c 8585      		ldd r24,Z+13
+ 2036 0d3e 8160      		ori r24,lo8(1)
+ 2037 0d40 8587      		std Z+13,r24
+ 2038 0d42 7487      		std Z+12,r23
+ 2039 0d44 6387      		std Z+11,r22
+ 2040 0d46 CE01      		movw r24,r28
+ 2041 0d48 0E94 0000 		call OS_EventTaskWait
+ 2042               	/* #APP */
+ 2043               	 ;  276 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2044 0d4c 7894      		sei
+ 2045               	 ;  0 "" 2
+ 2046               	/* #NOAPP */
+ 2047 0d4e 0E94 0000 		call OS_Sched
+ 2048               	/* #APP */
+ 2049               	 ;  278 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2050 0d52 F894      		cli
+ 2051               	 ;  0 "" 2
+ 2052               	/* #NOAPP */
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 37
+
+
+ 2053 0d54 E091 0000 		lds r30,OSTCBCur
+ 2054 0d58 F091 0000 		lds r31,(OSTCBCur)+1
+ 2055 0d5c 8585      		ldd r24,Z+13
+ 2056 0d5e 80FD      		sbrc r24,0
+ 2057 0d60 00C0      		rjmp .L163
+ 2058 0d62 1782      		std Z+7,__zero_reg__
+ 2059 0d64 1682      		std Z+6,__zero_reg__
+ 2060               	/* #APP */
+ 2061               	 ;  286 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2062 0d66 7894      		sei
+ 2063               	 ;  0 "" 2
+ 2064               	/* #NOAPP */
+ 2065 0d68 F801      		movw r30,r16
+ 2066 0d6a 1082      		st Z,__zero_reg__
+ 2067 0d6c DF91      		pop r29
+ 2068 0d6e CF91      		pop r28
+ 2069 0d70 1F91      		pop r17
+ 2070 0d72 0F91      		pop r16
+ 2071 0d74 0895      		ret
+ 2072               	.L163:
+ 2073 0d76 CE01      		movw r24,r28
+ 2074 0d78 0E94 0000 		call OS_EventTO
+ 2075               	/* #APP */
+ 2076               	 ;  281 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2077 0d7c 7894      		sei
+ 2078               	 ;  0 "" 2
+ 2079               	/* #NOAPP */
+ 2080 0d7e 8AE0      		ldi r24,lo8(10)
+ 2081 0d80 F801      		movw r30,r16
+ 2082 0d82 8083      		st Z,r24
+ 2083 0d84 00C0      		rjmp .L161
+ 2084               		.size	OSSemPend, .-OSSemPend
+ 2085               	.global	OSSemDel
+ 2086               		.type	OSSemDel, @function
+ 2087               	OSSemDel:
+ 2088 0d86 FF92      		push r15
+ 2089 0d88 0F93      		push r16
+ 2090 0d8a 1F93      		push r17
+ 2091 0d8c CF93      		push r28
+ 2092 0d8e DF93      		push r29
+ 2093               	/* prologue: function */
+ 2094               	/* frame size = 0 */
+ 2095 0d90 EC01      		movw r28,r24
+ 2096 0d92 8A01      		movw r16,r20
+ 2097 0d94 8091 0000 		lds r24,OSIntNesting
+ 2098 0d98 8823      		tst r24
+ 2099 0d9a 01F4      		brne .L179
+ 2100               	/* #APP */
+ 2101               	 ;  170 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2102 0d9c F894      		cli
+ 2103               	 ;  0 "" 2
+ 2104               	/* #NOAPP */
+ 2105 0d9e F980      		ldd r15,Y+1
+ 2106 0da0 FF20      		tst r15
+ 2107 0da2 01F4      		brne .L180
+ 2108 0da4 6623      		tst r22
+ 2109 0da6 01F4      		brne .L181
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 38
+
+
+ 2110               	.L169:
+ 2111 0da8 FF20      		tst r15
+ 2112 0daa 01F4      		brne .+2
+ 2113 0dac 00C0      		rjmp .L182
+ 2114               	/* #APP */
+ 2115               	 ;  186 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2116 0dae 7894      		sei
+ 2117               	 ;  0 "" 2
+ 2118               	/* #NOAPP */
+ 2119 0db0 88E0      		ldi r24,lo8(8)
+ 2120 0db2 F801      		movw r30,r16
+ 2121 0db4 8083      		st Z,r24
+ 2122 0db6 CE01      		movw r24,r28
+ 2123 0db8 DF91      		pop r29
+ 2124 0dba CF91      		pop r28
+ 2125 0dbc 1F91      		pop r17
+ 2126 0dbe 0F91      		pop r16
+ 2127 0dc0 FF90      		pop r15
+ 2128 0dc2 0895      		ret
+ 2129               	.L181:
+ 2130 0dc4 6130      		cpi r22,lo8(1)
+ 2131 0dc6 01F0      		breq .L183
+ 2132               	/* #APP */
+ 2133               	 ;  206 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2134 0dc8 7894      		sei
+ 2135               	 ;  0 "" 2
+ 2136               	/* #NOAPP */
+ 2137 0dca 87E0      		ldi r24,lo8(7)
+ 2138 0dcc F801      		movw r30,r16
+ 2139 0dce 8083      		st Z,r24
+ 2140 0dd0 CE01      		movw r24,r28
+ 2141 0dd2 DF91      		pop r29
+ 2142 0dd4 CF91      		pop r28
+ 2143 0dd6 1F91      		pop r17
+ 2144 0dd8 0F91      		pop r16
+ 2145 0dda FF90      		pop r15
+ 2146 0ddc 0895      		ret
+ 2147               	.L180:
+ 2148 0dde FF24      		clr r15
+ 2149 0de0 F394      		inc r15
+ 2150 0de2 6623      		tst r22
+ 2151 0de4 01F0      		breq .L169
+ 2152 0de6 00C0      		rjmp .L181
+ 2153               	.L179:
+ 2154 0de8 8CE8      		ldi r24,lo8(-116)
+ 2155 0dea FA01      		movw r30,r20
+ 2156 0dec 8083      		st Z,r24
+ 2157               	.L166:
+ 2158 0dee CE01      		movw r24,r28
+ 2159               	/* epilogue start */
+ 2160 0df0 DF91      		pop r29
+ 2161 0df2 CF91      		pop r28
+ 2162 0df4 1F91      		pop r17
+ 2163 0df6 0F91      		pop r16
+ 2164 0df8 FF90      		pop r15
+ 2165 0dfa 0895      		ret
+ 2166               	.L183:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 39
+
+
+ 2167 0dfc FF20      		tst r15
+ 2168 0dfe 01F0      		breq .L172
+ 2169               	.L176:
+ 2170 0e00 CE01      		movw r24,r28
+ 2171 0e02 60E0      		ldi r22,lo8(0)
+ 2172 0e04 70E0      		ldi r23,hi8(0)
+ 2173 0e06 41E0      		ldi r20,lo8(1)
+ 2174 0e08 0E94 0000 		call OS_EventTaskRdy
+ 2175 0e0c 8981      		ldd r24,Y+1
+ 2176 0e0e 8823      		tst r24
+ 2177 0e10 01F4      		brne .L176
+ 2178               	.L172:
+ 2179 0e12 1882      		st Y,__zero_reg__
+ 2180 0e14 8091 0000 		lds r24,OSEventFreeList
+ 2181 0e18 9091 0000 		lds r25,(OSEventFreeList)+1
+ 2182 0e1c 9D83      		std Y+5,r25
+ 2183 0e1e 8C83      		std Y+4,r24
+ 2184 0e20 D093 0000 		sts (OSEventFreeList)+1,r29
+ 2185 0e24 C093 0000 		sts OSEventFreeList,r28
+ 2186               	/* #APP */
+ 2187               	 ;  198 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2188 0e28 7894      		sei
+ 2189               	 ;  0 "" 2
+ 2190               	/* #NOAPP */
+ 2191 0e2a F1E0      		ldi r31,lo8(1)
+ 2192 0e2c FF16      		cp r15,r31
+ 2193 0e2e 01F0      		breq .L184
+ 2194               	.L174:
+ 2195 0e30 F801      		movw r30,r16
+ 2196 0e32 1082      		st Z,__zero_reg__
+ 2197 0e34 C0E0      		ldi r28,lo8(0)
+ 2198 0e36 D0E0      		ldi r29,hi8(0)
+ 2199 0e38 CE01      		movw r24,r28
+ 2200 0e3a DF91      		pop r29
+ 2201 0e3c CF91      		pop r28
+ 2202 0e3e 1F91      		pop r17
+ 2203 0e40 0F91      		pop r16
+ 2204 0e42 FF90      		pop r15
+ 2205 0e44 0895      		ret
+ 2206               	.L184:
+ 2207 0e46 0E94 0000 		call OS_Sched
+ 2208 0e4a 00C0      		rjmp .L174
+ 2209               	.L182:
+ 2210 0e4c 1882      		st Y,__zero_reg__
+ 2211 0e4e 8091 0000 		lds r24,OSEventFreeList
+ 2212 0e52 9091 0000 		lds r25,(OSEventFreeList)+1
+ 2213 0e56 9D83      		std Y+5,r25
+ 2214 0e58 8C83      		std Y+4,r24
+ 2215 0e5a D093 0000 		sts (OSEventFreeList)+1,r29
+ 2216 0e5e C093 0000 		sts OSEventFreeList,r28
+ 2217               	/* #APP */
+ 2218               	 ;  182 "C:/WinAVR-work/lab1/source/os_sem.c" 1
+ 2219 0e62 7894      		sei
+ 2220               	 ;  0 "" 2
+ 2221               	/* #NOAPP */
+ 2222 0e64 F801      		movw r30,r16
+ 2223 0e66 1082      		st Z,__zero_reg__
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 40
+
+
+ 2224 0e68 C0E0      		ldi r28,lo8(0)
+ 2225 0e6a D0E0      		ldi r29,hi8(0)
+ 2226 0e6c 00C0      		rjmp .L166
+ 2227               		.size	OSSemDel, .-OSSemDel
+ 2228               	.global	OSQPend
+ 2229               		.type	OSQPend, @function
+ 2230               	OSQPend:
+ 2231 0e6e EF92      		push r14
+ 2232 0e70 FF92      		push r15
+ 2233 0e72 0F93      		push r16
+ 2234 0e74 1F93      		push r17
+ 2235 0e76 CF93      		push r28
+ 2236 0e78 DF93      		push r29
+ 2237               	/* prologue: function */
+ 2238               	/* frame size = 0 */
+ 2239 0e7a 8C01      		movw r16,r24
+ 2240 0e7c 7A01      		movw r14,r20
+ 2241 0e7e 8091 0000 		lds r24,OSIntNesting
+ 2242 0e82 8823      		tst r24
+ 2243 0e84 01F0      		breq .+2
+ 2244 0e86 00C0      		rjmp .L192
+ 2245               	/* #APP */
+ 2246               	 ;  346 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2247 0e88 F894      		cli
+ 2248               	 ;  0 "" 2
+ 2249               	/* #NOAPP */
+ 2250 0e8a F801      		movw r30,r16
+ 2251 0e8c A481      		ldd r26,Z+4
+ 2252 0e8e B581      		ldd r27,Z+5
+ 2253 0e90 1C96      		adiw r26,12
+ 2254 0e92 8D91      		ld r24,X+
+ 2255 0e94 9C91      		ld r25,X
+ 2256 0e96 1D97      		sbiw r26,12+1
+ 2257 0e98 0097      		sbiw r24,0
+ 2258 0e9a 01F0      		breq .L188
+ 2259 0e9c 1896      		adiw r26,8
+ 2260 0e9e ED91      		ld r30,X+
+ 2261 0ea0 FC91      		ld r31,X
+ 2262 0ea2 1997      		sbiw r26,8+1
+ 2263 0ea4 C191      		ld r28,Z+
+ 2264 0ea6 D191      		ld r29,Z+
+ 2265 0ea8 1996      		adiw r26,8+1
+ 2266 0eaa FC93      		st X,r31
+ 2267 0eac EE93      		st -X,r30
+ 2268 0eae 1897      		sbiw r26,8
+ 2269 0eb0 0197      		sbiw r24,1
+ 2270 0eb2 1D96      		adiw r26,12+1
+ 2271 0eb4 9C93      		st X,r25
+ 2272 0eb6 8E93      		st -X,r24
+ 2273 0eb8 1C97      		sbiw r26,12
+ 2274 0eba 1496      		adiw r26,4
+ 2275 0ebc 8D91      		ld r24,X+
+ 2276 0ebe 9C91      		ld r25,X
+ 2277 0ec0 1597      		sbiw r26,4+1
+ 2278 0ec2 E817      		cp r30,r24
+ 2279 0ec4 F907      		cpc r31,r25
+ 2280 0ec6 01F0      		breq .L193
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 41
+
+
+ 2281               	.L189:
+ 2282               	/* #APP */
+ 2283               	 ;  354 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2284 0ec8 7894      		sei
+ 2285               	 ;  0 "" 2
+ 2286               	/* #NOAPP */
+ 2287 0eca F701      		movw r30,r14
+ 2288 0ecc 1082      		st Z,__zero_reg__
+ 2289               	.L187:
+ 2290 0ece CE01      		movw r24,r28
+ 2291               	/* epilogue start */
+ 2292 0ed0 DF91      		pop r29
+ 2293 0ed2 CF91      		pop r28
+ 2294 0ed4 1F91      		pop r17
+ 2295 0ed6 0F91      		pop r16
+ 2296 0ed8 FF90      		pop r15
+ 2297 0eda EF90      		pop r14
+ 2298 0edc 0895      		ret
+ 2299               	.L188:
+ 2300 0ede E091 0000 		lds r30,OSTCBCur
+ 2301 0ee2 F091 0000 		lds r31,(OSTCBCur)+1
+ 2302 0ee6 8585      		ldd r24,Z+13
+ 2303 0ee8 8460      		ori r24,lo8(4)
+ 2304 0eea 8587      		std Z+13,r24
+ 2305 0eec 7487      		std Z+12,r23
+ 2306 0eee 6387      		std Z+11,r22
+ 2307 0ef0 C801      		movw r24,r16
+ 2308 0ef2 0E94 0000 		call OS_EventTaskWait
+ 2309               	/* #APP */
+ 2310               	 ;  361 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2311 0ef6 7894      		sei
+ 2312               	 ;  0 "" 2
+ 2313               	/* #NOAPP */
+ 2314 0ef8 0E94 0000 		call OS_Sched
+ 2315               	/* #APP */
+ 2316               	 ;  363 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2317 0efc F894      		cli
+ 2318               	 ;  0 "" 2
+ 2319               	/* #NOAPP */
+ 2320 0efe E091 0000 		lds r30,OSTCBCur
+ 2321 0f02 F091 0000 		lds r31,(OSTCBCur)+1
+ 2322 0f06 C085      		ldd r28,Z+8
+ 2323 0f08 D185      		ldd r29,Z+9
+ 2324 0f0a 2097      		sbiw r28,0
+ 2325 0f0c 01F0      		breq .L190
+ 2326 0f0e 1186      		std Z+9,__zero_reg__
+ 2327 0f10 1086      		std Z+8,__zero_reg__
+ 2328 0f12 1586      		std Z+13,__zero_reg__
+ 2329 0f14 1782      		std Z+7,__zero_reg__
+ 2330 0f16 1682      		std Z+6,__zero_reg__
+ 2331               	/* #APP */
+ 2332               	 ;  369 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2333 0f18 7894      		sei
+ 2334               	 ;  0 "" 2
+ 2335               	/* #NOAPP */
+ 2336 0f1a F701      		movw r30,r14
+ 2337 0f1c 1082      		st Z,__zero_reg__
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 42
+
+
+ 2338 0f1e CE01      		movw r24,r28
+ 2339 0f20 DF91      		pop r29
+ 2340 0f22 CF91      		pop r28
+ 2341 0f24 1F91      		pop r17
+ 2342 0f26 0F91      		pop r16
+ 2343 0f28 FF90      		pop r15
+ 2344 0f2a EF90      		pop r14
+ 2345 0f2c 0895      		ret
+ 2346               	.L193:
+ 2347 0f2e 1296      		adiw r26,2
+ 2348 0f30 8D91      		ld r24,X+
+ 2349 0f32 9C91      		ld r25,X
+ 2350 0f34 1397      		sbiw r26,2+1
+ 2351 0f36 1996      		adiw r26,8+1
+ 2352 0f38 9C93      		st X,r25
+ 2353 0f3a 8E93      		st -X,r24
+ 2354 0f3c 1897      		sbiw r26,8
+ 2355 0f3e 00C0      		rjmp .L189
+ 2356               	.L192:
+ 2357 0f40 82E0      		ldi r24,lo8(2)
+ 2358 0f42 FA01      		movw r30,r20
+ 2359 0f44 8083      		st Z,r24
+ 2360 0f46 C0E0      		ldi r28,lo8(0)
+ 2361 0f48 D0E0      		ldi r29,hi8(0)
+ 2362 0f4a 00C0      		rjmp .L187
+ 2363               	.L190:
+ 2364 0f4c C801      		movw r24,r16
+ 2365 0f4e 0E94 0000 		call OS_EventTO
+ 2366               	/* #APP */
+ 2367               	 ;  374 "C:/WinAVR-work/lab1/source/os_q.c" 1
+ 2368 0f52 7894      		sei
+ 2369               	 ;  0 "" 2
+ 2370               	/* #NOAPP */
+ 2371 0f54 8AE0      		ldi r24,lo8(10)
+ 2372 0f56 F701      		movw r30,r14
+ 2373 0f58 8083      		st Z,r24
+ 2374 0f5a 00C0      		rjmp .L187
+ 2375               		.size	OSQPend, .-OSQPend
+ 2376               	.global	OSMutexPost
+ 2377               		.type	OSMutexPost, @function
+ 2378               	OSMutexPost:
+ 2379 0f5c CF93      		push r28
+ 2380 0f5e DF93      		push r29
+ 2381               	/* prologue: function */
+ 2382               	/* frame size = 0 */
+ 2383 0f60 EC01      		movw r28,r24
+ 2384 0f62 8091 0000 		lds r24,OSIntNesting
+ 2385 0f66 8823      		tst r24
+ 2386 0f68 01F4      		brne .L203
+ 2387               	/* #APP */
+ 2388               	 ;  419 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2389 0f6a F894      		cli
+ 2390               	 ;  0 "" 2
+ 2391               	/* #NOAPP */
+ 2392 0f6c 3A81      		ldd r19,Y+2
+ 2393 0f6e 4B81      		ldd r20,Y+3
+ 2394 0f70 A091 0000 		lds r26,OSTCBCur
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 43
+
+
+ 2395 0f74 B091 0000 		lds r27,(OSTCBCur)+1
+ 2396 0f78 1E96      		adiw r26,14
+ 2397 0f7a 8C91      		ld r24,X
+ 2398 0f7c 1E97      		sbiw r26,14
+ 2399 0f7e 8417      		cp r24,r20
+ 2400 0f80 01F0      		breq .L197
+ 2401 0f82 3817      		cp r19,r24
+ 2402 0f84 01F4      		brne .+2
+ 2403 0f86 00C0      		rjmp .L198
+ 2404               	/* #APP */
+ 2405               	 ;  424 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2406 0f88 7894      		sei
+ 2407               	 ;  0 "" 2
+ 2408               	/* #NOAPP */
+ 2409 0f8a 88E7      		ldi r24,lo8(120)
+ 2410               	.L196:
+ 2411               	/* epilogue start */
+ 2412 0f8c DF91      		pop r29
+ 2413 0f8e CF91      		pop r28
+ 2414 0f90 0895      		ret
+ 2415               	.L203:
+ 2416 0f92 85E0      		ldi r24,lo8(5)
+ 2417 0f94 DF91      		pop r29
+ 2418 0f96 CF91      		pop r28
+ 2419 0f98 0895      		ret
+ 2420               	.L197:
+ 2421 0f9a 5096      		adiw r26,16
+ 2422 0f9c EC91      		ld r30,X
+ 2423 0f9e 5097      		sbiw r26,16
+ 2424 0fa0 F0E0      		ldi r31,lo8(0)
+ 2425 0fa2 E050      		subi r30,lo8(-(OSRdyTbl))
+ 2426 0fa4 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 2427 0fa6 5196      		adiw r26,17
+ 2428 0fa8 8C91      		ld r24,X
+ 2429 0faa 5197      		sbiw r26,17
+ 2430 0fac 8095      		com r24
+ 2431 0fae 9081      		ld r25,Z
+ 2432 0fb0 8923      		and r24,r25
+ 2433 0fb2 8083      		st Z,r24
+ 2434 0fb4 8823      		tst r24
+ 2435 0fb6 01F4      		brne .L199
+ 2436 0fb8 5296      		adiw r26,18
+ 2437 0fba 9C91      		ld r25,X
+ 2438 0fbc 5297      		sbiw r26,18
+ 2439 0fbe 9095      		com r25
+ 2440 0fc0 8091 0000 		lds r24,OSRdyGrp
+ 2441 0fc4 8923      		and r24,r25
+ 2442 0fc6 8093 0000 		sts OSRdyGrp,r24
+ 2443               	.L199:
+ 2444 0fca 1E96      		adiw r26,14
+ 2445 0fcc 3C93      		st X,r19
+ 2446 0fce 1E97      		sbiw r26,14
+ 2447 0fd0 E32F      		mov r30,r19
+ 2448 0fd2 E695      		lsr r30
+ 2449 0fd4 E695      		lsr r30
+ 2450 0fd6 E695      		lsr r30
+ 2451 0fd8 5096      		adiw r26,16
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 44
+
+
+ 2452 0fda EC93      		st X,r30
+ 2453 0fdc 5097      		sbiw r26,16
+ 2454 0fde F0E0      		ldi r31,lo8(0)
+ 2455 0fe0 E050      		subi r30,lo8(-(OSMapTbl))
+ 2456 0fe2 F040      		sbci r31,hi8(-(OSMapTbl))
+ 2457 0fe4 2081      		ld r18,Z
+ 2458 0fe6 5296      		adiw r26,18
+ 2459 0fe8 2C93      		st X,r18
+ 2460 0fea 5297      		sbiw r26,18
+ 2461 0fec E32F      		mov r30,r19
+ 2462 0fee E770      		andi r30,lo8(7)
+ 2463 0ff0 1F96      		adiw r26,15
+ 2464 0ff2 EC93      		st X,r30
+ 2465 0ff4 1F97      		sbiw r26,15
+ 2466 0ff6 F0E0      		ldi r31,lo8(0)
+ 2467 0ff8 E050      		subi r30,lo8(-(OSMapTbl))
+ 2468 0ffa F040      		sbci r31,hi8(-(OSMapTbl))
+ 2469 0ffc 9081      		ld r25,Z
+ 2470 0ffe 5196      		adiw r26,17
+ 2471 1000 9C93      		st X,r25
+ 2472 1002 5197      		sbiw r26,17
+ 2473 1004 8091 0000 		lds r24,OSRdyGrp
+ 2474 1008 822B      		or r24,r18
+ 2475 100a 8093 0000 		sts OSRdyGrp,r24
+ 2476 100e 5096      		adiw r26,16
+ 2477 1010 EC91      		ld r30,X
+ 2478 1012 5097      		sbiw r26,16
+ 2479 1014 F0E0      		ldi r31,lo8(0)
+ 2480 1016 E050      		subi r30,lo8(-(OSRdyTbl))
+ 2481 1018 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 2482 101a 8081      		ld r24,Z
+ 2483 101c 982B      		or r25,r24
+ 2484 101e 9083      		st Z,r25
+ 2485 1020 E32F      		mov r30,r19
+ 2486 1022 F0E0      		ldi r31,lo8(0)
+ 2487 1024 EE0F      		lsl r30
+ 2488 1026 FF1F      		rol r31
+ 2489 1028 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 2490 102a F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 2491 102c B183      		std Z+1,r27
+ 2492 102e A083      		st Z,r26
+ 2493               	.L198:
+ 2494 1030 E42F      		mov r30,r20
+ 2495 1032 F0E0      		ldi r31,lo8(0)
+ 2496 1034 EE0F      		lsl r30
+ 2497 1036 FF1F      		rol r31
+ 2498 1038 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 2499 103a F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 2500 103c 81E0      		ldi r24,lo8(1)
+ 2501 103e 90E0      		ldi r25,hi8(1)
+ 2502 1040 9183      		std Z+1,r25
+ 2503 1042 8083      		st Z,r24
+ 2504 1044 8981      		ldd r24,Y+1
+ 2505 1046 8823      		tst r24
+ 2506 1048 01F4      		brne .L204
+ 2507 104a 8A81      		ldd r24,Y+2
+ 2508 104c 9B81      		ldd r25,Y+3
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 45
+
+
+ 2509 104e 8F6F      		ori r24,lo8(255)
+ 2510 1050 9B83      		std Y+3,r25
+ 2511 1052 8A83      		std Y+2,r24
+ 2512 1054 1D82      		std Y+5,__zero_reg__
+ 2513 1056 1C82      		std Y+4,__zero_reg__
+ 2514               	/* #APP */
+ 2515               	 ;  455 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2516 1058 7894      		sei
+ 2517               	 ;  0 "" 2
+ 2518               	/* #NOAPP */
+ 2519 105a 80E0      		ldi r24,lo8(0)
+ 2520 105c DF91      		pop r29
+ 2521 105e CF91      		pop r28
+ 2522 1060 0895      		ret
+ 2523               	.L204:
+ 2524 1062 CE01      		movw r24,r28
+ 2525 1064 60E0      		ldi r22,lo8(0)
+ 2526 1066 70E0      		ldi r23,hi8(0)
+ 2527 1068 40E1      		ldi r20,lo8(16)
+ 2528 106a 0E94 0000 		call OS_EventTaskRdy
+ 2529 106e E82F      		mov r30,r24
+ 2530 1070 F0E0      		ldi r31,lo8(0)
+ 2531 1072 8A81      		ldd r24,Y+2
+ 2532 1074 9B81      		ldd r25,Y+3
+ 2533 1076 8070      		andi r24,lo8(-256)
+ 2534 1078 8E2B      		or r24,r30
+ 2535 107a 9F2B      		or r25,r31
+ 2536 107c 9B83      		std Y+3,r25
+ 2537 107e 8A83      		std Y+2,r24
+ 2538 1080 EE0F      		lsl r30
+ 2539 1082 FF1F      		rol r31
+ 2540 1084 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 2541 1086 F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 2542 1088 8081      		ld r24,Z
+ 2543 108a 9181      		ldd r25,Z+1
+ 2544 108c 9D83      		std Y+5,r25
+ 2545 108e 8C83      		std Y+4,r24
+ 2546               	/* #APP */
+ 2547               	 ;  449 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2548 1090 7894      		sei
+ 2549               	 ;  0 "" 2
+ 2550               	/* #NOAPP */
+ 2551 1092 0E94 0000 		call OS_Sched
+ 2552 1096 80E0      		ldi r24,lo8(0)
+ 2553 1098 00C0      		rjmp .L196
+ 2554               		.size	OSMutexPost, .-OSMutexPost
+ 2555               	.global	OSMutexPend
+ 2556               		.type	OSMutexPend, @function
+ 2557               	OSMutexPend:
+ 2558 109a 0F93      		push r16
+ 2559 109c 1F93      		push r17
+ 2560 109e CF93      		push r28
+ 2561 10a0 DF93      		push r29
+ 2562               	/* prologue: function */
+ 2563               	/* frame size = 0 */
+ 2564 10a2 EC01      		movw r28,r24
+ 2565 10a4 8A01      		movw r16,r20
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 46
+
+
+ 2566 10a6 8091 0000 		lds r24,OSIntNesting
+ 2567 10aa 8823      		tst r24
+ 2568 10ac 01F4      		brne .L218
+ 2569               	/* #APP */
+ 2570               	 ;  331 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2571 10ae F894      		cli
+ 2572               	 ;  0 "" 2
+ 2573               	/* #NOAPP */
+ 2574 10b0 2A81      		ldd r18,Y+2
+ 2575 10b2 3B81      		ldd r19,Y+3
+ 2576 10b4 2F3F      		cpi r18,lo8(-1)
+ 2577 10b6 01F4      		brne .+2
+ 2578 10b8 00C0      		rjmp .L219
+ 2579 10ba 432F      		mov r20,r19
+ 2580 10bc AC81      		ldd r26,Y+4
+ 2581 10be BD81      		ldd r27,Y+5
+ 2582 10c0 1E96      		adiw r26,14
+ 2583 10c2 8C91      		ld r24,X
+ 2584 10c4 1E97      		sbiw r26,14
+ 2585 10c6 8317      		cp r24,r19
+ 2586 10c8 01F4      		brne .+2
+ 2587 10ca 00C0      		rjmp .L217
+ 2588 10cc E091 0000 		lds r30,OSTCBCur
+ 2589 10d0 F091 0000 		lds r31,(OSTCBCur)+1
+ 2590 10d4 8685      		ldd r24,Z+14
+ 2591 10d6 8217      		cp r24,r18
+ 2592 10d8 00F4      		brsh .+2
+ 2593 10da 00C0      		rjmp .L220
+ 2594               	.L209:
+ 2595 10dc 8585      		ldd r24,Z+13
+ 2596 10de 8061      		ori r24,lo8(16)
+ 2597 10e0 8587      		std Z+13,r24
+ 2598 10e2 7487      		std Z+12,r23
+ 2599 10e4 6387      		std Z+11,r22
+ 2600 10e6 CE01      		movw r24,r28
+ 2601 10e8 0E94 0000 		call OS_EventTaskWait
+ 2602               	/* #APP */
+ 2603               	 ;  368 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2604 10ec 7894      		sei
+ 2605               	 ;  0 "" 2
+ 2606               	/* #NOAPP */
+ 2607 10ee 0E94 0000 		call OS_Sched
+ 2608               	/* #APP */
+ 2609               	 ;  370 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2610 10f2 F894      		cli
+ 2611               	 ;  0 "" 2
+ 2612               	/* #NOAPP */
+ 2613 10f4 E091 0000 		lds r30,OSTCBCur
+ 2614 10f8 F091 0000 		lds r31,(OSTCBCur)+1
+ 2615 10fc 8585      		ldd r24,Z+13
+ 2616 10fe 84FD      		sbrc r24,4
+ 2617 1100 00C0      		rjmp .L221
+ 2618 1102 1782      		std Z+7,__zero_reg__
+ 2619 1104 1682      		std Z+6,__zero_reg__
+ 2620               	/* #APP */
+ 2621               	 ;  378 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2622 1106 7894      		sei
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 47
+
+
+ 2623               	 ;  0 "" 2
+ 2624               	/* #NOAPP */
+ 2625 1108 F801      		movw r30,r16
+ 2626 110a 1082      		st Z,__zero_reg__
+ 2627               	/* epilogue start */
+ 2628 110c DF91      		pop r29
+ 2629 110e CF91      		pop r28
+ 2630 1110 1F91      		pop r17
+ 2631 1112 0F91      		pop r16
+ 2632 1114 0895      		ret
+ 2633               	.L218:
+ 2634 1116 82E0      		ldi r24,lo8(2)
+ 2635 1118 FA01      		movw r30,r20
+ 2636 111a 8083      		st Z,r24
+ 2637 111c DF91      		pop r29
+ 2638 111e CF91      		pop r28
+ 2639 1120 1F91      		pop r17
+ 2640 1122 0F91      		pop r16
+ 2641 1124 0895      		ret
+ 2642               	.L210:
+ 2643 1126 1E96      		adiw r26,14
+ 2644 1128 3C93      		st X,r19
+ 2645 112a 1E97      		sbiw r26,14
+ 2646 112c E32F      		mov r30,r19
+ 2647 112e E695      		lsr r30
+ 2648 1130 E695      		lsr r30
+ 2649 1132 E695      		lsr r30
+ 2650 1134 5096      		adiw r26,16
+ 2651 1136 EC93      		st X,r30
+ 2652 1138 5097      		sbiw r26,16
+ 2653 113a F0E0      		ldi r31,lo8(0)
+ 2654 113c E050      		subi r30,lo8(-(OSMapTbl))
+ 2655 113e F040      		sbci r31,hi8(-(OSMapTbl))
+ 2656 1140 8081      		ld r24,Z
+ 2657 1142 5296      		adiw r26,18
+ 2658 1144 8C93      		st X,r24
+ 2659 1146 5297      		sbiw r26,18
+ 2660 1148 E32F      		mov r30,r19
+ 2661 114a E770      		andi r30,lo8(7)
+ 2662 114c 1F96      		adiw r26,15
+ 2663 114e EC93      		st X,r30
+ 2664 1150 1F97      		sbiw r26,15
+ 2665 1152 F0E0      		ldi r31,lo8(0)
+ 2666 1154 E050      		subi r30,lo8(-(OSMapTbl))
+ 2667 1156 F040      		sbci r31,hi8(-(OSMapTbl))
+ 2668 1158 8081      		ld r24,Z
+ 2669 115a 5196      		adiw r26,17
+ 2670 115c 8C93      		st X,r24
+ 2671 115e 5197      		sbiw r26,17
+ 2672               	.L213:
+ 2673 1160 E42F      		mov r30,r20
+ 2674 1162 F0E0      		ldi r31,lo8(0)
+ 2675 1164 EE0F      		lsl r30
+ 2676 1166 FF1F      		rol r31
+ 2677 1168 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 2678 116a F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 2679 116c B183      		std Z+1,r27
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 48
+
+
+ 2680 116e A083      		st Z,r26
+ 2681               	.L217:
+ 2682 1170 E091 0000 		lds r30,OSTCBCur
+ 2683 1174 F091 0000 		lds r31,(OSTCBCur)+1
+ 2684 1178 00C0      		rjmp .L209
+ 2685               	.L219:
+ 2686 117a C901      		movw r24,r18
+ 2687 117c 8070      		andi r24,lo8(-256)
+ 2688 117e 9B83      		std Y+3,r25
+ 2689 1180 8A83      		std Y+2,r24
+ 2690 1182 E091 0000 		lds r30,OSTCBCur
+ 2691 1186 F091 0000 		lds r31,(OSTCBCur)+1
+ 2692 118a 2685      		ldd r18,Z+14
+ 2693 118c 30E0      		ldi r19,lo8(0)
+ 2694 118e 282B      		or r18,r24
+ 2695 1190 392B      		or r19,r25
+ 2696 1192 3B83      		std Y+3,r19
+ 2697 1194 2A83      		std Y+2,r18
+ 2698 1196 FD83      		std Y+5,r31
+ 2699 1198 EC83      		std Y+4,r30
+ 2700               	/* #APP */
+ 2701               	 ;  336 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2702 119a 7894      		sei
+ 2703               	 ;  0 "" 2
+ 2704               	/* #NOAPP */
+ 2705 119c FA01      		movw r30,r20
+ 2706 119e 1082      		st Z,__zero_reg__
+ 2707 11a0 DF91      		pop r29
+ 2708 11a2 CF91      		pop r28
+ 2709 11a4 1F91      		pop r17
+ 2710 11a6 0F91      		pop r16
+ 2711 11a8 0895      		ret
+ 2712               	.L220:
+ 2713 11aa 5096      		adiw r26,16
+ 2714 11ac 8C91      		ld r24,X
+ 2715 11ae 5097      		sbiw r26,16
+ 2716 11b0 E82F      		mov r30,r24
+ 2717 11b2 F0E0      		ldi r31,lo8(0)
+ 2718 11b4 E050      		subi r30,lo8(-(OSRdyTbl))
+ 2719 11b6 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 2720 11b8 5081      		ld r21,Z
+ 2721 11ba 5196      		adiw r26,17
+ 2722 11bc 9C91      		ld r25,X
+ 2723 11be 5197      		sbiw r26,17
+ 2724 11c0 852F      		mov r24,r21
+ 2725 11c2 8923      		and r24,r25
+ 2726 11c4 01F4      		brne .+2
+ 2727 11c6 00C0      		rjmp .L210
+ 2728 11c8 892F      		mov r24,r25
+ 2729 11ca 8095      		com r24
+ 2730 11cc 8523      		and r24,r21
+ 2731 11ce 8083      		st Z,r24
+ 2732 11d0 8823      		tst r24
+ 2733 11d2 01F4      		brne .L211
+ 2734 11d4 5296      		adiw r26,18
+ 2735 11d6 9C91      		ld r25,X
+ 2736 11d8 5297      		sbiw r26,18
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 49
+
+
+ 2737 11da 9095      		com r25
+ 2738 11dc 8091 0000 		lds r24,OSRdyGrp
+ 2739 11e0 8923      		and r24,r25
+ 2740 11e2 8093 0000 		sts OSRdyGrp,r24
+ 2741               	.L211:
+ 2742 11e6 1E96      		adiw r26,14
+ 2743 11e8 4C93      		st X,r20
+ 2744 11ea 1E97      		sbiw r26,14
+ 2745 11ec E42F      		mov r30,r20
+ 2746 11ee E695      		lsr r30
+ 2747 11f0 E695      		lsr r30
+ 2748 11f2 E695      		lsr r30
+ 2749 11f4 5096      		adiw r26,16
+ 2750 11f6 EC93      		st X,r30
+ 2751 11f8 5097      		sbiw r26,16
+ 2752 11fa F0E0      		ldi r31,lo8(0)
+ 2753 11fc E050      		subi r30,lo8(-(OSMapTbl))
+ 2754 11fe F040      		sbci r31,hi8(-(OSMapTbl))
+ 2755 1200 2081      		ld r18,Z
+ 2756 1202 5296      		adiw r26,18
+ 2757 1204 2C93      		st X,r18
+ 2758 1206 5297      		sbiw r26,18
+ 2759 1208 E42F      		mov r30,r20
+ 2760 120a E770      		andi r30,lo8(7)
+ 2761 120c 1F96      		adiw r26,15
+ 2762 120e EC93      		st X,r30
+ 2763 1210 1F97      		sbiw r26,15
+ 2764 1212 F0E0      		ldi r31,lo8(0)
+ 2765 1214 E050      		subi r30,lo8(-(OSMapTbl))
+ 2766 1216 F040      		sbci r31,hi8(-(OSMapTbl))
+ 2767 1218 9081      		ld r25,Z
+ 2768 121a 5196      		adiw r26,17
+ 2769 121c 9C93      		st X,r25
+ 2770 121e 5197      		sbiw r26,17
+ 2771 1220 8091 0000 		lds r24,OSRdyGrp
+ 2772 1224 822B      		or r24,r18
+ 2773 1226 8093 0000 		sts OSRdyGrp,r24
+ 2774 122a 5096      		adiw r26,16
+ 2775 122c EC91      		ld r30,X
+ 2776 122e 5097      		sbiw r26,16
+ 2777 1230 F0E0      		ldi r31,lo8(0)
+ 2778 1232 E050      		subi r30,lo8(-(OSRdyTbl))
+ 2779 1234 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 2780 1236 8081      		ld r24,Z
+ 2781 1238 982B      		or r25,r24
+ 2782 123a 9083      		st Z,r25
+ 2783 123c 00C0      		rjmp .L213
+ 2784               	.L221:
+ 2785 123e CE01      		movw r24,r28
+ 2786 1240 0E94 0000 		call OS_EventTO
+ 2787               	/* #APP */
+ 2788               	 ;  373 "C:/WinAVR-work/lab1/source/os_mutex.c" 1
+ 2789 1244 7894      		sei
+ 2790               	 ;  0 "" 2
+ 2791               	/* #NOAPP */
+ 2792 1246 8AE0      		ldi r24,lo8(10)
+ 2793 1248 F801      		movw r30,r16
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 50
+
+
+ 2794 124a 8083      		st Z,r24
+ 2795 124c DF91      		pop r29
+ 2796 124e CF91      		pop r28
+ 2797 1250 1F91      		pop r17
+ 2798 1252 0F91      		pop r16
+ 2799 1254 0895      		ret
+ 2800               		.size	OSMutexPend, .-OSMutexPend
+ 2801               	.global	OSMboxPost
+ 2802               		.type	OSMboxPost, @function
+ 2803               	OSMboxPost:
+ 2804               	/* prologue: function */
+ 2805               	/* frame size = 0 */
+ 2806 1256 FC01      		movw r30,r24
+ 2807               	/* #APP */
+ 2808               	 ;  328 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2809 1258 F894      		cli
+ 2810               	 ;  0 "" 2
+ 2811               	/* #NOAPP */
+ 2812 125a 8181      		ldd r24,Z+1
+ 2813 125c 8823      		tst r24
+ 2814 125e 01F4      		brne .L227
+ 2815 1260 8481      		ldd r24,Z+4
+ 2816 1262 9581      		ldd r25,Z+5
+ 2817 1264 892B      		or r24,r25
+ 2818 1266 01F0      		breq .L225
+ 2819               	/* #APP */
+ 2820               	 ;  336 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2821 1268 7894      		sei
+ 2822               	 ;  0 "" 2
+ 2823               	/* #NOAPP */
+ 2824 126a 84E1      		ldi r24,lo8(20)
+ 2825 126c 0895      		ret
+ 2826               	.L227:
+ 2827 126e CF01      		movw r24,r30
+ 2828 1270 42E0      		ldi r20,lo8(2)
+ 2829 1272 0E94 0000 		call OS_EventTaskRdy
+ 2830               	/* #APP */
+ 2831               	 ;  331 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2832 1276 7894      		sei
+ 2833               	 ;  0 "" 2
+ 2834               	/* #NOAPP */
+ 2835 1278 0E94 0000 		call OS_Sched
+ 2836 127c 80E0      		ldi r24,lo8(0)
+ 2837 127e 0895      		ret
+ 2838               	.L225:
+ 2839 1280 7583      		std Z+5,r23
+ 2840 1282 6483      		std Z+4,r22
+ 2841               	/* #APP */
+ 2842               	 ;  340 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2843 1284 7894      		sei
+ 2844               	 ;  0 "" 2
+ 2845               	/* #NOAPP */
+ 2846 1286 80E0      		ldi r24,lo8(0)
+ 2847 1288 0895      		ret
+ 2848               		.size	OSMboxPost, .-OSMboxPost
+ 2849               	.global	OSMboxPend
+ 2850               		.type	OSMboxPend, @function
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 51
+
+
+ 2851               	OSMboxPend:
+ 2852 128a EF92      		push r14
+ 2853 128c FF92      		push r15
+ 2854 128e 0F93      		push r16
+ 2855 1290 1F93      		push r17
+ 2856 1292 CF93      		push r28
+ 2857 1294 DF93      		push r29
+ 2858               	/* prologue: function */
+ 2859               	/* frame size = 0 */
+ 2860 1296 8C01      		movw r16,r24
+ 2861 1298 7A01      		movw r14,r20
+ 2862 129a 8091 0000 		lds r24,OSIntNesting
+ 2863 129e 8823      		tst r24
+ 2864 12a0 01F4      		brne .L234
+ 2865               	/* #APP */
+ 2866               	 ;  260 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2867 12a2 F894      		cli
+ 2868               	 ;  0 "" 2
+ 2869               	/* #NOAPP */
+ 2870 12a4 F801      		movw r30,r16
+ 2871 12a6 C481      		ldd r28,Z+4
+ 2872 12a8 D581      		ldd r29,Z+5
+ 2873 12aa 2097      		sbiw r28,0
+ 2874 12ac 01F0      		breq .L231
+ 2875 12ae 1582      		std Z+5,__zero_reg__
+ 2876 12b0 1482      		std Z+4,__zero_reg__
+ 2877               	/* #APP */
+ 2878               	 ;  264 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2879 12b2 7894      		sei
+ 2880               	 ;  0 "" 2
+ 2881               	/* #NOAPP */
+ 2882 12b4 FA01      		movw r30,r20
+ 2883 12b6 1082      		st Z,__zero_reg__
+ 2884               	.L230:
+ 2885 12b8 CE01      		movw r24,r28
+ 2886               	/* epilogue start */
+ 2887 12ba DF91      		pop r29
+ 2888 12bc CF91      		pop r28
+ 2889 12be 1F91      		pop r17
+ 2890 12c0 0F91      		pop r16
+ 2891 12c2 FF90      		pop r15
+ 2892 12c4 EF90      		pop r14
+ 2893 12c6 0895      		ret
+ 2894               	.L231:
+ 2895 12c8 E091 0000 		lds r30,OSTCBCur
+ 2896 12cc F091 0000 		lds r31,(OSTCBCur)+1
+ 2897 12d0 8585      		ldd r24,Z+13
+ 2898 12d2 8260      		ori r24,lo8(2)
+ 2899 12d4 8587      		std Z+13,r24
+ 2900 12d6 7487      		std Z+12,r23
+ 2901 12d8 6387      		std Z+11,r22
+ 2902 12da C801      		movw r24,r16
+ 2903 12dc 0E94 0000 		call OS_EventTaskWait
+ 2904               	/* #APP */
+ 2905               	 ;  271 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2906 12e0 7894      		sei
+ 2907               	 ;  0 "" 2
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 52
+
+
+ 2908               	/* #NOAPP */
+ 2909 12e2 0E94 0000 		call OS_Sched
+ 2910               	/* #APP */
+ 2911               	 ;  273 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2912 12e6 F894      		cli
+ 2913               	 ;  0 "" 2
+ 2914               	/* #NOAPP */
+ 2915 12e8 E091 0000 		lds r30,OSTCBCur
+ 2916 12ec F091 0000 		lds r31,(OSTCBCur)+1
+ 2917 12f0 C085      		ldd r28,Z+8
+ 2918 12f2 D185      		ldd r29,Z+9
+ 2919 12f4 2097      		sbiw r28,0
+ 2920 12f6 01F0      		breq .L232
+ 2921 12f8 1186      		std Z+9,__zero_reg__
+ 2922 12fa 1086      		std Z+8,__zero_reg__
+ 2923 12fc 1586      		std Z+13,__zero_reg__
+ 2924 12fe 1782      		std Z+7,__zero_reg__
+ 2925 1300 1682      		std Z+6,__zero_reg__
+ 2926               	/* #APP */
+ 2927               	 ;  279 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2928 1302 7894      		sei
+ 2929               	 ;  0 "" 2
+ 2930               	/* #NOAPP */
+ 2931 1304 F701      		movw r30,r14
+ 2932 1306 1082      		st Z,__zero_reg__
+ 2933 1308 00C0      		rjmp .L230
+ 2934               	.L234:
+ 2935 130a 82E0      		ldi r24,lo8(2)
+ 2936 130c FA01      		movw r30,r20
+ 2937 130e 8083      		st Z,r24
+ 2938 1310 C0E0      		ldi r28,lo8(0)
+ 2939 1312 D0E0      		ldi r29,hi8(0)
+ 2940 1314 00C0      		rjmp .L230
+ 2941               	.L232:
+ 2942 1316 C801      		movw r24,r16
+ 2943 1318 0E94 0000 		call OS_EventTO
+ 2944               	/* #APP */
+ 2945               	 ;  284 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2946 131c 7894      		sei
+ 2947               	 ;  0 "" 2
+ 2948               	/* #NOAPP */
+ 2949 131e 8AE0      		ldi r24,lo8(10)
+ 2950 1320 F701      		movw r30,r14
+ 2951 1322 8083      		st Z,r24
+ 2952 1324 00C0      		rjmp .L230
+ 2953               		.size	OSMboxPend, .-OSMboxPend
+ 2954               	.global	OSMboxDel
+ 2955               		.type	OSMboxDel, @function
+ 2956               	OSMboxDel:
+ 2957 1326 FF92      		push r15
+ 2958 1328 0F93      		push r16
+ 2959 132a 1F93      		push r17
+ 2960 132c CF93      		push r28
+ 2961 132e DF93      		push r29
+ 2962               	/* prologue: function */
+ 2963               	/* frame size = 0 */
+ 2964 1330 EC01      		movw r28,r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 53
+
+
+ 2965 1332 8A01      		movw r16,r20
+ 2966 1334 8091 0000 		lds r24,OSIntNesting
+ 2967 1338 8823      		tst r24
+ 2968 133a 01F4      		brne .L250
+ 2969               	/* #APP */
+ 2970               	 ;  163 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2971 133c F894      		cli
+ 2972               	 ;  0 "" 2
+ 2973               	/* #NOAPP */
+ 2974 133e F980      		ldd r15,Y+1
+ 2975 1340 FF20      		tst r15
+ 2976 1342 01F4      		brne .L251
+ 2977 1344 6623      		tst r22
+ 2978 1346 01F4      		brne .L252
+ 2979               	.L240:
+ 2980 1348 FF20      		tst r15
+ 2981 134a 01F4      		brne .+2
+ 2982 134c 00C0      		rjmp .L253
+ 2983               	/* #APP */
+ 2984               	 ;  179 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 2985 134e 7894      		sei
+ 2986               	 ;  0 "" 2
+ 2987               	/* #NOAPP */
+ 2988 1350 88E0      		ldi r24,lo8(8)
+ 2989 1352 F801      		movw r30,r16
+ 2990 1354 8083      		st Z,r24
+ 2991 1356 CE01      		movw r24,r28
+ 2992 1358 DF91      		pop r29
+ 2993 135a CF91      		pop r28
+ 2994 135c 1F91      		pop r17
+ 2995 135e 0F91      		pop r16
+ 2996 1360 FF90      		pop r15
+ 2997 1362 0895      		ret
+ 2998               	.L252:
+ 2999 1364 6130      		cpi r22,lo8(1)
+ 3000 1366 01F0      		breq .L254
+ 3001               	/* #APP */
+ 3002               	 ;  199 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 3003 1368 7894      		sei
+ 3004               	 ;  0 "" 2
+ 3005               	/* #NOAPP */
+ 3006 136a 87E0      		ldi r24,lo8(7)
+ 3007 136c F801      		movw r30,r16
+ 3008 136e 8083      		st Z,r24
+ 3009 1370 CE01      		movw r24,r28
+ 3010 1372 DF91      		pop r29
+ 3011 1374 CF91      		pop r28
+ 3012 1376 1F91      		pop r17
+ 3013 1378 0F91      		pop r16
+ 3014 137a FF90      		pop r15
+ 3015 137c 0895      		ret
+ 3016               	.L251:
+ 3017 137e FF24      		clr r15
+ 3018 1380 F394      		inc r15
+ 3019 1382 6623      		tst r22
+ 3020 1384 01F0      		breq .L240
+ 3021 1386 00C0      		rjmp .L252
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 54
+
+
+ 3022               	.L250:
+ 3023 1388 8CE8      		ldi r24,lo8(-116)
+ 3024 138a FA01      		movw r30,r20
+ 3025 138c 8083      		st Z,r24
+ 3026               	.L237:
+ 3027 138e CE01      		movw r24,r28
+ 3028               	/* epilogue start */
+ 3029 1390 DF91      		pop r29
+ 3030 1392 CF91      		pop r28
+ 3031 1394 1F91      		pop r17
+ 3032 1396 0F91      		pop r16
+ 3033 1398 FF90      		pop r15
+ 3034 139a 0895      		ret
+ 3035               	.L254:
+ 3036 139c FF20      		tst r15
+ 3037 139e 01F0      		breq .L243
+ 3038               	.L247:
+ 3039 13a0 CE01      		movw r24,r28
+ 3040 13a2 60E0      		ldi r22,lo8(0)
+ 3041 13a4 70E0      		ldi r23,hi8(0)
+ 3042 13a6 42E0      		ldi r20,lo8(2)
+ 3043 13a8 0E94 0000 		call OS_EventTaskRdy
+ 3044 13ac 8981      		ldd r24,Y+1
+ 3045 13ae 8823      		tst r24
+ 3046 13b0 01F4      		brne .L247
+ 3047               	.L243:
+ 3048 13b2 1882      		st Y,__zero_reg__
+ 3049 13b4 8091 0000 		lds r24,OSEventFreeList
+ 3050 13b8 9091 0000 		lds r25,(OSEventFreeList)+1
+ 3051 13bc 9D83      		std Y+5,r25
+ 3052 13be 8C83      		std Y+4,r24
+ 3053 13c0 D093 0000 		sts (OSEventFreeList)+1,r29
+ 3054 13c4 C093 0000 		sts OSEventFreeList,r28
+ 3055               	/* #APP */
+ 3056               	 ;  191 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 3057 13c8 7894      		sei
+ 3058               	 ;  0 "" 2
+ 3059               	/* #NOAPP */
+ 3060 13ca F1E0      		ldi r31,lo8(1)
+ 3061 13cc FF16      		cp r15,r31
+ 3062 13ce 01F0      		breq .L255
+ 3063               	.L245:
+ 3064 13d0 F801      		movw r30,r16
+ 3065 13d2 1082      		st Z,__zero_reg__
+ 3066 13d4 C0E0      		ldi r28,lo8(0)
+ 3067 13d6 D0E0      		ldi r29,hi8(0)
+ 3068 13d8 CE01      		movw r24,r28
+ 3069 13da DF91      		pop r29
+ 3070 13dc CF91      		pop r28
+ 3071 13de 1F91      		pop r17
+ 3072 13e0 0F91      		pop r16
+ 3073 13e2 FF90      		pop r15
+ 3074 13e4 0895      		ret
+ 3075               	.L255:
+ 3076 13e6 0E94 0000 		call OS_Sched
+ 3077 13ea 00C0      		rjmp .L245
+ 3078               	.L253:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 55
+
+
+ 3079 13ec 1882      		st Y,__zero_reg__
+ 3080 13ee 8091 0000 		lds r24,OSEventFreeList
+ 3081 13f2 9091 0000 		lds r25,(OSEventFreeList)+1
+ 3082 13f6 9D83      		std Y+5,r25
+ 3083 13f8 8C83      		std Y+4,r24
+ 3084 13fa D093 0000 		sts (OSEventFreeList)+1,r29
+ 3085 13fe C093 0000 		sts OSEventFreeList,r28
+ 3086               	/* #APP */
+ 3087               	 ;  175 "C:/WinAVR-work/lab1/source/os_mbox.c" 1
+ 3088 1402 7894      		sei
+ 3089               	 ;  0 "" 2
+ 3090               	/* #NOAPP */
+ 3091 1404 F801      		movw r30,r16
+ 3092 1406 1082      		st Z,__zero_reg__
+ 3093 1408 C0E0      		ldi r28,lo8(0)
+ 3094 140a D0E0      		ldi r29,hi8(0)
+ 3095 140c 00C0      		rjmp .L237
+ 3096               		.size	OSMboxDel, .-OSMboxDel
+ 3097               	.global	OSFlagPost
+ 3098               		.type	OSFlagPost, @function
+ 3099               	OSFlagPost:
+ 3100 140e CF92      		push r12
+ 3101 1410 DF92      		push r13
+ 3102 1412 EF92      		push r14
+ 3103 1414 FF92      		push r15
+ 3104 1416 0F93      		push r16
+ 3105 1418 1F93      		push r17
+ 3106 141a DF93      		push r29
+ 3107 141c CF93      		push r28
+ 3108 141e 0F92      		push __tmp_reg__
+ 3109 1420 CDB7      		in r28,__SP_L__
+ 3110 1422 DEB7      		in r29,__SP_H__
+ 3111               	/* prologue: function */
+ 3112               	/* frame size = 1 */
+ 3113 1424 8C01      		movw r16,r24
+ 3114 1426 7901      		movw r14,r18
+ 3115               	/* #APP */
+ 3116               	 ;  577 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3117 1428 F894      		cli
+ 3118               	 ;  0 "" 2
+ 3119               	/* #NOAPP */
+ 3120 142a 4423      		tst r20
+ 3121 142c 01F0      		breq .+2
+ 3122 142e 00C0      		rjmp .L275
+ 3123 1430 6095      		com r22
+ 3124 1432 FC01      		movw r30,r24
+ 3125 1434 8381      		ldd r24,Z+3
+ 3126 1436 8623      		and r24,r22
+ 3127 1438 8383      		std Z+3,r24
+ 3128               	.L260:
+ 3129 143a F801      		movw r30,r16
+ 3130 143c C180      		ldd r12,Z+1
+ 3131 143e D280      		ldd r13,Z+2
+ 3132 1440 C114      		cp r12,__zero_reg__
+ 3133 1442 D104      		cpc r13,__zero_reg__
+ 3134 1444 01F4      		brne .+2
+ 3135 1446 00C0      		rjmp .L276
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 56
+
+
+ 3136 1448 1982      		std Y+1,__zero_reg__
+ 3137 144a 00C0      		rjmp .L268
+ 3138               	.L278:
+ 3139 144c 8330      		cpi r24,lo8(3)
+ 3140 144e 01F0      		breq .L277
+ 3141               	.L264:
+ 3142 1450 F601      		movw r30,r12
+ 3143 1452 8081      		ld r24,Z
+ 3144 1454 9181      		ldd r25,Z+1
+ 3145 1456 9C01      		movw r18,r24
+ 3146 1458 6901      		movw r12,r18
+ 3147 145a 2115      		cp r18,__zero_reg__
+ 3148 145c 3105      		cpc r19,__zero_reg__
+ 3149 145e 01F0      		breq .L263
+ 3150               	.L268:
+ 3151 1460 F601      		movw r30,r12
+ 3152 1462 8185      		ldd r24,Z+9
+ 3153 1464 8230      		cpi r24,lo8(2)
+ 3154 1466 01F4      		brne .L278
+ 3155 1468 F601      		movw r30,r12
+ 3156 146a 6085      		ldd r22,Z+8
+ 3157 146c F801      		movw r30,r16
+ 3158 146e 8381      		ldd r24,Z+3
+ 3159 1470 8623      		and r24,r22
+ 3160 1472 6817      		cp r22,r24
+ 3161 1474 01F4      		brne .L264
+ 3162 1476 C601      		movw r24,r12
+ 3163 1478 0E94 0000 		call OS_FlagTaskRdy
+ 3164 147c 8130      		cpi r24,lo8(1)
+ 3165 147e 01F4      		brne .L264
+ 3166               	.L280:
+ 3167 1480 F1E0      		ldi r31,lo8(1)
+ 3168 1482 F983      		std Y+1,r31
+ 3169 1484 F601      		movw r30,r12
+ 3170 1486 8081      		ld r24,Z
+ 3171 1488 9181      		ldd r25,Z+1
+ 3172 148a 9C01      		movw r18,r24
+ 3173 148c 6901      		movw r12,r18
+ 3174 148e 2115      		cp r18,__zero_reg__
+ 3175 1490 3105      		cpc r19,__zero_reg__
+ 3176 1492 01F4      		brne .L268
+ 3177               	.L263:
+ 3178               	/* #APP */
+ 3179               	 ;  636 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3180 1494 7894      		sei
+ 3181               	 ;  0 "" 2
+ 3182               	/* #NOAPP */
+ 3183 1496 F981      		ldd r31,Y+1
+ 3184 1498 F130      		cpi r31,lo8(1)
+ 3185 149a 01F0      		breq .L279
+ 3186               	.L269:
+ 3187               	/* #APP */
+ 3188               	 ;  640 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3189 149c F894      		cli
+ 3190               	 ;  0 "" 2
+ 3191               	/* #NOAPP */
+ 3192 149e F801      		movw r30,r16
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 57
+
+
+ 3193 14a0 8381      		ldd r24,Z+3
+ 3194               	/* #APP */
+ 3195               	 ;  642 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3196 14a2 7894      		sei
+ 3197               	 ;  0 "" 2
+ 3198               	/* #NOAPP */
+ 3199 14a4 F701      		movw r30,r14
+ 3200 14a6 1082      		st Z,__zero_reg__
+ 3201               	.L261:
+ 3202               	/* epilogue start */
+ 3203 14a8 0F90      		pop __tmp_reg__
+ 3204 14aa CF91      		pop r28
+ 3205 14ac DF91      		pop r29
+ 3206 14ae 1F91      		pop r17
+ 3207 14b0 0F91      		pop r16
+ 3208 14b2 FF90      		pop r15
+ 3209 14b4 EF90      		pop r14
+ 3210 14b6 DF90      		pop r13
+ 3211 14b8 CF90      		pop r12
+ 3212 14ba 0895      		ret
+ 3213               	.L277:
+ 3214 14bc F601      		movw r30,r12
+ 3215 14be 6085      		ldd r22,Z+8
+ 3216 14c0 F801      		movw r30,r16
+ 3217 14c2 8381      		ldd r24,Z+3
+ 3218 14c4 6823      		and r22,r24
+ 3219 14c6 01F4      		brne .+2
+ 3220 14c8 00C0      		rjmp .L264
+ 3221 14ca C601      		movw r24,r12
+ 3222 14cc 0E94 0000 		call OS_FlagTaskRdy
+ 3223 14d0 8130      		cpi r24,lo8(1)
+ 3224 14d2 01F0      		breq .+2
+ 3225 14d4 00C0      		rjmp .L264
+ 3226 14d6 00C0      		rjmp .L280
+ 3227               	.L275:
+ 3228 14d8 4130      		cpi r20,lo8(1)
+ 3229 14da 01F0      		breq .L281
+ 3230               	/* #APP */
+ 3231               	 ;  588 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3232 14dc 7894      		sei
+ 3233               	 ;  0 "" 2
+ 3234               	/* #NOAPP */
+ 3235 14de 89E9      		ldi r24,lo8(-103)
+ 3236 14e0 F901      		movw r30,r18
+ 3237 14e2 8083      		st Z,r24
+ 3238 14e4 80E0      		ldi r24,lo8(0)
+ 3239 14e6 00C0      		rjmp .L261
+ 3240               	.L281:
+ 3241 14e8 FC01      		movw r30,r24
+ 3242 14ea 8381      		ldd r24,Z+3
+ 3243 14ec 862B      		or r24,r22
+ 3244 14ee 8383      		std Z+3,r24
+ 3245 14f0 00C0      		rjmp .L260
+ 3246               	.L279:
+ 3247 14f2 0E94 0000 		call OS_Sched
+ 3248 14f6 00C0      		rjmp .L269
+ 3249               	.L276:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 58
+
+
+ 3250 14f8 1982      		std Y+1,__zero_reg__
+ 3251 14fa 00C0      		rjmp .L263
+ 3252               		.size	OSFlagPost, .-OSFlagPost
+ 3253               	.global	OSFlagPend
+ 3254               		.type	OSFlagPend, @function
+ 3255               	OSFlagPend:
+ 3256 14fc 8F92      		push r8
+ 3257 14fe 9F92      		push r9
+ 3258 1500 AF92      		push r10
+ 3259 1502 BF92      		push r11
+ 3260 1504 CF92      		push r12
+ 3261 1506 DF92      		push r13
+ 3262 1508 FF92      		push r15
+ 3263 150a 0F93      		push r16
+ 3264 150c 1F93      		push r17
+ 3265 150e DF93      		push r29
+ 3266 1510 CF93      		push r28
+ 3267 1512 CDB7      		in r28,__SP_L__
+ 3268 1514 DEB7      		in r29,__SP_H__
+ 3269 1516 2B97      		sbiw r28,11
+ 3270 1518 0FB6      		in __tmp_reg__,__SREG__
+ 3271 151a F894      		cli
+ 3272 151c DEBF      		out __SP_H__,r29
+ 3273 151e 0FBE      		out __SREG__,__tmp_reg__
+ 3274 1520 CDBF      		out __SP_L__,r28
+ 3275               	/* prologue: function */
+ 3276               	/* frame size = 11 */
+ 3277 1522 6C01      		movw r12,r24
+ 3278 1524 562F      		mov r21,r22
+ 3279 1526 F42E      		mov r15,r20
+ 3280 1528 F901      		movw r30,r18
+ 3281 152a 5801      		movw r10,r16
+ 3282 152c 8091 0000 		lds r24,OSIntNesting
+ 3283 1530 8823      		tst r24
+ 3284 1532 01F4      		brne .L304
+ 3285 1534 47FD      		sbrc r20,7
+ 3286 1536 00C0      		rjmp .L285
+ 3287 1538 1B86      		std Y+11,__zero_reg__
+ 3288               	/* #APP */
+ 3289               	 ;  409 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3290 153a F894      		cli
+ 3291               	 ;  0 "" 2
+ 3292               	/* #NOAPP */
+ 3293 153c 82E0      		ldi r24,lo8(2)
+ 3294 153e F816      		cp r15,r24
+ 3295 1540 01F0      		breq .L288
+ 3296               	.L306:
+ 3297 1542 A3E0      		ldi r26,lo8(3)
+ 3298 1544 FA16      		cp r15,r26
+ 3299 1546 01F0      		breq .L305
+ 3300               	/* #APP */
+ 3301               	 ;  478 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3302 1548 7894      		sei
+ 3303               	 ;  0 "" 2
+ 3304               	/* #NOAPP */
+ 3305 154a 87E9      		ldi r24,lo8(-105)
+ 3306 154c F501      		movw r30,r10
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 59
+
+
+ 3307 154e 8083      		st Z,r24
+ 3308 1550 80E0      		ldi r24,lo8(0)
+ 3309               	.L284:
+ 3310               	/* epilogue start */
+ 3311 1552 2B96      		adiw r28,11
+ 3312 1554 0FB6      		in __tmp_reg__,__SREG__
+ 3313 1556 F894      		cli
+ 3314 1558 DEBF      		out __SP_H__,r29
+ 3315 155a 0FBE      		out __SREG__,__tmp_reg__
+ 3316 155c CDBF      		out __SP_L__,r28
+ 3317 155e CF91      		pop r28
+ 3318 1560 DF91      		pop r29
+ 3319 1562 1F91      		pop r17
+ 3320 1564 0F91      		pop r16
+ 3321 1566 FF90      		pop r15
+ 3322 1568 DF90      		pop r13
+ 3323 156a CF90      		pop r12
+ 3324 156c BF90      		pop r11
+ 3325 156e AF90      		pop r10
+ 3326 1570 9F90      		pop r9
+ 3327 1572 8F90      		pop r8
+ 3328 1574 0895      		ret
+ 3329               	.L304:
+ 3330 1576 82E0      		ldi r24,lo8(2)
+ 3331 1578 D801      		movw r26,r16
+ 3332 157a 8C93      		st X,r24
+ 3333 157c 80E0      		ldi r24,lo8(0)
+ 3334 157e 00C0      		rjmp .L284
+ 3335               	.L285:
+ 3336 1580 BFE7      		ldi r27,lo8(127)
+ 3337 1582 FB22      		and r15,r27
+ 3338 1584 21E0      		ldi r18,lo8(1)
+ 3339 1586 2B87      		std Y+11,r18
+ 3340               	/* #APP */
+ 3341               	 ;  409 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3342 1588 F894      		cli
+ 3343               	 ;  0 "" 2
+ 3344               	/* #NOAPP */
+ 3345 158a 82E0      		ldi r24,lo8(2)
+ 3346 158c F816      		cp r15,r24
+ 3347 158e 01F4      		brne .L306
+ 3348               	.L288:
+ 3349 1590 D601      		movw r26,r12
+ 3350 1592 1396      		adiw r26,3
+ 3351 1594 9C91      		ld r25,X
+ 3352 1596 852F      		mov r24,r21
+ 3353 1598 8923      		and r24,r25
+ 3354 159a 8517      		cp r24,r21
+ 3355 159c 01F4      		brne .L290
+ 3356 159e BB85      		ldd r27,Y+11
+ 3357 15a0 B130      		cpi r27,lo8(1)
+ 3358 15a2 01F4      		brne .L291
+ 3359 15a4 852F      		mov r24,r21
+ 3360 15a6 8095      		com r24
+ 3361 15a8 8923      		and r24,r25
+ 3362 15aa F601      		movw r30,r12
+ 3363 15ac 8383      		std Z+3,r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 60
+
+
+ 3364 15ae 982F      		mov r25,r24
+ 3365               	.L291:
+ 3366 15b0 892F      		mov r24,r25
+ 3367               	/* #APP */
+ 3368               	 ;  418 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3369 15b2 7894      		sei
+ 3370               	 ;  0 "" 2
+ 3371               	/* #NOAPP */
+ 3372 15b4 D501      		movw r26,r10
+ 3373 15b6 1C92      		st X,__zero_reg__
+ 3374 15b8 00C0      		rjmp .L284
+ 3375               	.L305:
+ 3376 15ba D601      		movw r26,r12
+ 3377 15bc 1396      		adiw r26,3
+ 3378 15be 9C91      		ld r25,X
+ 3379 15c0 852F      		mov r24,r21
+ 3380 15c2 8923      		and r24,r25
+ 3381 15c4 01F0      		breq .L293
+ 3382 15c6 BB85      		ldd r27,Y+11
+ 3383 15c8 B130      		cpi r27,lo8(1)
+ 3384 15ca 01F4      		brne .L294
+ 3385 15cc 8095      		com r24
+ 3386 15ce 8923      		and r24,r25
+ 3387 15d0 F601      		movw r30,r12
+ 3388 15d2 8383      		std Z+3,r24
+ 3389 15d4 982F      		mov r25,r24
+ 3390               	.L294:
+ 3391 15d6 892F      		mov r24,r25
+ 3392               	/* #APP */
+ 3393               	 ;  434 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3394 15d8 7894      		sei
+ 3395               	 ;  0 "" 2
+ 3396               	/* #NOAPP */
+ 3397 15da D501      		movw r26,r10
+ 3398 15dc 1C92      		st X,__zero_reg__
+ 3399 15de 00C0      		rjmp .L284
+ 3400               	.L290:
+ 3401 15e0 C601      		movw r24,r12
+ 3402 15e2 4E01      		movw r8,r28
+ 3403 15e4 0894      		sec
+ 3404 15e6 811C      		adc r8,__zero_reg__
+ 3405 15e8 911C      		adc r9,__zero_reg__
+ 3406 15ea B401      		movw r22,r8
+ 3407 15ec 452F      		mov r20,r21
+ 3408 15ee 22E0      		ldi r18,lo8(2)
+ 3409 15f0 8F01      		movw r16,r30
+ 3410 15f2 0E94 0000 		call OS_FlagBlock
+ 3411               	/* #APP */
+ 3412               	 ;  423 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3413 15f6 7894      		sei
+ 3414               	 ;  0 "" 2
+ 3415               	/* #NOAPP */
+ 3416               	.L292:
+ 3417 15f8 0E94 0000 		call OS_Sched
+ 3418               	/* #APP */
+ 3419               	 ;  484 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3420 15fc F894      		cli
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 61
+
+
+ 3421               	 ;  0 "" 2
+ 3422               	/* #NOAPP */
+ 3423 15fe E091 0000 		lds r30,OSTCBCur
+ 3424 1602 F091 0000 		lds r31,(OSTCBCur)+1
+ 3425 1606 8585      		ldd r24,Z+13
+ 3426 1608 85FD      		sbrc r24,5
+ 3427 160a 00C0      		rjmp .L307
+ 3428 160c BB85      		ldd r27,Y+11
+ 3429 160e B130      		cpi r27,lo8(1)
+ 3430 1610 01F0      		breq .L302
+ 3431 1612 F601      		movw r30,r12
+ 3432 1614 9381      		ldd r25,Z+3
+ 3433               	.L296:
+ 3434 1616 892F      		mov r24,r25
+ 3435               	/* #APP */
+ 3436               	 ;  508 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3437 1618 7894      		sei
+ 3438               	 ;  0 "" 2
+ 3439               	/* #NOAPP */
+ 3440 161a D501      		movw r26,r10
+ 3441 161c 1C92      		st X,__zero_reg__
+ 3442 161e 00C0      		rjmp .L284
+ 3443               	.L293:
+ 3444 1620 C601      		movw r24,r12
+ 3445 1622 4E01      		movw r8,r28
+ 3446 1624 0894      		sec
+ 3447 1626 811C      		adc r8,__zero_reg__
+ 3448 1628 911C      		adc r9,__zero_reg__
+ 3449 162a B401      		movw r22,r8
+ 3450 162c 452F      		mov r20,r21
+ 3451 162e 23E0      		ldi r18,lo8(3)
+ 3452 1630 8F01      		movw r16,r30
+ 3453 1632 0E94 0000 		call OS_FlagBlock
+ 3454               	/* #APP */
+ 3455               	 ;  439 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3456 1636 7894      		sei
+ 3457               	 ;  0 "" 2
+ 3458               	/* #NOAPP */
+ 3459 1638 00C0      		rjmp .L292
+ 3460               	.L307:
+ 3461 163a C401      		movw r24,r8
+ 3462 163c 0E94 0000 		call OS_FlagUnlink
+ 3463 1640 E091 0000 		lds r30,OSTCBCur
+ 3464 1644 F091 0000 		lds r31,(OSTCBCur)+1
+ 3465 1648 1586      		std Z+13,__zero_reg__
+ 3466               	/* #APP */
+ 3467               	 ;  488 "C:/WinAVR-work/lab1/source/os_flag.c" 1
+ 3468 164a 7894      		sei
+ 3469               	 ;  0 "" 2
+ 3470               	/* #NOAPP */
+ 3471 164c 8AE0      		ldi r24,lo8(10)
+ 3472 164e D501      		movw r26,r10
+ 3473 1650 8C93      		st X,r24
+ 3474 1652 80E0      		ldi r24,lo8(0)
+ 3475 1654 00C0      		rjmp .L284
+ 3476               	.L302:
+ 3477 1656 2EEF      		ldi r18,lo8(-2)
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 62
+
+
+ 3478 1658 F20E      		add r15,r18
+ 3479 165a 81E0      		ldi r24,lo8(1)
+ 3480 165c 8F15      		cp r24,r15
+ 3481 165e 00F4      		brsh .L303
+ 3482 1660 D601      		movw r26,r12
+ 3483 1662 1396      		adiw r26,3
+ 3484 1664 9C91      		ld r25,X
+ 3485 1666 00C0      		rjmp .L296
+ 3486               	.L303:
+ 3487 1668 8285      		ldd r24,Z+10
+ 3488 166a 8095      		com r24
+ 3489 166c F601      		movw r30,r12
+ 3490 166e 9381      		ldd r25,Z+3
+ 3491 1670 9823      		and r25,r24
+ 3492 1672 9383      		std Z+3,r25
+ 3493 1674 00C0      		rjmp .L296
+ 3494               		.size	OSFlagPend, .-OSFlagPend
+ 3495               	.global	OSSchedUnlock
+ 3496               		.type	OSSchedUnlock, @function
+ 3497               	OSSchedUnlock:
+ 3498               	/* prologue: function */
+ 3499               	/* frame size = 0 */
+ 3500 1676 8091 0000 		lds r24,OSRunning
+ 3501 167a 8130      		cpi r24,lo8(1)
+ 3502 167c 01F0      		breq .L313
+ 3503 167e 0895      		ret
+ 3504               	.L313:
+ 3505               	/* #APP */
+ 3506               	 ;  256 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3507 1680 F894      		cli
+ 3508               	 ;  0 "" 2
+ 3509               	/* #NOAPP */
+ 3510 1682 8091 0000 		lds r24,OSLockNesting
+ 3511 1686 8823      		tst r24
+ 3512 1688 01F0      		breq .L310
+ 3513 168a 8150      		subi r24,lo8(-(-1))
+ 3514 168c 8093 0000 		sts OSLockNesting,r24
+ 3515 1690 8823      		tst r24
+ 3516 1692 01F4      		brne .L311
+ 3517 1694 8091 0000 		lds r24,OSIntNesting
+ 3518 1698 8823      		tst r24
+ 3519 169a 01F0      		breq .L314
+ 3520               	.L311:
+ 3521               	/* #APP */
+ 3522               	 ;  263 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3523 169c 7894      		sei
+ 3524               	 ;  0 "" 2
+ 3525               	/* #NOAPP */
+ 3526 169e 0895      		ret
+ 3527               	.L310:
+ 3528               	/* #APP */
+ 3529               	 ;  266 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3530 16a0 7894      		sei
+ 3531               	 ;  0 "" 2
+ 3532               	/* #NOAPP */
+ 3533 16a2 0895      		ret
+ 3534               	.L314:
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 63
+
+
+ 3535               	/* #APP */
+ 3536               	 ;  260 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3537 16a4 7894      		sei
+ 3538               	 ;  0 "" 2
+ 3539               	/* #NOAPP */
+ 3540 16a6 0E94 0000 		call OS_Sched
+ 3541 16aa 0895      		ret
+ 3542               		.size	OSSchedUnlock, .-OSSchedUnlock
+ 3543               	.global	OSTimeTick
+ 3544               		.type	OSTimeTick, @function
+ 3545               	OSTimeTick:
+ 3546               	/* prologue: function */
+ 3547               	/* frame size = 0 */
+ 3548 16ac 0E94 0000 		call OSTimeTickHook
+ 3549 16b0 8091 0000 		lds r24,OSRunning
+ 3550 16b4 8130      		cpi r24,lo8(1)
+ 3551 16b6 01F0      		breq .L322
+ 3552               	.L320:
+ 3553 16b8 0895      		ret
+ 3554               	.L322:
+ 3555 16ba A091 0000 		lds r26,OSTCBList
+ 3556 16be B091 0000 		lds r27,(OSTCBList)+1
+ 3557 16c2 1E96      		adiw r26,14
+ 3558 16c4 8C91      		ld r24,X
+ 3559 16c6 1E97      		sbiw r26,14
+ 3560 16c8 8C30      		cpi r24,lo8(12)
+ 3561 16ca 01F0      		breq .L320
+ 3562 16cc 2091 0000 		lds r18,OSRdyGrp
+ 3563 16d0 41E0      		ldi r20,lo8(1)
+ 3564 16d2 50E0      		ldi r21,hi8(1)
+ 3565 16d4 00C0      		rjmp .L319
+ 3566               	.L324:
+ 3567 16d6 5296      		adiw r26,18
+ 3568 16d8 8C91      		ld r24,X
+ 3569 16da 5297      		sbiw r26,18
+ 3570 16dc 282B      		or r18,r24
+ 3571 16de 5096      		adiw r26,16
+ 3572 16e0 EC91      		ld r30,X
+ 3573 16e2 5097      		sbiw r26,16
+ 3574 16e4 F0E0      		ldi r31,lo8(0)
+ 3575 16e6 E050      		subi r30,lo8(-(OSRdyTbl))
+ 3576 16e8 F040      		sbci r31,hi8(-(OSRdyTbl))
+ 3577 16ea 8081      		ld r24,Z
+ 3578 16ec 5196      		adiw r26,17
+ 3579 16ee 9C91      		ld r25,X
+ 3580 16f0 5197      		sbiw r26,17
+ 3581 16f2 892B      		or r24,r25
+ 3582 16f4 8083      		st Z,r24
+ 3583               	.L317:
+ 3584 16f6 1296      		adiw r26,2
+ 3585 16f8 0D90      		ld __tmp_reg__,X+
+ 3586 16fa BC91      		ld r27,X
+ 3587 16fc A02D      		mov r26,__tmp_reg__
+ 3588               	/* #APP */
+ 3589               	 ;  393 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3590 16fe 7894      		sei
+ 3591               	 ;  0 "" 2
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 64
+
+
+ 3592               	/* #NOAPP */
+ 3593 1700 1E96      		adiw r26,14
+ 3594 1702 8C91      		ld r24,X
+ 3595 1704 1E97      		sbiw r26,14
+ 3596 1706 8C30      		cpi r24,lo8(12)
+ 3597 1708 01F0      		breq .L323
+ 3598               	.L319:
+ 3599               	/* #APP */
+ 3600               	 ;  381 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3601 170a F894      		cli
+ 3602               	 ;  0 "" 2
+ 3603               	/* #NOAPP */
+ 3604 170c 1B96      		adiw r26,11
+ 3605 170e 8D91      		ld r24,X+
+ 3606 1710 9C91      		ld r25,X
+ 3607 1712 1C97      		sbiw r26,11+1
+ 3608 1714 0097      		sbiw r24,0
+ 3609 1716 01F0      		breq .L317
+ 3610 1718 0197      		sbiw r24,1
+ 3611 171a 1C96      		adiw r26,11+1
+ 3612 171c 9C93      		st X,r25
+ 3613 171e 8E93      		st -X,r24
+ 3614 1720 1B97      		sbiw r26,11
+ 3615 1722 892B      		or r24,r25
+ 3616 1724 01F4      		brne .L317
+ 3617 1726 1D96      		adiw r26,13
+ 3618 1728 8C91      		ld r24,X
+ 3619 172a 1D97      		sbiw r26,13
+ 3620 172c 83FF      		sbrs r24,3
+ 3621 172e 00C0      		rjmp .L324
+ 3622 1730 1C96      		adiw r26,11+1
+ 3623 1732 5C93      		st X,r21
+ 3624 1734 4E93      		st -X,r20
+ 3625 1736 1B97      		sbiw r26,11
+ 3626 1738 00C0      		rjmp .L317
+ 3627               	.L323:
+ 3628 173a 2093 0000 		sts OSRdyGrp,r18
+ 3629 173e 0895      		ret
+ 3630               		.size	OSTimeTick, .-OSTimeTick
+ 3631               	.global	OSStart
+ 3632               		.type	OSStart, @function
+ 3633               	OSStart:
+ 3634               	/* prologue: function */
+ 3635               	/* frame size = 0 */
+ 3636 1740 8091 0000 		lds r24,OSRunning
+ 3637 1744 8111      		cpse r24,__zero_reg__
+ 3638 1746 0895      		ret
+ 3639               	.L328:
+ 3640 1748 E091 0000 		lds r30,OSRdyGrp
+ 3641 174c F0E0      		ldi r31,lo8(0)
+ 3642 174e E050      		subi r30,lo8(-(OSUnMapTbl))
+ 3643 1750 F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 3644 1752 A081      		ld r26,Z
+ 3645 1754 EA2F      		mov r30,r26
+ 3646 1756 F0E0      		ldi r31,lo8(0)
+ 3647 1758 E050      		subi r30,lo8(-(OSRdyTbl))
+ 3648 175a F040      		sbci r31,hi8(-(OSRdyTbl))
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 65
+
+
+ 3649 175c E081      		ld r30,Z
+ 3650 175e F0E0      		ldi r31,lo8(0)
+ 3651 1760 E050      		subi r30,lo8(-(OSUnMapTbl))
+ 3652 1762 F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 3653 1764 AA0F      		lsl r26
+ 3654 1766 AA0F      		lsl r26
+ 3655 1768 AA0F      		lsl r26
+ 3656 176a 8081      		ld r24,Z
+ 3657 176c A80F      		add r26,r24
+ 3658 176e A093 0000 		sts OSPrioHighRdy,r26
+ 3659 1772 A093 0000 		sts OSPrioCur,r26
+ 3660 1776 B0E0      		ldi r27,lo8(0)
+ 3661 1778 AA0F      		lsl r26
+ 3662 177a BB1F      		rol r27
+ 3663 177c A050      		subi r26,lo8(-(OSTCBPrioTbl))
+ 3664 177e B040      		sbci r27,hi8(-(OSTCBPrioTbl))
+ 3665 1780 8D91      		ld r24,X+
+ 3666 1782 9C91      		ld r25,X
+ 3667 1784 9093 0000 		sts (OSTCBHighRdy)+1,r25
+ 3668 1788 8093 0000 		sts OSTCBHighRdy,r24
+ 3669 178c 9093 0000 		sts (OSTCBCur)+1,r25
+ 3670 1790 8093 0000 		sts OSTCBCur,r24
+ 3671 1794 0E94 0000 		call OSStartHighRdy
+ 3672 1798 0895      		ret
+ 3673               		.size	OSStart, .-OSStart
+ 3674               	.global	OSIntExit
+ 3675               		.type	OSIntExit, @function
+ 3676               	OSIntExit:
+ 3677               	/* prologue: function */
+ 3678               	/* frame size = 0 */
+ 3679 179a 8091 0000 		lds r24,OSRunning
+ 3680 179e 8130      		cpi r24,lo8(1)
+ 3681 17a0 01F0      		breq .L334
+ 3682 17a2 0895      		ret
+ 3683               	.L334:
+ 3684               	/* #APP */
+ 3685               	 ;  180 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3686 17a4 F894      		cli
+ 3687               	 ;  0 "" 2
+ 3688               	/* #NOAPP */
+ 3689 17a6 8091 0000 		lds r24,OSIntNesting
+ 3690 17aa 8823      		tst r24
+ 3691 17ac 01F0      		breq .L331
+ 3692 17ae 8150      		subi r24,lo8(-(-1))
+ 3693 17b0 8093 0000 		sts OSIntNesting,r24
+ 3694 17b4 8823      		tst r24
+ 3695 17b6 01F0      		breq .L331
+ 3696               	.L332:
+ 3697               	/* #APP */
+ 3698               	 ;  193 "C:/WinAVR-work/lab1/source/os_core.c" 1
+ 3699 17b8 7894      		sei
+ 3700               	 ;  0 "" 2
+ 3701               	/* #NOAPP */
+ 3702 17ba 0895      		ret
+ 3703               	.L331:
+ 3704 17bc 8091 0000 		lds r24,OSLockNesting
+ 3705 17c0 8823      		tst r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 66
+
+
+ 3706 17c2 01F4      		brne .L332
+ 3707 17c4 E091 0000 		lds r30,OSRdyGrp
+ 3708 17c8 F0E0      		ldi r31,lo8(0)
+ 3709 17ca E050      		subi r30,lo8(-(OSUnMapTbl))
+ 3710 17cc F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 3711 17ce 8081      		ld r24,Z
+ 3712 17d0 8093 0000 		sts OSIntExitY,r24
+ 3713 17d4 E82F      		mov r30,r24
+ 3714 17d6 F0E0      		ldi r31,lo8(0)
+ 3715 17d8 E050      		subi r30,lo8(-(OSRdyTbl))
+ 3716 17da F040      		sbci r31,hi8(-(OSRdyTbl))
+ 3717 17dc E081      		ld r30,Z
+ 3718 17de F0E0      		ldi r31,lo8(0)
+ 3719 17e0 E050      		subi r30,lo8(-(OSUnMapTbl))
+ 3720 17e2 F040      		sbci r31,hi8(-(OSUnMapTbl))
+ 3721 17e4 982F      		mov r25,r24
+ 3722 17e6 990F      		lsl r25
+ 3723 17e8 990F      		lsl r25
+ 3724 17ea 990F      		lsl r25
+ 3725 17ec 8081      		ld r24,Z
+ 3726 17ee 980F      		add r25,r24
+ 3727 17f0 9093 0000 		sts OSPrioHighRdy,r25
+ 3728 17f4 8091 0000 		lds r24,OSPrioCur
+ 3729 17f8 9817      		cp r25,r24
+ 3730 17fa 01F0      		breq .L332
+ 3731 17fc E92F      		mov r30,r25
+ 3732 17fe F0E0      		ldi r31,lo8(0)
+ 3733 1800 EE0F      		lsl r30
+ 3734 1802 FF1F      		rol r31
+ 3735 1804 E050      		subi r30,lo8(-(OSTCBPrioTbl))
+ 3736 1806 F040      		sbci r31,hi8(-(OSTCBPrioTbl))
+ 3737 1808 8081      		ld r24,Z
+ 3738 180a 9181      		ldd r25,Z+1
+ 3739 180c 9093 0000 		sts (OSTCBHighRdy)+1,r25
+ 3740 1810 8093 0000 		sts OSTCBHighRdy,r24
+ 3741 1814 8091 0000 		lds r24,OSCtxSwCtr
+ 3742 1818 9091 0000 		lds r25,(OSCtxSwCtr)+1
+ 3743 181c A091 0000 		lds r26,(OSCtxSwCtr)+2
+ 3744 1820 B091 0000 		lds r27,(OSCtxSwCtr)+3
+ 3745 1824 0196      		adiw r24,1
+ 3746 1826 A11D      		adc r26,__zero_reg__
+ 3747 1828 B11D      		adc r27,__zero_reg__
+ 3748 182a 8093 0000 		sts OSCtxSwCtr,r24
+ 3749 182e 9093 0000 		sts (OSCtxSwCtr)+1,r25
+ 3750 1832 A093 0000 		sts (OSCtxSwCtr)+2,r26
+ 3751 1836 B093 0000 		sts (OSCtxSwCtr)+3,r27
+ 3752 183a 0E94 0000 		call OSIntCtxSw
+ 3753 183e 00C0      		rjmp .L332
+ 3754               		.size	OSIntExit, .-OSIntExit
+ 3755               	.global	OSInit
+ 3756               		.type	OSInit, @function
+ 3757               	OSInit:
+ 3758               	/* prologue: function */
+ 3759               	/* frame size = 0 */
+ 3760 1840 0E94 0000 		call OSInitHookBegin
+ 3761 1844 1092 0000 		sts OSIntNesting,__zero_reg__
+ 3762 1848 1092 0000 		sts OSLockNesting,__zero_reg__
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 67
+
+
+ 3763 184c 1092 0000 		sts OSTaskCtr,__zero_reg__
+ 3764 1850 1092 0000 		sts OSRunning,__zero_reg__
+ 3765 1854 1092 0000 		sts OSCtxSwCtr,__zero_reg__
+ 3766 1858 1092 0000 		sts (OSCtxSwCtr)+1,__zero_reg__
+ 3767 185c 1092 0000 		sts (OSCtxSwCtr)+2,__zero_reg__
+ 3768 1860 1092 0000 		sts (OSCtxSwCtr)+3,__zero_reg__
+ 3769 1864 1092 0000 		sts OSIdleCtr,__zero_reg__
+ 3770 1868 1092 0000 		sts (OSIdleCtr)+1,__zero_reg__
+ 3771 186c 1092 0000 		sts (OSIdleCtr)+2,__zero_reg__
+ 3772 1870 1092 0000 		sts (OSIdleCtr)+3,__zero_reg__
+ 3773 1874 1092 0000 		sts OSRdyGrp,__zero_reg__
+ 3774 1878 1092 0000 		sts OSRdyTbl,__zero_reg__
+ 3775 187c 1092 0000 		sts OSRdyTbl+1,__zero_reg__
+ 3776 1880 1092 0000 		sts OSPrioCur,__zero_reg__
+ 3777 1884 1092 0000 		sts OSPrioHighRdy,__zero_reg__
+ 3778 1888 1092 0000 		sts (OSTCBHighRdy)+1,__zero_reg__
+ 3779 188c 1092 0000 		sts OSTCBHighRdy,__zero_reg__
+ 3780 1890 1092 0000 		sts (OSTCBCur)+1,__zero_reg__
+ 3781 1894 1092 0000 		sts OSTCBCur,__zero_reg__
+ 3782 1898 1092 0000 		sts (OSTCBList)+1,__zero_reg__
+ 3783 189c 1092 0000 		sts OSTCBList,__zero_reg__
+ 3784 18a0 E0E0      		ldi r30,lo8(OSTCBPrioTbl)
+ 3785 18a2 F0E0      		ldi r31,hi8(OSTCBPrioTbl)
+ 3786               	.L336:
+ 3787 18a4 1192      		st Z+,__zero_reg__
+ 3788 18a6 1192      		st Z+,__zero_reg__
+ 3789 18a8 20E0      		ldi r18,hi8(OSTCBPrioTbl+26)
+ 3790 18aa E030      		cpi r30,lo8(OSTCBPrioTbl+26)
+ 3791 18ac F207      		cpc r31,r18
+ 3792 18ae 01F4      		brne .L336
+ 3793 18b0 80E0      		ldi r24,lo8(OSTCBTbl+19)
+ 3794 18b2 90E0      		ldi r25,hi8(OSTCBTbl+19)
+ 3795               	.L337:
+ 3796 18b4 FC01      		movw r30,r24
+ 3797 18b6 7197      		sbiw r30,17
+ 3798 18b8 9183      		std Z+1,r25
+ 3799 18ba 8083      		st Z,r24
+ 3800 18bc 4396      		adiw r24,19
+ 3801 18be 20E0      		ldi r18,hi8(OSTCBTbl+247)
+ 3802 18c0 8030      		cpi r24,lo8(OSTCBTbl+247)
+ 3803 18c2 9207      		cpc r25,r18
+ 3804 18c4 01F4      		brne .L337
+ 3805 18c6 1092 0000 		sts (OSTCBTbl+230)+1,__zero_reg__
+ 3806 18ca 1092 0000 		sts OSTCBTbl+230,__zero_reg__
+ 3807 18ce 80E0      		ldi r24,lo8(OSTCBTbl)
+ 3808 18d0 90E0      		ldi r25,hi8(OSTCBTbl)
+ 3809 18d2 9093 0000 		sts (OSTCBFreeList)+1,r25
+ 3810 18d6 8093 0000 		sts OSTCBFreeList,r24
+ 3811 18da 20E0      		ldi r18,lo8(OSEventTbl)
+ 3812 18dc 30E0      		ldi r19,hi8(OSEventTbl)
+ 3813 18de F901      		movw r30,r18
+ 3814               	.L338:
+ 3815 18e0 CF01      		movw r24,r30
+ 3816 18e2 0896      		adiw r24,8
+ 3817 18e4 1082      		st Z,__zero_reg__
+ 3818 18e6 9583      		std Z+5,r25
+ 3819 18e8 8483      		std Z+4,r24
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 68
+
+
+ 3820 18ea FC01      		movw r30,r24
+ 3821 18ec 80E0      		ldi r24,hi8(OSEventTbl+48)
+ 3822 18ee E030      		cpi r30,lo8(OSEventTbl+48)
+ 3823 18f0 F807      		cpc r31,r24
+ 3824 18f2 01F4      		brne .L338
+ 3825 18f4 1082      		st Z,__zero_reg__
+ 3826 18f6 1582      		std Z+5,__zero_reg__
+ 3827 18f8 1482      		std Z+4,__zero_reg__
+ 3828 18fa 3093 0000 		sts (OSEventFreeList)+1,r19
+ 3829 18fe 2093 0000 		sts OSEventFreeList,r18
+ 3830 1902 80E0      		ldi r24,lo8(OSFlagTbl)
+ 3831 1904 90E0      		ldi r25,hi8(OSFlagTbl)
+ 3832 1906 9093 0000 		sts (OSFlagFreeList)+1,r25
+ 3833 190a 8093 0000 		sts OSFlagFreeList,r24
+ 3834 190e 1092 0000 		sts OSFlagTbl,__zero_reg__
+ 3835 1912 1092 0000 		sts (OSFlagTbl+1)+1,__zero_reg__
+ 3836 1916 1092 0000 		sts OSFlagTbl+1,__zero_reg__
+ 3837 191a 0E94 0000 		call OS_MemInit
+ 3838 191e 0E94 0000 		call OS_QInit
+ 3839 1922 80E0      		ldi r24,lo8(gs(OS_TaskIdle))
+ 3840 1924 90E0      		ldi r25,hi8(gs(OS_TaskIdle))
+ 3841 1926 60E0      		ldi r22,lo8(0)
+ 3842 1928 70E0      		ldi r23,hi8(0)
+ 3843 192a 40E0      		ldi r20,lo8(OSTaskIdleStk+127)
+ 3844 192c 50E0      		ldi r21,hi8(OSTaskIdleStk+127)
+ 3845 192e 2CE0      		ldi r18,lo8(12)
+ 3846 1930 0E94 0000 		call OSTaskCreate
+ 3847 1934 80E0      		ldi r24,lo8(gs(OS_TaskStat))
+ 3848 1936 90E0      		ldi r25,hi8(gs(OS_TaskStat))
+ 3849 1938 60E0      		ldi r22,lo8(0)
+ 3850 193a 70E0      		ldi r23,hi8(0)
+ 3851 193c 40E0      		ldi r20,lo8(OSTaskStatStk+127)
+ 3852 193e 50E0      		ldi r21,hi8(OSTaskStatStk+127)
+ 3853 1940 2BE0      		ldi r18,lo8(11)
+ 3854 1942 0E94 0000 		call OSTaskCreate
+ 3855 1946 0E94 0000 		call OSInitHookEnd
+ 3856               	/* epilogue start */
+ 3857 194a 0895      		ret
+ 3858               		.size	OSInit, .-OSInit
+ 3859               	.global	OSMapTbl
+ 3860               		.data
+ 3861               		.type	OSMapTbl, @object
+ 3862               		.size	OSMapTbl, 8
+ 3863               	OSMapTbl:
+ 3864 0000 01        		.byte	1
+ 3865 0001 02        		.byte	2
+ 3866 0002 04        		.byte	4
+ 3867 0003 08        		.byte	8
+ 3868 0004 10        		.byte	16
+ 3869 0005 20        		.byte	32
+ 3870 0006 40        		.byte	64
+ 3871 0007 80        		.byte	-128
+ 3872               	.global	OSUnMapTbl
+ 3873               		.type	OSUnMapTbl, @object
+ 3874               		.size	OSUnMapTbl, 256
+ 3875               	OSUnMapTbl:
+ 3876 0008 00        		.byte	0
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 69
+
+
+ 3877 0009 00        		.byte	0
+ 3878 000a 01        		.byte	1
+ 3879 000b 00        		.byte	0
+ 3880 000c 02        		.byte	2
+ 3881 000d 00        		.byte	0
+ 3882 000e 01        		.byte	1
+ 3883 000f 00        		.byte	0
+ 3884 0010 03        		.byte	3
+ 3885 0011 00        		.byte	0
+ 3886 0012 01        		.byte	1
+ 3887 0013 00        		.byte	0
+ 3888 0014 02        		.byte	2
+ 3889 0015 00        		.byte	0
+ 3890 0016 01        		.byte	1
+ 3891 0017 00        		.byte	0
+ 3892 0018 04        		.byte	4
+ 3893 0019 00        		.byte	0
+ 3894 001a 01        		.byte	1
+ 3895 001b 00        		.byte	0
+ 3896 001c 02        		.byte	2
+ 3897 001d 00        		.byte	0
+ 3898 001e 01        		.byte	1
+ 3899 001f 00        		.byte	0
+ 3900 0020 03        		.byte	3
+ 3901 0021 00        		.byte	0
+ 3902 0022 01        		.byte	1
+ 3903 0023 00        		.byte	0
+ 3904 0024 02        		.byte	2
+ 3905 0025 00        		.byte	0
+ 3906 0026 01        		.byte	1
+ 3907 0027 00        		.byte	0
+ 3908 0028 05        		.byte	5
+ 3909 0029 00        		.byte	0
+ 3910 002a 01        		.byte	1
+ 3911 002b 00        		.byte	0
+ 3912 002c 02        		.byte	2
+ 3913 002d 00        		.byte	0
+ 3914 002e 01        		.byte	1
+ 3915 002f 00        		.byte	0
+ 3916 0030 03        		.byte	3
+ 3917 0031 00        		.byte	0
+ 3918 0032 01        		.byte	1
+ 3919 0033 00        		.byte	0
+ 3920 0034 02        		.byte	2
+ 3921 0035 00        		.byte	0
+ 3922 0036 01        		.byte	1
+ 3923 0037 00        		.byte	0
+ 3924 0038 04        		.byte	4
+ 3925 0039 00        		.byte	0
+ 3926 003a 01        		.byte	1
+ 3927 003b 00        		.byte	0
+ 3928 003c 02        		.byte	2
+ 3929 003d 00        		.byte	0
+ 3930 003e 01        		.byte	1
+ 3931 003f 00        		.byte	0
+ 3932 0040 03        		.byte	3
+ 3933 0041 00        		.byte	0
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 70
+
+
+ 3934 0042 01        		.byte	1
+ 3935 0043 00        		.byte	0
+ 3936 0044 02        		.byte	2
+ 3937 0045 00        		.byte	0
+ 3938 0046 01        		.byte	1
+ 3939 0047 00        		.byte	0
+ 3940 0048 06        		.byte	6
+ 3941 0049 00        		.byte	0
+ 3942 004a 01        		.byte	1
+ 3943 004b 00        		.byte	0
+ 3944 004c 02        		.byte	2
+ 3945 004d 00        		.byte	0
+ 3946 004e 01        		.byte	1
+ 3947 004f 00        		.byte	0
+ 3948 0050 03        		.byte	3
+ 3949 0051 00        		.byte	0
+ 3950 0052 01        		.byte	1
+ 3951 0053 00        		.byte	0
+ 3952 0054 02        		.byte	2
+ 3953 0055 00        		.byte	0
+ 3954 0056 01        		.byte	1
+ 3955 0057 00        		.byte	0
+ 3956 0058 04        		.byte	4
+ 3957 0059 00        		.byte	0
+ 3958 005a 01        		.byte	1
+ 3959 005b 00        		.byte	0
+ 3960 005c 02        		.byte	2
+ 3961 005d 00        		.byte	0
+ 3962 005e 01        		.byte	1
+ 3963 005f 00        		.byte	0
+ 3964 0060 03        		.byte	3
+ 3965 0061 00        		.byte	0
+ 3966 0062 01        		.byte	1
+ 3967 0063 00        		.byte	0
+ 3968 0064 02        		.byte	2
+ 3969 0065 00        		.byte	0
+ 3970 0066 01        		.byte	1
+ 3971 0067 00        		.byte	0
+ 3972 0068 05        		.byte	5
+ 3973 0069 00        		.byte	0
+ 3974 006a 01        		.byte	1
+ 3975 006b 00        		.byte	0
+ 3976 006c 02        		.byte	2
+ 3977 006d 00        		.byte	0
+ 3978 006e 01        		.byte	1
+ 3979 006f 00        		.byte	0
+ 3980 0070 03        		.byte	3
+ 3981 0071 00        		.byte	0
+ 3982 0072 01        		.byte	1
+ 3983 0073 00        		.byte	0
+ 3984 0074 02        		.byte	2
+ 3985 0075 00        		.byte	0
+ 3986 0076 01        		.byte	1
+ 3987 0077 00        		.byte	0
+ 3988 0078 04        		.byte	4
+ 3989 0079 00        		.byte	0
+ 3990 007a 01        		.byte	1
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 71
+
+
+ 3991 007b 00        		.byte	0
+ 3992 007c 02        		.byte	2
+ 3993 007d 00        		.byte	0
+ 3994 007e 01        		.byte	1
+ 3995 007f 00        		.byte	0
+ 3996 0080 03        		.byte	3
+ 3997 0081 00        		.byte	0
+ 3998 0082 01        		.byte	1
+ 3999 0083 00        		.byte	0
+ 4000 0084 02        		.byte	2
+ 4001 0085 00        		.byte	0
+ 4002 0086 01        		.byte	1
+ 4003 0087 00        		.byte	0
+ 4004 0088 07        		.byte	7
+ 4005 0089 00        		.byte	0
+ 4006 008a 01        		.byte	1
+ 4007 008b 00        		.byte	0
+ 4008 008c 02        		.byte	2
+ 4009 008d 00        		.byte	0
+ 4010 008e 01        		.byte	1
+ 4011 008f 00        		.byte	0
+ 4012 0090 03        		.byte	3
+ 4013 0091 00        		.byte	0
+ 4014 0092 01        		.byte	1
+ 4015 0093 00        		.byte	0
+ 4016 0094 02        		.byte	2
+ 4017 0095 00        		.byte	0
+ 4018 0096 01        		.byte	1
+ 4019 0097 00        		.byte	0
+ 4020 0098 04        		.byte	4
+ 4021 0099 00        		.byte	0
+ 4022 009a 01        		.byte	1
+ 4023 009b 00        		.byte	0
+ 4024 009c 02        		.byte	2
+ 4025 009d 00        		.byte	0
+ 4026 009e 01        		.byte	1
+ 4027 009f 00        		.byte	0
+ 4028 00a0 03        		.byte	3
+ 4029 00a1 00        		.byte	0
+ 4030 00a2 01        		.byte	1
+ 4031 00a3 00        		.byte	0
+ 4032 00a4 02        		.byte	2
+ 4033 00a5 00        		.byte	0
+ 4034 00a6 01        		.byte	1
+ 4035 00a7 00        		.byte	0
+ 4036 00a8 05        		.byte	5
+ 4037 00a9 00        		.byte	0
+ 4038 00aa 01        		.byte	1
+ 4039 00ab 00        		.byte	0
+ 4040 00ac 02        		.byte	2
+ 4041 00ad 00        		.byte	0
+ 4042 00ae 01        		.byte	1
+ 4043 00af 00        		.byte	0
+ 4044 00b0 03        		.byte	3
+ 4045 00b1 00        		.byte	0
+ 4046 00b2 01        		.byte	1
+ 4047 00b3 00        		.byte	0
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 72
+
+
+ 4048 00b4 02        		.byte	2
+ 4049 00b5 00        		.byte	0
+ 4050 00b6 01        		.byte	1
+ 4051 00b7 00        		.byte	0
+ 4052 00b8 04        		.byte	4
+ 4053 00b9 00        		.byte	0
+ 4054 00ba 01        		.byte	1
+ 4055 00bb 00        		.byte	0
+ 4056 00bc 02        		.byte	2
+ 4057 00bd 00        		.byte	0
+ 4058 00be 01        		.byte	1
+ 4059 00bf 00        		.byte	0
+ 4060 00c0 03        		.byte	3
+ 4061 00c1 00        		.byte	0
+ 4062 00c2 01        		.byte	1
+ 4063 00c3 00        		.byte	0
+ 4064 00c4 02        		.byte	2
+ 4065 00c5 00        		.byte	0
+ 4066 00c6 01        		.byte	1
+ 4067 00c7 00        		.byte	0
+ 4068 00c8 06        		.byte	6
+ 4069 00c9 00        		.byte	0
+ 4070 00ca 01        		.byte	1
+ 4071 00cb 00        		.byte	0
+ 4072 00cc 02        		.byte	2
+ 4073 00cd 00        		.byte	0
+ 4074 00ce 01        		.byte	1
+ 4075 00cf 00        		.byte	0
+ 4076 00d0 03        		.byte	3
+ 4077 00d1 00        		.byte	0
+ 4078 00d2 01        		.byte	1
+ 4079 00d3 00        		.byte	0
+ 4080 00d4 02        		.byte	2
+ 4081 00d5 00        		.byte	0
+ 4082 00d6 01        		.byte	1
+ 4083 00d7 00        		.byte	0
+ 4084 00d8 04        		.byte	4
+ 4085 00d9 00        		.byte	0
+ 4086 00da 01        		.byte	1
+ 4087 00db 00        		.byte	0
+ 4088 00dc 02        		.byte	2
+ 4089 00dd 00        		.byte	0
+ 4090 00de 01        		.byte	1
+ 4091 00df 00        		.byte	0
+ 4092 00e0 03        		.byte	3
+ 4093 00e1 00        		.byte	0
+ 4094 00e2 01        		.byte	1
+ 4095 00e3 00        		.byte	0
+ 4096 00e4 02        		.byte	2
+ 4097 00e5 00        		.byte	0
+ 4098 00e6 01        		.byte	1
+ 4099 00e7 00        		.byte	0
+ 4100 00e8 05        		.byte	5
+ 4101 00e9 00        		.byte	0
+ 4102 00ea 01        		.byte	1
+ 4103 00eb 00        		.byte	0
+ 4104 00ec 02        		.byte	2
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 73
+
+
+ 4105 00ed 00        		.byte	0
+ 4106 00ee 01        		.byte	1
+ 4107 00ef 00        		.byte	0
+ 4108 00f0 03        		.byte	3
+ 4109 00f1 00        		.byte	0
+ 4110 00f2 01        		.byte	1
+ 4111 00f3 00        		.byte	0
+ 4112 00f4 02        		.byte	2
+ 4113 00f5 00        		.byte	0
+ 4114 00f6 01        		.byte	1
+ 4115 00f7 00        		.byte	0
+ 4116 00f8 04        		.byte	4
+ 4117 00f9 00        		.byte	0
+ 4118 00fa 01        		.byte	1
+ 4119 00fb 00        		.byte	0
+ 4120 00fc 02        		.byte	2
+ 4121 00fd 00        		.byte	0
+ 4122 00fe 01        		.byte	1
+ 4123 00ff 00        		.byte	0
+ 4124 0100 03        		.byte	3
+ 4125 0101 00        		.byte	0
+ 4126 0102 01        		.byte	1
+ 4127 0103 00        		.byte	0
+ 4128 0104 02        		.byte	2
+ 4129 0105 00        		.byte	0
+ 4130 0106 01        		.byte	1
+ 4131 0107 00        		.byte	0
+ 4132               		.comm OSCtxSwCtr,4,1
+ 4133               		.comm OSEventFreeList,2,1
+ 4134               		.comm OSEventTbl,56,1
+ 4135               		.comm OSFlagTbl,4,1
+ 4136               		.comm OSFlagFreeList,2,1
+ 4137               		.comm OSCPUUsage,1,1
+ 4138               		.comm OSIdleCtrMax,4,1
+ 4139               		.comm OSIdleCtrRun,4,1
+ 4140               		.comm OSStatRdy,1,1
+ 4141               		.comm OSTaskStatStk,128,1
+ 4142               		.comm OSIntNesting,1,1
+ 4143               		.comm OSIntExitY,1,1
+ 4144               		.comm OSLockNesting,1,1
+ 4145               		.comm OSPrioCur,1,1
+ 4146               		.comm OSPrioHighRdy,1,1
+ 4147               		.comm OSRdyGrp,1,1
+ 4148               		.comm OSRdyTbl,2,1
+ 4149               		.comm OSRunning,1,1
+ 4150               		.comm OSTaskCtr,1,1
+ 4151               		.comm OSIdleCtr,4,1
+ 4152               		.comm OSTaskIdleStk,128,1
+ 4153               		.comm OSTCBCur,2,1
+ 4154               		.comm OSTCBFreeList,2,1
+ 4155               		.comm OSTCBHighRdy,2,1
+ 4156               		.comm OSTCBList,2,1
+ 4157               		.comm OSTCBPrioTbl,26,1
+ 4158               		.comm OSTCBTbl,247,1
+ 4159               		.comm OSMemFreeList,2,1
+ 4160               		.comm OSMemTbl,16,1
+ 4161               		.comm OSQFreeList,2,1
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 74
+
+
+ 4162               		.comm OSQTbl,28,1
+ 4163               	.global __do_copy_data
+ 4164               	.global __do_clear_bss
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 75
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ucos_ii.c
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2      *ABS*:0000003f __SREG__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3      *ABS*:0000003e __SP_H__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:4      *ABS*:0000003d __SP_L__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:5      *ABS*:00000034 __CCP__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:11     .text:00000000 OSIntEnter
+                            *COM*:00000001 OSRunning
+                            *COM*:00000001 OSIntNesting
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:29     .text:0000001a OSSchedLock
+                            *COM*:00000001 OSLockNesting
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:57     .text:00000038 OSVersion
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:67     .text:0000003e OS_EventTaskRdy
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3875   .data:00000008 OSUnMapTbl
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3863   .data:00000000 OSMapTbl
+                            *COM*:0000001a OSTCBPrioTbl
+                            *COM*:00000001 OSRdyGrp
+                            *COM*:00000002 OSRdyTbl
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:165    .text:000000f4 OS_EventTaskWait
+                            *COM*:00000002 OSTCBCur
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:223    .text:0000015e OS_EventTO
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:268    .text:000001ac OS_EventWaitListInit
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:280    .text:000001b6 OSFlagCreate
+                            *COM*:00000002 OSFlagFreeList
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:334    .text:00000202 OS_FlagBlock
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:415    .text:0000029a OS_FlagInit
+                            *COM*:00000004 OSFlagTbl
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:430    .text:000002b4 OS_FlagUnlink
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:469    .text:000002f2 OS_FlagTaskRdy
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:532    .text:00000368 OSMboxAccept
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:555    .text:00000378 OSMboxCreate
+                            *COM*:00000002 OSEventFreeList
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:604    .text:000003c0 OSMemCreate
+                            *COM*:00000002 OSMemFreeList
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:772    .text:000004f0 OSMemGet
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:834    .text:00000542 OSMemPut
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:896    .text:00000596 OS_MemInit
+                            *COM*:00000010 OSMemTbl
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:924    .text:000005e4 OSMutexCreate
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1026   .text:00000684 OSQCreate
+                            *COM*:00000002 OSQFreeList
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1136   .text:0000073c OS_QInit
+                            *COM*:0000001c OSQTbl
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1153   .text:0000075c OSSemCreate
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1202   .text:000007a4 OSSemQuery
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1239   .text:000007d0 OS_TCBInit
+                            *COM*:00000002 OSTCBFreeList
+                            *COM*:00000002 OSTCBList
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1360   .text:000008a0 OS_TaskIdle
+                            *COM*:00000004 OSIdleCtr
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1390   .text:000008d0 OS_Sched
+                            *COM*:00000001 OSPrioHighRdy
+                            *COM*:00000001 OSPrioCur
+                            *COM*:00000002 OSTCBHighRdy
+                            *COM*:00000004 OSCtxSwCtr
+GAS LISTING C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s 			page 76
+
+
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1461   .text:0000095e OSTimeDly
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1512   .text:000009ae OSTimeDlyHMSM
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1666   .text:00000ad0 OS_TaskStat
+                            *COM*:00000001 OSStatRdy
+                            *COM*:00000004 OSIdleCtrMax
+                            *COM*:00000001 OSCPUUsage
+                            *COM*:00000004 OSIdleCtrRun
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1768   .text:00000bba OSStatInit
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1816   .text:00000c0a OSTaskCreate
+                            *COM*:00000001 OSTaskCtr
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1932   .text:00000cb2 OSSemPost
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:1985   .text:00000cf0 OSSemPend
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2087   .text:00000d86 OSSemDel
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2230   .text:00000e6e OSQPend
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2378   .text:00000f5c OSMutexPost
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2557   .text:0000109a OSMutexPend
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2803   .text:00001256 OSMboxPost
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2851   .text:0000128a OSMboxPend
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:2956   .text:00001326 OSMboxDel
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3099   .text:0000140e OSFlagPost
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3255   .text:000014fc OSFlagPend
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3497   .text:00001676 OSSchedUnlock
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3545   .text:000016ac OSTimeTick
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3633   .text:00001740 OSStart
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3676   .text:0000179a OSIntExit
+                            *COM*:00000001 OSIntExitY
+C:\Users\inha\AppData\Local\Temp/ccXAAeJb.s:3757   .text:00001840 OSInit
+                            *COM*:000000f7 OSTCBTbl
+                            *COM*:00000038 OSEventTbl
+                            *COM*:00000080 OSTaskIdleStk
+                            *COM*:00000080 OSTaskStatStk
+
+UNDEFINED SYMBOLS
+OSTCBInitHook
+OSTaskCreateHook
+OSTaskIdleHook
+OSCtxSw
+__mulsi3
+__udivmodsi4
+OSTaskStatHook
+OSTaskStkInit
+OSTimeTickHook
+OSStartHighRdy
+OSIntCtxSw
+OSInitHookBegin
+OSInitHookEnd
+__do_copy_data
+__do_clear_bss
